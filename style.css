@@ -1,0 +1,363 @@
+/* Variables & Resets */
+:root {
+  --color-brand-yellow: #FCDA05;
+  --color-brand-green: #009B3A;
+  --color-brand-black: #000000;
+  --font-heading: 'Inter', sans-serif;
+  --font-handwriting: 'Caveat', cursive;
+  --bg-color: #f7f3e8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font-heading);
+  background-color: var(--bg-color);
+  color: #333;
+}
+
+/* Texture Background */
+#texture-bg {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: url('/scrapbook-texture.png');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.8;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Scene Management */
+.scene {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease-in-out, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform: scale(0.95);
+}
+
+.scene.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+/* Typography elements */
+.header-elements {
+  text-align: center;
+  margin-bottom: 2rem;
+  z-index: 10;
+}
+
+.magazine-title {
+  font-size: 5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+  color: var(--color-brand-black);
+  text-shadow: 4px 4px 0px var(--color-brand-yellow);
+  margin-bottom: 0px;
+}
+
+.magazine-subtitle {
+  font-family: var(--font-handwriting);
+  font-size: 2.5rem;
+  color: var(--color-brand-green);
+  transform: rotate(-3deg);
+  margin-top: -10px;
+}
+
+/* 3D Carousel Elements */
+.carousel-container {
+  width: 100%;
+  height: 450px;
+  perspective: 1500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel {
+  position: relative;
+  width: 300px;
+  height: 420px; /* enough to not clip text */
+  transform-style: preserve-3d;
+  transition: transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.carousel-item {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform: rotateY(var(--rotation)) translateZ(350px);
+  cursor: pointer;
+  transition: filter 0.3s, transform 0.3s;
+}
+
+.carousel-item:hover {
+  filter: brightness(1.1);
+}
+
+/* Scrapbook UI - Polaroids & Tape */
+.polaroid {
+  background: white;
+  padding: 15px 15px 50px 15px;
+  border-radius: 2px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15), inset 0 0 40px rgba(0,0,0,0.05);
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.polaroid img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.volume-title {
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  font-family: var(--font-handwriting);
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.tape {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-3deg);
+  width: 100px;
+  height: 35px;
+  background-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  backdrop-filter: blur(2px);
+  border-left: 2px dotted rgba(0,0,0,0.1);
+  border-right: 2px dotted rgba(0,0,0,0.1);
+  z-index: 5;
+}
+
+/* Buttons */
+.controls {
+  margin-top: 2rem;
+  display: flex;
+  gap: 20px;
+}
+
+.scrap-button {
+  background: white;
+  border: 2px solid #ccc;
+  padding: 10px 25px;
+  font-family: var(--font-handwriting);
+  font-size: 1.8rem;
+  cursor: pointer;
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+  transition: all 0.2s;
+  border-radius: 2px;
+}
+
+.scrap-button:hover {
+  background: var(--color-brand-yellow);
+  border-color: #333;
+  box-shadow: 6px 6px 0px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
+
+.scrap-button:active {
+  transform: translateY(2px);
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+}
+
+.sticky-btn {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  z-index: 100;
+  background: var(--color-brand-green);
+  color: white;
+  border-color: #222;
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.5);
+}
+
+/* Magazine Interface */
+.book-container {
+  width: 90vw;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Page Flip Overrides */
+.stf__wrapper {
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  border-radius: 4px;
+}
+
+.page {
+  background-color: #fdfbf7;
+  border: solid 1px #e3e0d8;
+  overflow: hidden;
+  position: relative;
+}
+
+.page-cover {
+  background-color: var(--color-brand-yellow);
+}
+
+.page-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.page-cover.hard {
+  border: solid 2px #ccc;
+}
+
+.page-content {
+  padding: 30px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Inside Page Scrapbook styles */
+.scrap-image-container {
+  padding: 10px;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transform: rotate(-2deg);
+  margin-bottom: 20px;
+  position: relative;
+  display: inline-block;
+  max-width: 80%;
+}
+
+.scrap-image-container.alt {
+  transform: rotate(2deg);
+  align-self: flex-end;
+}
+
+.scrap-image-container img {
+  width: 100%;
+  height: auto;
+}
+
+.page-title {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.page-subtitle {
+  font-family: var(--font-handwriting);
+  font-size: 1.8rem;
+  color: var(--color-brand-green);
+  margin-bottom: 15px;
+}
+
+.page-text {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  columns: 2;
+  column-gap: 20px;
+  flex-grow: 1;
+}
+
+.page-number {
+  position: absolute;
+  bottom: 15px;
+  font-size: 0.9rem;
+  color: #666;
+}
+.page-number.left {
+  left: 20px;
+}
+.page-number.right {
+  right: 20px;
+}
+
+/* Interactive elements */
+.interactive-hover {
+  display: inline-block;
+  color: var(--color-brand-black);
+  background-color: rgba(252, 218, 5, 0.4);
+  font-weight: bold;
+  padding: 0 5px;
+  border-radius: 2px;
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: var(--color-brand-green);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.interactive-hover:hover {
+  background-color: rgba(252, 218, 5, 1);
+}
+
+/* Hover Preview Overlay Overlay */
+.hover-preview {
+  position: fixed;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 1000;
+  background: white;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  transform: translate(-50%, -100%) scale(0.9);
+  transition: opacity 0.2s, transform 0.2s;
+  width: 320px;
+}
+
+.hover-preview.active {
+  opacity: 1;
+  transform: translate(-50%, -110%) scale(1);
+}
+
+.hover-preview .preview-content {
+  width: 100%;
+}
+.hover-preview img {
+  width: 100%;
+  border-radius: 2px;
+}
+.hover-preview h4 {
+  margin-top: 10px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 14px;
+}
+.hover-preview p {
+  font-family: var(--font-heading);
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+}

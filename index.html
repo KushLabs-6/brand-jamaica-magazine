@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brand Jamaica Magazine</title>
+    <!-- Modern Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:wght@300;600;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <div id="app">
+      <!-- Scrapbook Background -->
+      <div id="texture-bg"></div>
+      
+      <!-- Landing 3D Carousel Selection Scene -->
+      <div id="carousel-scene" class="scene active">
+        <div class="header-elements">
+          <div id="logo-container">
+            <h1 class="magazine-title">BRAND JAMAICA</h1>
+          </div>
+          <p class="magazine-subtitle">Select an Issue to Read</p>
+        </div>
+        
+        <div class="carousel-container">
+          <div class="carousel">
+            <div class="carousel-item" data-volume="1" style="--rotation: 0deg;">
+              <div class="cover-wrapper polaroid">
+                <img src="/cover-culture.png" alt="Culture Issue" />
+                <div class="volume-title">Vol 1: The Culture</div>
+                <div class="tape"></div>
+              </div>
+            </div>
+            <div class="carousel-item" data-volume="2" style="--rotation: 120deg;">
+              <div class="cover-wrapper polaroid">
+                <img src="/cover-cuisine.png" alt="Cuisine Issue" />
+                <div class="volume-title">Vol 2: The Flavor</div>
+                <div class="tape"></div>
+              </div>
+            </div>
+            <div class="carousel-item" data-volume="3" style="--rotation: 240deg;">
+              <div class="cover-wrapper polaroid">
+                <img src="/cover-landscape.png" alt="Landscape Issue" />
+                <div class="volume-title">Vol 3: The Landscape</div>
+                <div class="tape"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="controls">
+          <button id="btn-prev" class="scrap-button">❮ Prev</button>
+          <button id="btn-next" class="scrap-button">Next ❯</button>
+        </div>
+      </div>
+
+      <!-- Magazine Reading Interface -->
+      <div id="magazine-scene" class="scene">
+        <button id="btn-back" class="scrap-button sticky-btn">❮ Back to Volumes</button>
+        <div class="book-container">
+          <div id="book">
+            <!-- Pages added via JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Hover Preview Overlay -->
+      <div id="hover-preview" class="hover-preview">
+        <div class="preview-content"></div>
+      </div>
+    </div>
+    
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
