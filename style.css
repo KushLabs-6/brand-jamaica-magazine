@@ -16,8 +16,9 @@ html, body {
   height: 100%;
   font-family: 'Inter', sans-serif;
   overflow: hidden;
-  /* Authentic heavily crushed vintage cream Paper texture */
-  background-image: url('https://images.unsplash.com/photo-1614113489855-66422ad300a4?auto=format&fit=crop&w=1920&q=80');
+  background-color: #fdfaf3;
+  /* High-quality cream crushed paper texture */
+  background-image: url('https://images.unsplash.com/photo-1512418490979-92798ced1381?auto=format&fit=crop&w=1920&q=80');
   background-size: cover;
   background-position: center;
   color: #2a1a00;
@@ -87,9 +88,11 @@ html, body {
   position: absolute;
   transform: rotate(-3deg);
   padding: 0.5rem 3rem;
-  box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-  /* Ragged tape edges */
-  clip-path: polygon(2% 0%, 98% 2%, 100% 98%, 1% 100%);
+  box-shadow: 2px 5px 15px rgba(0,0,0,0.2);
+  /* Realistic jagged tape edges */
+  clip-path: polygon(1% 0%, 99% 1%, 100% 45%, 98% 95%, 50% 100%, 2% 98%, 0% 50%);
+  border-left: 2px solid rgba(0,0,0,0.05);
+  border-right: 2px solid rgba(0,0,0,0.05);
 }
 
 .click-e-bird-title span {
@@ -104,14 +107,16 @@ html, body {
 
 .doctor-bird {
   position: absolute;
-  width: 35vw;
-  max-width: 450px;
-  min-width: 250px;
+  width: 50vw; /* Massive Bird as requested */
+  max-width: 700px;
+  min-width: 350px;
   height: auto;
   z-index: 100;
   cursor: pointer;
   /* Multiply blend mode removes white backgrounds from the generated image */
   mix-blend-mode: multiply;
+  /* High contrast to force the bird to appear solid and background to be white-er for multiply */
+  filter: contrast(1.1) brightness(1.05);
   /* Figure 8 animation crossing the viewport */
   animation: flyPath 8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
   transform-origin: center center;
