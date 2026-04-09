@@ -17,8 +17,8 @@ html, body {
   font-family: 'Inter', sans-serif;
   overflow: hidden;
   background: #fdfaf3;
-  /* Authentic Crumpled Paper texture */
-  background-image: url('https://images.unsplash.com/photo-1603513492128-ba7bc9b3e143?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+  /* Authentic heavily crushed Paper texture */
+  background-image: url('https://images.unsplash.com/photo-1628114945371-bdc230e9d6d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
   background-size: cover;
   background-position: center;
   color: #2a1a00;
@@ -85,7 +85,7 @@ html, body {
   left: 0;
   background-color: #000;
   /* physical notebook image from generated tool */
-  background-image: url('/leather-journal.png');
+  background-image: url('/leather-notebook.png');
   background-size: cover;
   background-position: center;
   display: flex;
