@@ -29,13 +29,12 @@ html, body {
   z-index: -1;
   width: 100vw;
   height: 100vh;
-  /* CLEAN AI-GENERATED UHD PAPER - RICH CONTRAST */
-  background-image: url('/crushed-paper-ai.png') !important;
+  /* HEAVILY CRUMBLED 4K PAPER */
+  background-image: url('/crushed-paper-ultra-v2.png') !important;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  /* Darker, richer tone to avoid "too bright" glare */
-  filter: contrast(1.2) brightness(0.9) saturate(0.9); 
+  filter: contrast(1.1) brightness(1.0); 
 }
 
 #app {
@@ -86,30 +85,23 @@ html, body {
 .click-e-bird-title {
   font-family: 'Inter', sans-serif;
   font-weight: 900;
-  font-size: 5rem;
+  font-size: clamp(2rem, 8vw, 5rem);
   letter-spacing: -2px;
-  background: rgba(254, 209, 0, 0.95); /* Yellow Masking Tape */
+  /* REALISTIC WRINKLED YELLOW TAPE */
+  background: url('/yellow-tape-wrinkled.png') no-repeat center center;
+  background-size: 100% 100%;
+  padding: 2rem 5rem;
+  color: #000;
+  text-transform: uppercase;
+  user-select: none;
   pointer-events: none;
-  z-index: 2;
-  position: absolute;
-  transform: rotate(-3deg);
-  padding: 0.5rem 3.5rem;
-  /* realistic tape drop shadow + texture */
-  box-shadow: 
-    1px 2px 3px rgba(0,0,0,0.1),
-    0 8px 15px rgba(0,0,0,0.2);
-  /* Realistic jagged tape edges */
-  clip-path: polygon(
-    0% 2%, 5% 0%, 95% 2%, 100% 0%, 
-    98% 50%, 100% 100%, 95% 98%, 
-    50% 100%, 5% 98%, 0% 100%, 2% 50%
-  );
-  border: 1px solid rgba(0,0,0,0.05);
+  z-index: 10;
+  margin-bottom: 2rem;
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
+  transform: rotate(-2deg); /* Added slight tilt per tape realism */
 }
 
 .click-e-bird-title span {
-  /* Green and Black Mix */
-  background: linear-gradient(135deg, #111111 20%, #007a2e 50%, #111111 80%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
