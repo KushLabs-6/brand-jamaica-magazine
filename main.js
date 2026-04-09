@@ -38,22 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // --- 1. LOGO ---
-    try {
-        const logoSrc = (metadata && metadata.logo) ? metadata.logo : null;
-        if (logoSrc) {
-            const logoContainer = document.getElementById('logo-container');
-            if (logoContainer) {
-                logoContainer.innerHTML = `
-                  <div class="logo-wrapper">
-                    <div class="tape-logo"></div>
-                    <div class="tape-logo gold"></div>
-                    <img src="${encodePath(logoSrc)}" alt="Brand Jamaica Logo" style="max-height:100px; object-fit:contain; position:relative; z-index:2;" />
-                  </div>`;
-            }
-        }
-    } catch (e) {
-        console.warn('Logo load failed', e);
-    }
+    // Using the CSS-based tape logo from index.html instead of the original image file.
 
     // --- 2. CAROUSEL ---
     const carousel = document.querySelector('.carousel');
