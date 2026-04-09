@@ -56,8 +56,6 @@ html, body {
   justify-content: center; /* Center everything */
   padding: 0 !important;
 }
-  position: relative;
-  z-index: 1;
 }
 .scene.active { display: flex; }
 
