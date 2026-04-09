@@ -30,12 +30,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     if (btnStart && introScene) {
         btnStart.addEventListener('click', () => {
-            // Glitch effect on click
-            introScene.style.animation = 'glitch-color 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both 3';
+            // Add 'open' class to trigger CSS 3D swing animation on the book cover
+            btnStart.classList.add('open');
             setTimeout(() => {
                introScene.classList.remove('active');
                carouselScene.classList.add('active');
-            }, 600); // Wait for the "flash"
+            }, 1500); // Wait for the "swing open" animation to finish
         });
     }
 
