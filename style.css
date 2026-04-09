@@ -20,15 +20,13 @@ html, body {
   margin: 0 !important;
   padding: 0 !important;
   color: #2a1a00;
-  /* CARTOONISH/GRAPHIC PAPER EFFECT */
-  background-color: #fdfaf3 !important;
+  /* HIGH-QUALITY GRAPHIC PAPER TEXTURE (CARTOONISH) */
+  background: #fdfaf3 !important;
   background-image: 
-    linear-gradient(135deg, rgba(0,0,0,0.02) 25%, transparent 25%),
-    linear-gradient(225deg, rgba(0,0,0,0.02) 25%, transparent 25%),
-    linear-gradient(45deg, rgba(0,0,0,0.02) 25%, transparent 25%),
-    linear-gradient(315deg, rgba(0,0,0,0.02) 25%, transparent 25%);
-  background-size: 100px 100px;
-  filter: url(#cartoon-paper); /* High-quality SVG texture */
+    radial-gradient(#e6e1d6 1px, transparent 1px),
+    linear-gradient(rgba(0,0,0,0.01) 1px, transparent 1px);
+  background-size: 30px 30px, 100% 40px;
+  background-position: center;
 }
 
 #texture-bg {
@@ -103,13 +101,13 @@ html, body {
 
 .click-e-bird-title span {
   display: inline-block;
-  /* GREEN IN THE BLACK Gradient */
-  background: linear-gradient(to bottom, #000 30%, var(--green) 50%, #000 70%);
+  /* GREEN IN THE BLACK (Vertical Stack) */
+  background: linear-gradient(to bottom, #000 0%, #000 40%, var(--green) 45%, var(--green) 55%, #000 60%, #000 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  filter: drop-shadow(0 0 1px rgba(0,155,58,0.2));
+  text-shadow: none;
 }
 
 .doctor-bird.origami {
@@ -403,7 +401,7 @@ html, body {
   width: 250px;
   height: auto;
   cursor: pointer;
-  z-index: 10; /* Bird flies BEHIND the tape (z-index 100) */
+  z-index: 10; /* Lower than tape (z-index 100) */
   transition: transform 0.3s ease;
   filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15));
   margin-top: -3rem;
