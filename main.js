@@ -1,282 +1,271 @@
 import { PageFlip } from 'page-flip';
 
+// --- SCENE NAVIGATION (GLOBAL) ---
+window.showScene = (sceneId) => {
+    document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById(sceneId);
+    if (target) target.classList.add('active');
+    if (sceneId === 'events-scene') loadEvents();
+    if (sceneId === 'shop-scene') initPayPal();
+};
+
 document.addEventListener('DOMContentLoaded', async () => {
-    
+
     let metadata = null;
     let pageFlip = null;
-    
-    // Function to safely encode image paths (handling spaces/backticks)
-    const encodePath = (path) => {
-        return path.split('/').map(segment => encodeURIComponent(segment)).join('/');
-    };
-    
-    // Attempt to load the static metadata map
+
+    // Safely encode image paths (handles spaces, backticks, brackets)
+    const encodePath = (path) =>
+        path.split('/').map(segment => encodeURIComponent(segment)).join('/');
+
+    // --- 0. LOAD METADATA ---
     try {
         const metaRes = await fetch('./metadata.json');
-        if (metaRes.ok) {
-            metadata = await metaRes.json();
-        } else {
-            throw new Error('Metadata not found');
-        }
-    } catch(e) {
-        console.warn('Metadata not found, falling back to dynamic API');
+        if (metaRes.ok) metadata = await metaRes.json();
+    } catch (e) {
+        console.warn('Metadata fallback: using API');
     }
 
-    // --- 0. LOGO LOGIC ---
+    // --- 1. LOGO ---
     try {
-        let logoSrc = null;
-        if (metadata && metadata.logo) {
-            logoSrc = metadata.logo;
-        } else {
-            const res = await fetch('./api/logo');
-            const data = await res.json();
-            logoSrc = data.logo;
-        }
-
+        const logoSrc = (metadata && metadata.logo) ? metadata.logo : null;
         if (logoSrc) {
             const logoContainer = document.getElementById('logo-container');
-            logoContainer.innerHTML = `<img src="${encodePath(logoSrc)}" alt="Brand Jamaica Logo" style="max-height: 120px; object-fit: contain; margin-bottom: 20px;" />`;
+            if (logoContainer) {
+                logoContainer.innerHTML = `
+                  <div class="logo-wrapper">
+                    <div class="tape-logo"></div>
+                    <div class="tape-logo gold"></div>
+                    <img src="${encodePath(logoSrc)}" alt="Brand Jamaica Logo" style="max-height:100px; object-fit:contain; position:relative; z-index:2;" />
+                  </div>`;
+            }
         }
-    } catch(e) {
-        console.warn('Could not load logo');
+    } catch (e) {
+        console.warn('Logo load failed', e);
     }
 
-    // --- 1. CAROUSEL LOGIC ---
+    // --- 2. CAROUSEL ---
     const carousel = document.querySelector('.carousel');
     const btnNext = document.getElementById('btn-next');
     const btnPrev = document.getElementById('btn-prev');
     const items = document.querySelectorAll('.carousel-item');
-    
+
     let currentAngle = 0;
     const itemAngle = 120;
 
-    if (btnNext && btnPrev && carousel) {
-        btnNext.addEventListener('click', () => {
-            currentAngle -= itemAngle;
-            carousel.style.transform = `rotateY(${currentAngle}deg)`;
-        });
+    btnNext?.addEventListener('click', () => {
+        currentAngle -= itemAngle;
+        carousel.style.transform = `rotateY(${currentAngle}deg)`;
+    });
 
-        btnPrev.addEventListener('click', () => {
-            currentAngle += itemAngle;
-            carousel.style.transform = `rotateY(${currentAngle}deg)`;
-        });
-    }
+    btnPrev?.addEventListener('click', () => {
+        currentAngle += itemAngle;
+        carousel.style.transform = `rotateY(${currentAngle}deg)`;
+    });
 
-    // --- 2. SCENE TRANSITION LOGIC ---
+    // --- 3. OPEN MAGAZINE ---
     const carouselScene = document.getElementById('carousel-scene');
     const magazineScene = document.getElementById('magazine-scene');
     const btnBack = document.getElementById('btn-back');
-    const bookContainerEl = document.getElementById('book');
-    const bookWrapper = document.querySelector('.book-container');
+    const bookEl = document.getElementById('book');
 
     items.forEach(item => {
         item.addEventListener('click', async () => {
             const volumeId = item.getAttribute('data-volume');
-            
-            // Switch Scenes FIRST
             carouselScene.classList.remove('active');
             magazineScene.classList.add('active');
-            
-            // WAIT for the transition (0.6s) so dimensions are stable
-            await new Promise(r => setTimeout(r, 650));
-            
-            // THEN load and initialize
+            // Wait for scene transition before initializing PageFlip
+            await new Promise(r => setTimeout(r, 700));
             await loadMagazine(volumeId);
         });
     });
 
-    if (btnBack) {
-        btnBack.addEventListener('click', () => {
-            magazineScene.classList.remove('active');
-            setTimeout(() => {
-                carouselScene.classList.add('active');
-                if(pageFlip) {
-                    pageFlip.destroy();
-                    pageFlip = null;
-                    bookContainerEl.innerHTML = '';
-                }
-            }, 600);
-        });
-    }
+    btnBack?.addEventListener('click', () => {
+        magazineScene.classList.remove('active');
+        setTimeout(() => {
+            carouselScene.classList.add('active');
+            if (pageFlip) {
+                pageFlip.destroy();
+                pageFlip = null;
+                bookEl.innerHTML = '';
+            }
+        }, 400);
+    });
 
-    // Handle Window Resize to update flip
+    // Resize support
     window.addEventListener('resize', () => {
         if (pageFlip) {
-            // Re-calculate responsiveness settings
-            const dims = getResponsiveDimensions();
-            pageFlip.updateElementStyles(dims.width, dims.height);
+            const dims = responsiveDims();
+            try { pageFlip.updateElementStyles(dims.width, dims.height); } catch(e){}
         }
     });
 
-    function getResponsiveDimensions() {
-        // Calculate based on window size
-        const winW = window.innerWidth;
-        const winH = window.innerHeight;
-        
-        let width = 450;
-        let height = 600;
-        
-        if (winW < 1000) {
-            width = winW * 0.42;
-            height = width * 1.33;
-        }
-        
-        return { width, height };
+    function responsiveDims() {
+        const w = window.innerWidth;
+        const width = w < 1000 ? w * 0.42 : 450;
+        return { width, height: Math.round(width * 1.33) };
     }
 
-    // --- 3. PAGE FLIP LOGIC ---
+    // --- 4. LOAD MAGAZINE PAGES  ---
     async function loadMagazine(volumeId) {
-        let coverImage = '';
-        let contentPages = '';
+        const coverMap = { '1': './cover-culture.png', '2': './cover-cuisine.png', '3': './cover-landscape.png' };
+        const coverImage = coverMap[volumeId] || './cover-culture.png';
 
-        if(volumeId === '1') coverImage = './cover-culture.png';
-        else if(volumeId === '2') coverImage = './cover-cuisine.png';
-        else coverImage = './cover-landscape.png';
+        let pages = [];
 
-        let pagesToLoad = [];
-
-        if (metadata && metadata.issues) {
-            const issueKey = `volume_${volumeId}`;
-            if (metadata.issues[issueKey]) {
-                pagesToLoad = metadata.issues[issueKey];
-            }
-        } 
-        
-        if (pagesToLoad.length === 0) {
+        // Try static metadata first
+        if (metadata?.issues?.[`volume_${volumeId}`]?.length > 0) {
+            pages = metadata.issues[`volume_${volumeId}`];
+        } else {
+            // Fallback to dev API
             try {
-                const apiRes = await fetch(`./api/issues/${volumeId}`);
-                const data = await apiRes.json();
-                pagesToLoad = data.pages || [];
-            } catch(e) {}
+                const res = await fetch(`./api/issues/${volumeId}`);
+                const data = await res.json();
+                pages = data.pages || [];
+            } catch (e) { console.warn('API fallback failed', e); }
         }
 
-        if (pagesToLoad.length > 0) {
-            pagesToLoad.forEach((filename, index) => {
-                const safeUrl = encodePath(`/issues/volume_${volumeId}/${filename}`);
-                contentPages += `
-                <div class="page page-cover">
-                    <div class="page-content" style="padding:0; background: white;">
-                         <img src="${safeUrl}" alt="Page ${index + 1}" class="magazine-page-img">
-                    </div>
-                </div>`;
-            });
-        }
+        let pageHTML = pages.map((filename, i) => {
+            const url = encodePath(`/issues/volume_${volumeId}/${filename}`);
+            return `
+            <div class="page page-cover">
+                <div class="page-content" style="padding:0; background:#fff;">
+                    <img src="${url}" alt="Page ${i+1}" class="magazine-page-img">
+                </div>
+            </div>`;
+        }).join('');
 
-        // Final Book HTML
-        bookContainerEl.innerHTML = `
+        bookEl.innerHTML = `
             <div class="page page-cover hard">
                 <div class="page-content" style="padding:0;">
-                    <img src="${coverImage}" alt="Cover" style="width:100%; height:100%; object-fit:cover;">
+                    <img src="${coverImage}" alt="Cover" style="width:100%;height:100%;object-fit:cover;">
                 </div>
             </div>
-            ${contentPages}
+            ${pageHTML}
             <div class="page page-cover hard">
-                <div class="page-content" style="align-items:center; justify-content:center; background:#eee;">
-                    <h2>Thank You</h2>
+                <div class="page-content" style="display:flex;align-items:center;justify-content:center;flex-direction:column;background:linear-gradient(135deg,#009b3a,#fed100);color:white;text-align:center;">
+                    <h2 style="font-family:'Caveat',cursive;font-size:3rem;">One Love 🇯🇲</h2>
                     <p>Brand Jamaica Magazine</p>
                 </div>
-            </div>
-        `;
+            </div>`;
 
-        const dims = getResponsiveDimensions();
-
-        pageFlip = new PageFlip(bookContainerEl, {
-            width: dims.width, 
-            height: dims.height, 
-            size: "stretch",
-            minWidth: 315,
+        const dims = responsiveDims();
+        pageFlip = new PageFlip(bookEl, {
+            width: dims.width,
+            height: dims.height,
+            size: 'stretch',
+            minWidth: 300,
             maxWidth: 1000,
-            minHeight: 420,
-            maxHeight: 1350,
+            minHeight: 400,
+            maxHeight: 1400,
             showCover: true,
             mobileScrollSupport: true,
             drawShadow: true,
-            flippingTime: 1200,
-            usePortrait: false, // Double spread look
-            maxShadowOpacity: 0.8,
+            flippingTime: 1000,
+            usePortrait: false,
+            maxShadowOpacity: 0.7,
             showPageCorners: true,
-            swipeDistance: 50,
+            swipeDistance: 40,
             clickEventForward: true
         });
 
         pageFlip.loadFromHTML(document.querySelectorAll('.page'));
-    // --- 4. NAVIGATION UTILITIES ---
-    window.showScene = (sceneId) => {
-        document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
-        document.getElementById(sceneId).classList.add('active');
-        
-        if (sceneId === 'events-scene') loadEvents();
-        if (sceneId === 'shop-scene') initPayPal();
-    };
+    }
 
-    // --- 5. EVENTS LOGIC ---
-    async function loadEvents() {
+    // --- 5. EVENTS ---
+    window.loadEvents = async function() {
         const list = document.getElementById('events-list');
+        if (!list) return;
         try {
             const res = await fetch('./api/events');
             const data = await res.json();
-            list.innerHTML = data.events.map(e => `<div class="event-item">• ${e}</div>`).join('');
-        } catch(e) {
-            list.innerHTML = 'Add your first event below!';
+            list.innerHTML = data.events.map(e =>
+                `<div class="event-item">🗓 ${e}</div>`
+            ).join('');
+        } catch (e) {
+            list.innerHTML = '<p>Add your first event below! (You can also edit events.txt in your Desktop folder)</p>';
         }
-    }
+    };
 
     document.getElementById('btn-add-event')?.addEventListener('click', async () => {
         const input = document.getElementById('event-input');
-        if (!input.value) return;
-        
-        await fetch('./api/events-add', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ event: input.value })
-        });
-        input.value = '';
-        loadEvents();
+        if (!input?.value.trim()) return;
+        try {
+            await fetch('./api/events-add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ event: input.value.trim() })
+            });
+            input.value = '';
+            window.loadEvents();
+        } catch (e) {
+            alert('Server not running. Please launch via Launch Magazine.bat');
+        }
     });
 
-    // --- 6. PAYPAL LOGIC ---
-    function initPayPal() {
+    // --- 6. PAYPAL SHOP ---
+    window.initPayPal = function() {
+        const container = document.getElementById('paypal-button-container');
+        if (!container || container.childElementCount > 0) return;
         if (window.paypal) {
-            const container = document.getElementById('paypal-button-container');
-            if (container.innerHTML !== '') return;
-            
             window.paypal.Buttons({
-                createOrder: (data, actions) => {
-                    return actions.order.create({
-                        purchase_units: [{
-                            amount: { value: '25.00' }
-                        }]
-                    });
-                },
-                onApprove: (data, actions) => {
-                    return actions.order.capture().then(details => {
-                        alert('Transaction completed by ' + details.payer.name.given_name);
-                    });
-                }
+                createOrder: (data, actions) => actions.order.create({
+                    purchase_units: [{ amount: { value: '25.00' }, description: 'Brand Jamaica Magazine - Physical Copy' }]
+                }),
+                onApprove: (data, actions) => actions.order.capture().then(d => {
+                    container.innerHTML = `<h3 style="color:green">✅ Thank you ${d.payer.name.given_name}! We'll be in touch soon.</h3>`;
+                }),
+                onError: (err) => { container.innerHTML = '<p style="color:red">Payment failed. Please try again.</p>'; }
             }).render('#paypal-button-container');
+        } else {
+            container.innerHTML = `<p>PayPal is loading... If this persists, check your internet connection.</p>`;
         }
-    }
+    };
 
-    // --- 7. UPLOAD LOGIC ---
+    // --- 7. COMMUNITY UPLOAD ---
     document.getElementById('btn-upload')?.addEventListener('click', async () => {
         const fileInput = document.getElementById('upload-file');
         const nameInput = document.getElementById('upload-name');
-        if (!fileInput.files[0]) return;
+        const btn = document.getElementById('btn-upload');
+        if (!fileInput?.files[0]) { alert('Please choose a file first.'); return; }
 
         const formData = new FormData();
         formData.append('file', fileInput.files[0]);
-        formData.append('name', nameInput.value || 'Anonymous');
+        formData.append('name', nameInput?.value || 'Anonymous');
+        btn.innerText = 'Uploading... ⏳';
+        btn.disabled = true;
 
-        const btn = document.getElementById('btn-upload');
-        btn.innerText = 'Uploading...';
-        
-        await fetch('./api/upload', {
-            method: 'POST',
-            body: formData
-        });
-        
-        btn.innerText = 'Upload Successful!';
-        fileInput.value = '';
-        // Load feed here...
+        try {
+            const res = await fetch('./api/upload', { method: 'POST', body: formData });
+            const data = await res.json();
+            btn.innerText = '✅ Uploaded!';
+            fileInput.value = '';
+            loadCommunityFeed();
+        } catch (e) {
+            btn.innerText = 'Upload to local desktop folder';
+            btn.disabled = false;
+            alert('Upload requires the local server. Please launch via Launch Magazine.bat');
+        }
     });
+
+    async function loadCommunityFeed() {
+        const grid = document.getElementById('community-grid');
+        if (!grid) return;
+        try {
+            const res = await fetch('./api/community');
+            const data = await res.json();
+            if (data.files?.length > 0) {
+                grid.innerHTML = data.files.map(f => {
+                    if (f.match(/\.(mp4|webm|mov)$/i)) {
+                        return `<div class="community-card"><video src="/community/${f}" controls style="width:100%; border-radius:4px;"></video></div>`;
+                    }
+                    return `<div class="community-card"><img src="/community/${f}" style="width:100%; border-radius:4px; object-fit:cover;"></div>`;
+                }).join('');
+            } else {
+                grid.innerHTML = '<p>Be the first to share something! 🇯🇲</p>';
+            }
+        } catch (e) {
+            grid.innerHTML = '<p>Community Feed loads when connected to the local server.</p>';
+        }
+    }
 });

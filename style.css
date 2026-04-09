@@ -1,127 +1,350 @@
-/* Brand Jamaica 2.0 - Scrapbook Redesign */
+/* =========================================
+   BRAND JAMAICA MAGAZINE 2.0 - FULL STYLES
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:wght@300;600;900&display=swap');
+
 :root {
-  --jamaica-green: #009b3a;
-  --jamaica-gold: #fed100;
-  --jamaica-black: #000000;
-  --paper-color: #fdfaf3;
-  --wood-texture: 'https://www.transparenttextures.com/patterns/pinstriped-suit.png';
+  --green: #009b3a;
+  --gold: #fed100;
+  --black: #000000;
+  --paper: #fdfaf3;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-body { 
-  font-family: 'Inter', sans-serif; 
-  overflow-x: hidden; 
-  background-color: #e6dcc6;
+html, body {
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+  background: #c8a97e;
   background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
-  color: #333;
+  color: #2a1a00;
 }
 
-/* Scrapbook Main Background */
+#app {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ---- TEXTURE OVERLAY ---- */
 #texture-bg {
   position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background-image: 
-    radial-gradient(circle at 10% 10%, rgba(255, 235, 59, 0.05) 0%, transparent 50%),
-    url('https://www.transparenttextures.com/patterns/cardboard-flat.png');
+  inset: 0;
+  background-image: url('https://www.transparenttextures.com/patterns/cardboard-flat.png');
   pointer-events: none;
-  z-index: -1;
-  opacity: 0.8;
+  z-index: 0;
+  opacity: 0.5;
 }
 
-/* Animated Logo with Tape */
+/* ---- SCENE SYSTEM ---- */
+.scene {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 1.5rem;
+  position: relative;
+  z-index: 1;
+  overflow-y: auto;
+}
+.scene.active { display: flex; }
+
+/* ---- LANDING PAGE ---- */
+.header-elements {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Tape-Style Logo */
 .logo-wrapper {
   position: relative;
   display: inline-block;
-  padding: 1rem;
+  padding: 0.5rem 2rem;
+  margin-bottom: 0.5rem;
 }
 
 .tape-logo {
   position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 40px;
-  background: rgba(0, 155, 58, 0.4); /* Jamaican Green Tape */
+  top: 50%; left: -10px; right: -10px;
+  height: 36px;
+  background: rgba(0, 155, 58, 0.35);
   transform: translateY(-50%) rotate(-2deg);
   z-index: 1;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  mix-blend-mode: multiply;
-  backdrop-filter: blur(1px);
+  border-left: 8px solid rgba(0,155,58,0.5);
+  border-right: 8px solid rgba(0,155,58,0.5);
 }
-
-.tape-logo::before {
-  content: '';
-  position: absolute;
-  top: 0; left: -10px; width: 20px; height: 100%;
-  background: inherit;
-  clip-path: polygon(100% 0, 0 15%, 100% 30%, 0 45%, 100% 60%, 0 75%, 100% 90%, 0 100%);
-}
-
 .tape-logo.gold {
-  background: rgba(254, 209, 0, 0.4);
-  transform: translateY(-50%) rotate(3deg);
+  background: rgba(254, 209, 0, 0.35);
+  transform: translateY(-50%) rotate(2deg);
   z-index: 0;
+  border-left-color: rgba(254,209,0,0.5);
+  border-right-color: rgba(254,209,0,0.5);
 }
 
 .magazine-title {
-  position: relative;
-  z-index: 2;
-  font-size: 4.5rem;
+  position: relative; z-index: 2;
+  font-size: 3.5rem;
   font-weight: 900;
-  color: #000;
-  text-shadow: 2px 2px 0px var(--jamaica-gold);
+  letter-spacing: -2px;
+  color: #1a0a00;
+  text-shadow: 3px 3px 0 var(--gold);
+  font-family: 'Inter', sans-serif;
 }
 
-/* Full Bleed Magazine Pages */
-.magazine-page-img {
+.magazine-subtitle {
+  font-family: 'Caveat', cursive;
+  font-size: 1.6rem;
+  color: #5a2e00;
+}
+
+/* ---- 3D CAROUSEL ---- */
+.carousel-container {
   width: 100%;
-  height: 100%;
-  object-fit: fill; /* STRETCH TO FIT AS REQUESTED */
+  height: 380px;
+  perspective: 1500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.carousel {
+  width: 260px;
+  height: 360px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.carousel-item {
+  position: absolute;
+  width: 260px;
+  height: 360px;
+  left: 0; top: 0;
+  transform: rotateY(var(--rotation)) translateZ(330px);
+  cursor: pointer;
+}
+
+.cover-wrapper {
+  background: white;
+  padding: 8px 8px 36px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.carousel-item:hover .cover-wrapper {
+  transform: translateY(-15px) rotate(0deg);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+}
+
+.cover-wrapper img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
   display: block;
 }
 
-/* New Section Styles */
+.volume-title {
+  font-family: 'Caveat', cursive;
+  font-size: 1.3rem;
+  text-align: center;
+  margin-top: 8px;
+  color: #333;
+}
+
+.tape {
+  position: absolute;
+  top: -10px; left: 50%;
+  transform: translateX(-50%) rotate(-4deg);
+  width: 90px; height: 26px;
+  background: rgba(254, 209, 0, 0.5);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* ---- CONTROLS & NAV BUTTONS ---- */
+.controls {
+  display: flex;
+  gap: 0.75rem;
+  margin: 1rem 0 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.scrap-button {
+  background: var(--black);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #5a3e1b;
+  transition: all 0.15s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.scrap-button:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 #5a3e1b;
+}
+
+.hub-nav-btn {
+  background: var(--green);
+  color: white;
+}
+.hub-nav-btn:hover { background: #007a2d; }
+
+/* ---- SOCIAL LINKS ---- */
+.social-links {
+  display: flex;
+  gap: 1.2rem;
+  margin-top: 1rem;
+  padding: 0.75rem 2rem;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(12px);
+  border-radius: 50px;
+  border: 1px solid rgba(255,255,255,0.3);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.social-icon {
+  width: 30px; height: 30px;
+  display: flex; align-items: center;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.social-icon img { width: 100%; height: 100%; object-fit: contain; }
+.social-icon:hover { transform: scale(1.3) translateY(-4px); }
+
+/* ---- MAGAZINE READER ---- */
+#magazine-scene {
+  justify-content: center;
+  background: rgba(40,20,0,0.6);
+  overflow: hidden;
+}
+
+.sticky-btn {
+  position: absolute;
+  top: 1rem; left: 1rem;
+  z-index: 20;
+}
+
+.book-container {
+  width: 95vw;
+  max-width: 1200px;
+  height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Full-stretch page images — no white borders */
+.magazine-page-img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
+}
+
+.page { background: white; }
+.page-content { width: 100%; height: 100%; position: relative; }
+
+/* ---- HUB SECTIONS ---- */
 .hub-section {
   width: 90vw;
-  max-width: 1200px;
-  margin: 4rem auto;
-  background: white;
+  max-width: 900px;
+  background: var(--paper);
+  border: 3px solid var(--black);
+  box-shadow: 8px 8px 0 var(--black);
   padding: 2rem;
-  box-shadow: 15px 15px 0px var(--jamaica-black);
-  border: 4px solid var(--jamaica-black);
+  margin: 1.5rem auto;
   position: relative;
 }
 
 .hub-title {
   font-family: 'Caveat', cursive;
-  font-size: 3rem;
-  margin-bottom: 2rem;
-  border-bottom: 3px dashed var(--jamaica-green);
-  display: inline-block;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px dashed var(--green);
 }
 
-/* Form Styles */
+.scroll-btn {
+  margin-bottom: 1rem;
+}
+
+/* ---- EVENTS ---- */
+.event-item {
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  background: white;
+  border-left: 4px solid var(--green);
+  font-size: 1rem;
+}
+
+/* ---- COMMUNITY FEED ---- */
+.grid-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.community-card {
+  background: white;
+  padding: 8px;
+  box-shadow: 4px 4px 0 var(--black);
+  border: 2px solid var(--black);
+  overflow: hidden;
+}
+
+/* ---- FORMS ---- */
 .scrap-input {
   width: 100%;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border: 2px solid #000;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+  border: 2px solid var(--black);
   font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  background: white;
+  display: block;
 }
 
 .scrap-button-primary {
-  background: var(--jamaica-green);
+  background: var(--green);
   color: white;
-  padding: 1rem 2rem;
   border: none;
-  font-weight: bold;
+  padding: 0.85rem 1.75rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
   cursor: pointer;
-  box-shadow: 4px 4px 0px #000;
-  transition: 0.2s;
+  box-shadow: 4px 4px 0 var(--black);
+  transition: all 0.15s;
+  text-transform: uppercase;
+}
+.scrap-button-primary:hover {
+  background: #007a2d;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--black);
+}
+.scrap-button-primary:disabled { opacity: 0.6; cursor: default; }
+
+/* ---- PAYPAL SECTION ---- */
+#paypal-button-container {
+  min-height: 60px;
+  margin: 1.5rem auto;
+  max-width: 400px;
 }
 
-.scrap-button-primary:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0px #000;
+/* ---- MOBILE ---- */
+@media (max-width: 768px) {
+  .magazine-title { font-size: 2.2rem; }
+  .controls { gap: 0.5rem; }
+  .scrap-button { padding: 8px 12px; font-size: 0.75rem; }
 }
