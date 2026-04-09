@@ -17,12 +17,12 @@ html, body {
   font-family: 'Inter', sans-serif;
   overflow: hidden;
   background-color: #ffffff !important;
-  /* FORCED HD REFRESH - Your actual photo with high contrast */
-  background-image: url('/crushed-paper-ultra.jpg') !important;
+  /* CLEAN AI-GENERATED UHD PAPER */
+  background-image: url('/crushed-paper-ai.png') !important;
   background-size: cover;
   background-position: center;
-  /* Aggressive "HD" Paper Sharpening */
-  filter: contrast(1.5) brightness(1.02) saturate(0.85); 
+  /* Cleaner, realistic sharpening */
+  filter: contrast(1.1) brightness(1.05) saturate(0.95); 
   color: #2a1a00;
 }
 
@@ -125,7 +125,8 @@ html, body {
   animation: fly3D 12s ease-in-out infinite;
   transform-style: preserve-3d;
   will-change: transform;
-  filter: drop-shadow(0 25px 30px rgba(0,0,0,0.2));
+  /* Softened shadow to match clean AI paper lighting */
+  filter: drop-shadow(0 15px 20px rgba(0,0,0,0.15));
 }
 
 .bird-wing-l {
