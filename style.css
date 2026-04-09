@@ -50,8 +50,15 @@ html, body {
   position: relative;
   z-index: 1;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 .scene.active { display: flex; }
+
+/* Carousel landing must NOT scroll — 3D effect needs a fixed viewport */
+#carousel-scene {
+  overflow: hidden;
+  justify-content: center;
+}
 
 /* ---- LANDING PAGE ---- */
 .header-elements {
