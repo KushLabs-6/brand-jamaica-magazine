@@ -30,12 +30,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     if (btnStart && introScene) {
         btnStart.addEventListener('click', () => {
-            // Add 'open' class to trigger CSS 3D swing animation on the book cover
-            btnStart.classList.add('open');
+            // Gamified Hummingbird click - bird flies away!
+            btnStart.classList.add('fly-away');
             setTimeout(() => {
                introScene.classList.remove('active');
                carouselScene.classList.add('active');
-            }, 1500); // Wait for the "swing open" animation to finish
+            }, 800); // Wait for bird to fly off screen
         });
     }
 

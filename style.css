@@ -64,66 +64,77 @@ html, body {
   clip-path: none;
 }
 
-/* ---- INTRO SCENE (LEATHER JOURNAL Style) ---- */
+/* ---- INTRO SCENE (DOCTOR BIRD Style) ---- */
 #intro-scene {
-  background-color: transparent !important; 
+  background-color: rgba(255,255,255,0.1); 
   display: flex !important;
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  perspective: 2000px;
+  overflow: hidden;
 }
 #intro-scene:not(.active) {
   display: none !important;
 }
 
-.journal-cover {
-  width: 100vw;
-  height: 100vh;
+.click-e-bird-title {
+  font-family: 'Caveat', cursive;
+  font-weight: 700;
+  font-size: 5rem;
+  color: #000;
+  text-shadow: 2px 2px 0px var(--green), 4px 4px 5px rgba(0,0,0,0.3);
+  pointer-events: none; /* Let the user click THROUGH the text if the bird flies behind it */
+  z-index: 2;
   position: absolute;
-  top: 0;
-  left: 0;
-  background-color: #000;
-  /* physical notebook image from generated tool */
-  background-image: url('/leather-notebook.png');
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: transform 1.2s ease-in, opacity 1s ease-out;
-  z-index: 100;
+  transform: rotate(-3deg);
+  background: rgba(255,255,255,0.8);
+  padding: 1rem 3rem;
+  border-radius: 15px;
+  border: 4px dashed #000;
 }
 
-.journal-cover.open {
-  transform: scale(2); /* Zoom straight into the book */
-  opacity: 0;
+.doctor-bird {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  z-index: 100;
+  cursor: pointer;
+  /* Figure 8 animation crossing the viewport */
+  animation: flyPath 8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  transform-origin: center center;
+  filter: drop-shadow(5px 15px 5px rgba(0,0,0,0.3));
+}
+
+.doctor-bird.fly-away {
+  animation: flyAway 0.8s ease-in forwards !important;
   pointer-events: none;
 }
 
-.embossed-text {
-  font-family: 'Caveat', cursive;
-  font-weight: 700;
-  font-size: 4rem;
-  color: #2c1a0c;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  cursor: pointer;
-  padding: 1rem 2rem;
-  border: 3px dashed rgba(44, 26, 12, 0.6);
-  border-radius: 8px;
-  background: rgba(255,255,255,0.7); /* Like a white paper label slapped on the leather */
-  box-shadow: 
-    2px 2px 6px rgba(0, 0, 0, 0.4);
-  transition: all 0.3s ease;
-  z-index: 2;
-  position: relative;
-  transform: rotate(-3deg);
+.bird-wing {
+  animation: flapWings 0.05s alternate infinite linear;
+  transform-origin: center center;
 }
 
-.embossed-text:hover {
-  background: rgba(255,255,255,0.9);
-  transform: rotate(0deg) scale(1.05);
+@keyframes flyPath {
+  0%   { transform: translate(-35vw, -30vh) rotate(-15deg); }
+  25%  { transform: translate(35vw, 30vh) rotate(15deg); }
+  50%  { transform: translate(35vw, -30vh) rotate(-5deg) scaleX(-1); }
+  75%  { transform: translate(-35vw, 30vh) rotate(5deg) scaleX(-1); }
+  100% { transform: translate(-35vw, -30vh) rotate(-15deg); }
+}
+
+@keyframes flyAway {
+  to {
+    margin-top: -200vh;
+    margin-left: 100vw;
+    transform: scale(2) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+@keyframes flapWings {
+  0% { transform: scaleY(1); }
+  100% { transform: scaleY(-0.5); }
 }
 
 
