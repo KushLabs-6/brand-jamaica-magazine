@@ -1,260 +1,127 @@
-/* Global & Design System */
+/* Brand Jamaica 2.0 - Scrapbook Redesign */
+:root {
+  --jamaica-green: #009b3a;
+  --jamaica-gold: #fed100;
+  --jamaica-black: #000000;
+  --paper-color: #fdfaf3;
+  --wood-texture: 'https://www.transparenttextures.com/patterns/pinstriped-suit.png';
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
 body { 
   font-family: 'Inter', sans-serif; 
-  overflow: hidden; 
-  background: #fdfaf3; 
+  overflow-x: hidden; 
+  background-color: #e6dcc6;
+  background-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png');
   color: #333;
 }
 
-/* Scrapbook Feel */
+/* Scrapbook Main Background */
 #texture-bg {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
-  background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+  background-image: 
+    radial-gradient(circle at 10% 10%, rgba(255, 235, 59, 0.05) 0%, transparent 50%),
+    url('https://www.transparenttextures.com/patterns/cardboard-flat.png');
   pointer-events: none;
   z-index: -1;
+  opacity: 0.8;
 }
 
-.scene {
-  display: none;
-  height: 100vh;
-  width: 100vw;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.scene.active { display: flex; }
-
-/* 3D Carousel Selection */
-.header-elements {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.magazine-title {
-  font-size: 4rem;
-  font-weight: 900;
-  letter-spacing: -2px;
-  background: linear-gradient(to bottom, #111, #444);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 0.5rem;
-}
-
-.magazine-subtitle {
-  font-family: 'Caveat', cursive;
-  font-size: 1.8rem;
-  color: #555;
-}
-
-.carousel-container {
-  width: 100%;
-  height: 480px;
-  perspective: 1500px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 4rem; /* Increased to give space to controls/socials */
-}
-
-.carousel {
-  width: 280px;
-  height: 400px;
+/* Animated Logo with Tape */
+.logo-wrapper {
   position: relative;
-  transform-style: preserve-3d;
-  transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1);
+  display: inline-block;
+  padding: 1rem;
 }
 
-.carousel-item {
+.tape-logo {
   position: absolute;
-  width: 280px;
-  height: 400px;
-  left: 0; top: 0;
-  transform: rotateY(var(--rotation)) translateZ(350px);
-  cursor: pointer;
-}
-
-/* Polaroid Photo Style */
-.cover-wrapper {
-  background: white;
-  padding: 10px 10px 40px 10px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  border: 1px solid #eee;
-  transition: transform 0.3s ease;
-  transform: rotate(var(--tilt, 0deg));
-}
-
-.carousel-item:hover .cover-wrapper {
-  transform: translateY(-20px) scale(1.05) rotate(0deg);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-}
-
-.cover-wrapper img {
+  top: 50%;
+  left: 0;
   width: 100%;
-  height: 320px;
-  object-fit: cover;
-}
-
-.volume-title {
-  font-family: 'Caveat', cursive;
-  margin-top: 10px;
-  font-size: 1.4rem;
-  text-align: center;
-}
-
-/* Tape Graphic */
-.tape {
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%) rotate(-5deg);
-  width: 100px;
-  height: 30px;
-  background: rgba(255, 235, 59, 0.4);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  height: 40px;
+  background: rgba(0, 155, 58, 0.4); /* Jamaican Green Tape */
+  transform: translateY(-50%) rotate(-2deg);
+  z-index: 1;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  mix-blend-mode: multiply;
   backdrop-filter: blur(1px);
 }
 
-/* Controls & Socials */
-.controls {
-  display: flex;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+.tape-logo::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -10px; width: 20px; height: 100%;
+  background: inherit;
+  clip-path: polygon(100% 0, 0 15%, 100% 30%, 0 45%, 100% 60%, 0 75%, 100% 90%, 0 100%);
 }
 
-.scrap-button {
-  background: #333;
-  color: white;
-  border: none;
-  padding: 12px 24px;
+.tape-logo.gold {
+  background: rgba(254, 209, 0, 0.4);
+  transform: translateY(-50%) rotate(3deg);
+  z-index: 0;
+}
+
+.magazine-title {
+  position: relative;
+  z-index: 2;
+  font-size: 4.5rem;
+  font-weight: 900;
+  color: #000;
+  text-shadow: 2px 2px 0px var(--jamaica-gold);
+}
+
+/* Full Bleed Magazine Pages */
+.magazine-page-img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill; /* STRETCH TO FIT AS REQUESTED */
+  display: block;
+}
+
+/* New Section Styles */
+.hub-section {
+  width: 90vw;
+  max-width: 1200px;
+  margin: 4rem auto;
+  background: white;
+  padding: 2rem;
+  box-shadow: 15px 15px 0px var(--jamaica-black);
+  border: 4px solid var(--jamaica-black);
+  position: relative;
+}
+
+.hub-title {
+  font-family: 'Caveat', cursive;
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  border-bottom: 3px dashed var(--jamaica-green);
+  display: inline-block;
+}
+
+/* Form Styles */
+.scrap-input {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 2px solid #000;
   font-family: 'Inter', sans-serif;
-  font-weight: 600;
+}
+
+.scrap-button-primary {
+  background: var(--jamaica-green);
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  font-weight: bold;
   cursor: pointer;
   box-shadow: 4px 4px 0px #000;
-  transition: all 0.2s ease;
+  transition: 0.2s;
 }
 
-.scrap-button:hover {
+.scrap-button-primary:hover {
   transform: translate(-2px, -2px);
   box-shadow: 6px 6px 0px #000;
-}
-
-.scrap-button:active {
-  transform: translate(2px, 2px);
-  box-shadow: 0px 0px 0px #000;
-}
-
-.social-links {
-  position: relative; /* Changed from absolute to flow better */
-  display: flex;
-  gap: 1.5rem;
-  padding: 1rem 2.5rem;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(15px);
-  border-radius: 50px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-  margin-bottom: 2rem;
-}
-
-.social-icon {
-  width: 32px;
-  height: 32px;
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.social-icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.social-icon:hover {
-  transform: scale(1.3) translateY(-5px);
-}
-
-/* Magazine Interface */
-.book-container {
-  width: 900px;
-  height: 600px;
-  margin: auto;
-}
-
-.sticky-btn {
-  position: absolute;
-  top: 2rem;
-  left: 2rem;
-  z-index: 10;
-}
-
-/* Page Polish */
-.page { 
-  background-color: white; 
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
-}
-
-.page-content {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
-.page-cover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Custom design fit */
-.page-design-fit {
-  object-fit: contain !important;
-  background-color: white !important;
-}
-
-/* Hover Preview Overlay */
-.hover-preview {
-  position: fixed;
-  background: white;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.3s;
-  z-index: 9999;
-  width: 200px;
-  transform: translate(-50%, -110%);
-}
-
-.hover-preview.active { opacity: 1; }
-
-.preview-content img {
-  width: 100%;
-  border-radius: 4px;
-  margin-bottom: 10px;
-}
-/* Responsive Magazine Container */
-.book-container {
-  width: 95vw; /* Use viewport width */
-  max-width: 1200px;
-  height: 80vh; /* Use viewport height */
-  margin: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  transition: all 0.5s ease;
-}
-
-#book {
-  box-shadow: 0 50px 100px rgba(0,0,0,0.3);
-}
-
-/* Ensure the scene fully centers the book */
-#magazine-scene {
-  background: rgba(0,0,0,0.05); /* Subtle depth */
 }

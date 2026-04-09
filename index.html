@@ -7,6 +7,8 @@
     <!-- Modern Typography -->
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:wght@300;600;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
   </head>
   <body>
     <div id="app">
@@ -17,9 +19,13 @@
       <div id="carousel-scene" class="scene active">
         <div class="header-elements">
           <div id="logo-container">
-            <h1 class="magazine-title">BRAND JAMAICA</h1>
+            <div class="logo-wrapper">
+              <div class="tape-logo"></div>
+              <div class="tape-logo gold"></div>
+              <h1 class="magazine-title">BRAND JAMAICA</h1>
+            </div>
           </div>
-          <p class="magazine-subtitle">Select an Issue to Read</p>
+          <p class="magazine-subtitle">The Real Cultural Scrapbook Experience</p>
         </div>
         
         <div class="carousel-container">
@@ -50,6 +56,9 @@
         
         <div class="controls">
           <button id="btn-prev" class="scrap-button">❮ Prev</button>
+          <button class="scrap-button hub-nav-btn" onclick="showScene('hub-scene')">Community Feed</button>
+          <button class="scrap-button hub-nav-btn" onclick="showScene('events-scene')">Events & Places</button>
+          <button class="scrap-button hub-nav-btn" onclick="showScene('shop-scene')">Buy Physical</button>
           <button id="btn-next" class="scrap-button">Next ❯</button>
         </div>
 
@@ -77,9 +86,46 @@
         </div>
       </div>
 
-      <!-- Interactive Hover Preview Overlay -->
-      <div id="hover-preview" class="hover-preview">
-        <div class="preview-content"></div>
+      <!-- Community Hub (The For You Page) -->
+      <div id="hub-scene" class="scene">
+        <button class="scrap-button scroll-btn" onclick="showScene('carousel-scene')">❮ Back</button>
+        <section class="hub-section">
+          <h2 class="hub-title">Community Feed 🇯🇲</h2>
+          <div id="upload-form">
+            <input type="text" id="upload-name" placeholder="Your Name" class="scrap-input">
+            <input type="file" id="upload-file" class="scrap-input" accept="image/*,video/*">
+            <button class="scrap-button-primary" id="btn-upload">Upload to local desktop folder</button>
+          </div>
+          <div id="community-grid" class="grid-view">
+            <!-- Uploads show here -->
+          </div>
+        </section>
+      </div>
+
+      <!-- Events & Places to Visit -->
+      <div id="events-scene" class="scene">
+        <button class="scrap-button scroll-btn" onclick="showScene('carousel-scene')">❮ Back</button>
+        <section class="hub-section">
+          <h2 class="hub-title">Events & Places 📍</h2>
+          <div id="events-list">
+            <!-- Loaded from events.txt -->
+          </div>
+          <div id="add-event-form">
+            <input type="text" id="event-input" placeholder="Add an event (e.g. Reggae Sumfest - Montego Bay)" class="scrap-input">
+            <button class="scrap-button-primary" id="btn-add-event">Add Event</button>
+          </div>
+        </section>
+      </div>
+
+      <!-- PayPal Shop -->
+      <div id="shop-scene" class="scene">
+        <button class="scrap-button scroll-btn" onclick="showScene('carousel-scene')">❮ Back</button>
+        <section class="hub-section" style="text-align: center;">
+          <h2 class="hub-title">Official Shop 🛍️</h2>
+          <p style="margin-bottom: 2rem;">Get your high-quality physical copy of Brand Jamaica Magazine delivered.</p>
+          <div id="paypal-button-container"></div>
+          <p style="margin-top: 2rem; font-size: 0.9rem; color: #666;">Payments secured by PayPal (demolacunningham@gmail.com)</p>
+        </section>
       </div>
     </div>
     

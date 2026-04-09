@@ -155,8 +155,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const safeUrl = encodePath(`/issues/volume_${volumeId}/${filename}`);
                 contentPages += `
                 <div class="page page-cover">
-                    <div class="page-content" style="padding:0; background: white; display: flex; align-items: center; justify-content: center;">
-                         <img src="${safeUrl}" alt="Page ${index + 1}" style="max-width:100%; max-height:100%; object-fit:contain; display:block;">
+                    <div class="page-content" style="padding:0; background: white;">
+                         <img src="${safeUrl}" alt="Page ${index + 1}" class="magazine-page-img">
                     </div>
                 </div>`;
             });
@@ -200,5 +200,83 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+    // --- 4. NAVIGATION UTILITIES ---
+    window.showScene = (sceneId) => {
+        document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+        document.getElementById(sceneId).classList.add('active');
+        
+        if (sceneId === 'events-scene') loadEvents();
+        if (sceneId === 'shop-scene') initPayPal();
+    };
+
+    // --- 5. EVENTS LOGIC ---
+    async function loadEvents() {
+        const list = document.getElementById('events-list');
+        try {
+            const res = await fetch('./api/events');
+            const data = await res.json();
+            list.innerHTML = data.events.map(e => `<div class="event-item">• ${e}</div>`).join('');
+        } catch(e) {
+            list.innerHTML = 'Add your first event below!';
+        }
     }
+
+    document.getElementById('btn-add-event')?.addEventListener('click', async () => {
+        const input = document.getElementById('event-input');
+        if (!input.value) return;
+        
+        await fetch('./api/events-add', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ event: input.value })
+        });
+        input.value = '';
+        loadEvents();
+    });
+
+    // --- 6. PAYPAL LOGIC ---
+    function initPayPal() {
+        if (window.paypal) {
+            const container = document.getElementById('paypal-button-container');
+            if (container.innerHTML !== '') return;
+            
+            window.paypal.Buttons({
+                createOrder: (data, actions) => {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: { value: '25.00' }
+                        }]
+                    });
+                },
+                onApprove: (data, actions) => {
+                    return actions.order.capture().then(details => {
+                        alert('Transaction completed by ' + details.payer.name.given_name);
+                    });
+                }
+            }).render('#paypal-button-container');
+        }
+    }
+
+    // --- 7. UPLOAD LOGIC ---
+    document.getElementById('btn-upload')?.addEventListener('click', async () => {
+        const fileInput = document.getElementById('upload-file');
+        const nameInput = document.getElementById('upload-name');
+        if (!fileInput.files[0]) return;
+
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+        formData.append('name', nameInput.value || 'Anonymous');
+
+        const btn = document.getElementById('btn-upload');
+        btn.innerText = 'Uploading...';
+        
+        await fetch('./api/upload', {
+            method: 'POST',
+            body: formData
+        });
+        
+        btn.innerText = 'Upload Successful!';
+        fileInput.value = '';
+        // Load feed here...
+    });
 });
