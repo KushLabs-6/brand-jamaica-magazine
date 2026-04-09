@@ -4,11 +4,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     let metadata = null;
     
+    // Function to safely encode image paths (handling spaces/backticks)
+    const encodePath = (path) => {
+        return path.split('/').map(segment => encodeURIComponent(segment)).join('/');
+    };
+    
     // Attempt to load the static metadata map (crucial for GitHub Pages / Standalone)
     try {
-        const metaRes = await fetch('/metadata.json');
-        metadata = await metaRes.json();
-        console.log('Using static metadata:', metadata);
+        const metaRes = await fetch('./metadata.json');
+        if (metaRes.ok) {
+            metadata = await metaRes.json();
+            console.log('Using static metadata:', metadata);
+        } else {
+            throw new Error('Metadata not found');
+        }
     } catch(e) {
         console.warn('Metadata not found, falling back to dynamic API');
     }
@@ -19,14 +28,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (metadata && metadata.logo) {
             logoSrc = metadata.logo;
         } else {
-            const res = await fetch('/api/logo');
+            const res = await fetch('./api/logo');
             const data = await res.json();
             logoSrc = data.logo;
         }
 
         if (logoSrc) {
             const logoContainer = document.getElementById('logo-container');
-            logoContainer.innerHTML = `<img src="${logoSrc}" alt="Brand Jamaica Logo" style="max-height: 120px; object-fit: contain; margin-bottom: 20px;" />`;
+            // USE ENCODED PATH for the logo
+            logoContainer.innerHTML = `<img src="${encodePath(logoSrc)}" alt="Brand Jamaica Logo" style="max-height: 120px; object-fit: contain; margin-bottom: 20px;" />`;
         }
     } catch(e) {
         console.warn('Could not load logo');
@@ -41,15 +51,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentAngle = 0;
     const itemAngle = 120; // 3 items = 360 / 3
 
-    btnNext.addEventListener('click', () => {
-        currentAngle -= itemAngle;
-        carousel.style.transform = `rotateY(${currentAngle}deg)`;
-    });
+    if (btnNext && btnPrev && carousel) {
+        btnNext.addEventListener('click', () => {
+            currentAngle -= itemAngle;
+            carousel.style.transform = `rotateY(${currentAngle}deg)`;
+        });
 
-    btnPrev.addEventListener('click', () => {
-        currentAngle += itemAngle;
-        carousel.style.transform = `rotateY(${currentAngle}deg)`;
-    });
+        btnPrev.addEventListener('click', () => {
+            currentAngle += itemAngle;
+            carousel.style.transform = `rotateY(${currentAngle}deg)`;
+        });
+    }
 
     // --- 2. SCENE TRANSITION LOGIC ---
     const carouselScene = document.getElementById('carousel-scene');
@@ -72,18 +84,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
-    btnBack.addEventListener('click', () => {
-        magazineScene.classList.remove('active');
-        setTimeout(() => {
-            carouselScene.classList.add('active');
-            // Destroy book to free memory
-            if(pageFlip) {
-                pageFlip.destroy();
-                pageFlip = null;
-                bookContainerEl.innerHTML = '';
-            }
-        }, 600);
-    });
+    if (btnBack) {
+        btnBack.addEventListener('click', () => {
+            magazineScene.classList.remove('active');
+            setTimeout(() => {
+                carouselScene.classList.add('active');
+                // Destroy book to free memory
+                if(pageFlip) {
+                    pageFlip.destroy();
+                    pageFlip = null;
+                    bookContainerEl.innerHTML = '';
+                }
+            }, 600);
+        });
+    }
 
     // --- 3. PAGE FLIP (MAGAZINE) LOGIC ---
     async function loadMagazine(volumeId) {
@@ -92,26 +106,32 @@ document.addEventListener('DOMContentLoaded', async () => {
         let title = '';
         let contentPages = '';
 
+        // Base cover images (should be consistent)
         if(volumeId === '1') {
-            coverImage = '/cover-culture.png';
+            coverImage = './cover-culture.png';
             title = 'Vol 1: The Culture';
         } else if(volumeId === '2') {
-            coverImage = '/cover-cuisine.png';
+            coverImage = './cover-cuisine.png';
             title = 'Vol 2: The Flavor';
         } else {
-            coverImage = '/cover-landscape.png';
+            coverImage = './cover-landscape.png';
             title = 'Vol 3: The Landscape';
         }
 
         let pagesToLoad = [];
 
         // Check metadata first (Production/Static Mode)
-        if (metadata && metadata.issues[`volume_${volumeId}`]) {
-            pagesToLoad = metadata.issues[`volume_${volumeId}`];
-        } else {
-            // Check the local API (Development Mode)
+        if (metadata && metadata.issues) {
+            const issueKey = `volume_${volumeId}`;
+            if (metadata.issues[issueKey]) {
+                pagesToLoad = metadata.issues[issueKey];
+            }
+        } 
+        
+        // If metadata is empty, try the API (Dev Mode)
+        if (pagesToLoad.length === 0) {
             try {
-                const apiRes = await fetch(`/api/issues/${volumeId}`);
+                const apiRes = await fetch(`./api/issues/${volumeId}`);
                 const data = await apiRes.json();
                 pagesToLoad = data.pages || [];
             } catch(e) {
@@ -122,10 +142,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Generate the HTML for the pages
         if (pagesToLoad.length > 0) {
             pagesToLoad.forEach((filename, index) => {
+                // ENCODE FILENAME to handle spaces or special characters
+                const safeUrl = encodePath(`/issues/volume_${volumeId}/${filename}`);
                 contentPages += `
                 <div class="page page-cover">
-                    <div class="page-content" style="padding:0;">
-                        <img src="/issues/volume_${volumeId}/${filename}" alt="Page ${index + 1}" style="width:100%; height:100%; object-fit:contain; background-color:white;">
+                    <div class="page-content" style="padding:0; background: #fff;">
+                         <img src="${safeUrl}" alt="Page ${index + 1}" style="width:100%; height:100%; object-fit:fill; display:block;">
                     </div>
                 </div>`;
             });
@@ -140,24 +162,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <div class="page-title">The Heartbeat</div>
                             <div class="page-subtitle">Origins of Reggae</div>
                             <div class="scrap-image-container">
-                                <img src="/cover-culture.png" alt="Culture">
+                                <img src="./cover-culture.png" alt="Culture">
                                 <div class="tape"></div>
                             </div>
-                            <p class="page-text">Reggae is not just music; it is the heartbeat of Jamaica. Born in the vibrant streets of Kingston, it carries the spirit of resistance, love, and unity. The pulsating bass and syncopated rhythms create an unmistakable sound that moved beyond the shores of the island to conquer the world.<br/><br/>Explore the <span class="interactive-hover" data-preview-img="/cover-culture.png" data-preview-title="Watch: Bob Marley Documentary" data-preview-desc="A brief look into the legend.">early days of Bob Marley</span> and the shaping of a global movement.</p>
-                            <div class="page-number right">1</div>
-                        </div>
-                    </div>
-                `;
-            } else if(volumeId === '2') {
-                contentPages = `
-                    <div class="page">
-                        <div class="page-content">
-                            <div class="page-title">Fire & Spice</div>
-                            <div class="page-subtitle">The Magic of Jerk</div>
-                            <div class="scrap-image-container">
-                                <img src="/cover-cuisine.png" alt="Jerk Chicken">
-                                <div class="tape"></div>
-                            </div>
+                            <p class="page-text">Reggae is not just music. It carries the spirit of love and unity.<br/><br/>Explore the <span class="interactive-hover" data-preview-img="./cover-culture.png" data-preview-title="Watch: Bob Marley Documentary" data-preview-desc="A brief look into the legend.">early days of Bob Marley</span>.</p>
                             <div class="page-number right">1</div>
                         </div>
                     </div>
@@ -166,13 +174,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                  contentPages = `
                     <div class="page">
                         <div class="page-content">
-                            <div class="page-title">Paradise Found</div>
-                            <div class="page-subtitle">Beaches & Waterfalls</div>
-                            <div class="scrap-image-container">
-                                <img src="/cover-landscape.png" alt="Landscape">
-                                <div class="tape"></div>
-                            </div>
-                            <div class="page-number right">1</div>
+                            <div class="page-title">Issue Ongoing</div>
+                            <p class="page-text">Content is being curated for this issue. Check back soon!</p>
                         </div>
                     </div>
                 `;
@@ -195,21 +198,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
         `;
 
-        // Initialize PageFlip
+        // Initialize PageFlip with premium, slower, more elegant animation
         pageFlip = new PageFlip(bookContainerEl, {
-            width: 450, // Base page width
-            height: 600, // Base page height
+            width: 450, 
+            height: 600, 
             size: "stretch",
             minWidth: 315,
             maxWidth: 1000,
             minHeight: 420,
             maxHeight: 1350,
             showCover: true,
-            mobileScrollSupport: false,
+            mobileScrollSupport: true,
             drawShadow: true,
-            flippingTime: 1000,
+            flippingTime: 1200, // Slower, more 'expensive' feel
             usePortrait: true,
-            maxShadowOpacity: 0.5,
+            maxShadowOpacity: 0.8,
+            showPageCorners: true, // Allow user to peel corners
+            swipeDistance: 50,
+            clickEventForward: true
         });
 
         pageFlip.loadFromHTML(document.querySelectorAll('.page'));
@@ -219,7 +225,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     function setupHoverPreviews() {
         const hoverElements = document.querySelectorAll('.interactive-hover');
         const previewEl = document.getElementById('hover-preview');
-        const previewContent = previewEl.querySelector('.preview-content');
+        const previewContent = previewEl?.querySelector('.preview-content');
+
+        if (!previewEl || !previewContent) return;
 
         hoverElements.forEach(el => {
             el.addEventListener('mouseenter', (e) => {
@@ -233,7 +241,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 previewEl.classList.add('active');
             });
             el.addEventListener('mouseleave', () => { previewEl.classList.remove('active'); });
-            el.addEventListener('mousemove', (e) => { previewEl.style.left = e.clientX + 'px'; previewEl.style.top = (e.clientY - 15) + 'px'; });
         });
     }
 });
