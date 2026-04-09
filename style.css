@@ -20,12 +20,14 @@ html, body {
   margin: 0 !important;
   padding: 0 !important;
   color: #2a1a00;
-  /* HIGH-QUALITY GRAPHIC PAPER TEXTURE (CARTOONISH) */
+  /* DEFINITIVE CARTOONISH/GRAPHIC PAPER TEXTURE */
   background: #fdfaf3 !important;
   background-image: 
-    radial-gradient(#e6e1d6 1px, transparent 1px),
-    linear-gradient(rgba(0,0,0,0.01) 1px, transparent 1px);
-  background-size: 30px 30px, 100% 40px;
+    linear-gradient(rgba(0,0,0,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,.04) 1px, transparent 1px),
+    linear-gradient(rgba(0,0,0,.02) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(0,0,0,.02) 2px, transparent 2px);
+  background-size: 50px 50px, 50px 50px, 5px 5px, 5px 5px;
   background-position: center;
 }
 
@@ -101,13 +103,13 @@ html, body {
 
 .click-e-bird-title span {
   display: inline-block;
-  /* GREEN IN THE BLACK (Vertical Stack) */
-  background: linear-gradient(to bottom, #000 0%, #000 40%, var(--green) 45%, var(--green) 55%, #000 60%, #000 100%);
+  /* DEFINITIVE GREEN IN THE BLACK (Vertical) */
+  background: linear-gradient(to bottom, #000 0%, #000 40%, var(--green) 40%, var(--green) 60%, #000 60%, #000 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  text-shadow: none;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
 }
 
 .doctor-bird.origami {
@@ -398,13 +400,17 @@ html, body {
 }
 
 .doctor-bird.origami {
-  width: 250px;
+  width: clamp(200px, 40vw, 300px);
   height: auto;
   cursor: pointer;
-  z-index: 10; /* Lower than tape (z-index 100) */
+  z-index: 10;
   transition: transform 0.3s ease;
   filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15));
-  margin-top: -3rem;
+  /* Centered behind the tape instruction */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -40%);
 }
 
 .social-icon {
