@@ -19,23 +19,20 @@ html, body {
   overflow: hidden;
   margin: 0 !important;
   padding: 0 !important;
-  background-color: #fdfaf3; /* Better fallback */
   color: #2a1a00;
-}
-
-#texture-bg {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  width: 100vw;
-  height: 100vh;
   /* REFERENCE 2: SOFT WIDE ASPECT RATIO CRUMBLE */
   background-image: url('/soft-crumble-wide.jpg') !important;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: #fdfaf3; /* Fallback color */
   /* Softer, more organic look based on user reference */
   filter: contrast(0.95) brightness(1.05); 
+}
+
+#texture-bg {
+  display: none; /* Removed as we are using body background now */
 }
 
 #app {
