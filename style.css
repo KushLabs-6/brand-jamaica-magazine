@@ -20,14 +20,13 @@ html, body {
   margin: 0 !important;
   padding: 0 !important;
   color: #2a1a00;
-  /* HIGH-CONTRAST CARTOONISH GRAPHIC PAPER */
+  /* BOLD CARTOONISH/GRAPHIC PAPER TEXTURE */
   background: #fdfaf3 !important;
   background-image: 
-    linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px),
-    linear-gradient(rgba(0,0,0,0.05) 5px, transparent 5px),
-    linear-gradient(90deg, rgba(0,0,0,0.05) 5px, transparent 5px);
-  background-size: 100px 100px, 100px 100px, 10px 10px, 10px 10px;
+    linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px),
+    repeating-linear-gradient(45deg, rgba(0,0,0,0.03) 0, rgba(0,0,0,0.03) 1px, transparent 1px, transparent 15px);
+  background-size: 80px 80px, 80px 80px, 20px 20px;
   background-position: center;
 }
 
@@ -81,35 +80,40 @@ html, body {
 }
 
 .click-e-bird-title {
+  position: relative;
   font-family: 'Inter', sans-serif;
   font-weight: 900;
   font-size: clamp(2rem, 10vw, 5.5rem);
   letter-spacing: -2px;
-  /* REFERENCE 1: MASKING TAPE PNG (USER UPLOADED) */
-  background: url('/tape-masking-ref.png') no-repeat center center;
-  background-size: 100% 100%;
   padding: 3rem 6rem;
   color: #000;
   text-transform: uppercase;
   user-select: none;
   pointer-events: none;
-  z-index: 100; /* Tape stays on top */
+  z-index: 100;
   margin-bottom: 2rem;
-  /* Advanced Filter to turn creamy tape into Jamaican Yellow */
+  transform: rotate(-1.5deg);
+}
+
+/* Isolated Tape Background - No filter leakage! */
+.click-e-bird-title::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('/tape-masking-ref.png') no-repeat center center;
+  background-size: 100% 100%;
   filter: sepia(1) saturate(10) hue-rotate(-20deg) brightness(1.0) drop-shadow(0 10px 15px rgba(0,0,0,0.1));
-  transform: rotate(-1.5deg); 
-  mix-blend-mode: normal; /* No longer need multiply since it's a real PNG */
+  z-index: -1;
 }
 
 .click-e-bird-title span {
   display: inline-block;
   /* GUARANTEED GREEN IN THE BLACK (EXPLICIT HEX #009b3a) */
-  background: linear-gradient(to bottom, #000 0%, #000 40%, #009b3a 40%, #009b3a 60%, #000 60%, #000 100%);
+  background: linear-gradient(to bottom, #000 0%, #000 40%, #009b3a 41%, #009b3a 59%, #000 60%, #000 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
 }
 
 .doctor-bird.origami {
@@ -400,17 +404,17 @@ html, body {
 }
 
 .doctor-bird.origami {
-  width: clamp(200px, 40vw, 300px);
+  width: clamp(250px, 50vw, 400px);
   height: auto;
   cursor: pointer;
   z-index: 10;
   transition: transform 0.3s ease;
-  filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15));
-  /* Centered behind the tape instruction */
+  filter: drop-shadow(0 15px 25px rgba(0,0,0,0.2));
+  /* Absolute Centering behind the instructional tape */
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -40%);
+  transform: translate(-50%, -30%);
 }
 
 .social-icon {
