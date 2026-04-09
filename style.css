@@ -17,11 +17,12 @@ html, body {
   font-family: 'Inter', sans-serif;
   overflow: hidden;
   background-color: #ffffff !important;
-  /* UHD 4K Extreme Crushed Paper - Forced Sharpness */
-  background-image: url('https://images.unsplash.com/photo-1542332213-31f87348057f?auto=format&fit=crop&w=2560&q=100') !important;
+  /* FORCED HD REFRESH - Your actual photo with high contrast */
+  background-image: url('/crushed-paper-ultra.jpg') !important;
   background-size: cover;
   background-position: center;
-  filter: contrast(1.1) brightness(1.02); /* Extra "crunch" */
+  /* Aggressive "HD" Paper Sharpening */
+  filter: contrast(1.5) brightness(1.02) saturate(0.85); 
   color: #2a1a00;
 }
 
