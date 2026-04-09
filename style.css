@@ -47,67 +47,51 @@ html, body {
 /* ---- SCENE SYSTEM ---- */
 .scene {
   display: none;
-  position: relative;
+  position: absolute;
+  inset: 0;
   width: 100vw !important;
   height: 100vh !important;
   max-width: none !important;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Center everything */
+  justify-content: center; /* Center everything perfectly */
   padding: 0 !important;
+  z-index: 10;
 }
 .scene.active { display: flex; }
 
-/* Carousel landing must NOT scroll — 3D effect needs a fixed viewport */
-#carousel-scene {
-  overflow: visible; /* allow 3D items to show on sides */
-  justify-content: center;
-  clip-path: none;
-}
-
-/* ---- INTRO SCENE (DOCTOR BIRD Style) ---- */
+/* ---- INTRO SCENE (TOUCH E BIRD) ---- */
 #intro-scene {
-  background-color: rgba(255,255,255,0.1); 
-  display: flex !important;
-  justify-content: center;
-  align-items: center;
+  background: transparent;
   z-index: 9999;
-  overflow: hidden;
-}
-#intro-scene:not(.active) {
-  display: none !important;
 }
 
 .click-e-bird-title {
   position: relative;
   font-family: 'Inter', sans-serif;
   font-weight: 900;
-  font-size: clamp(2rem, 10vw, 5.5rem);
+  font-size: clamp(2.5rem, 12vw, 6rem);
   letter-spacing: -2px;
-  padding: 3rem 6rem;
+  padding: 4rem 8rem;
   color: #000;
   text-transform: uppercase;
-  user-select: none;
-  pointer-events: none;
   z-index: 100;
-  margin-bottom: 2rem;
+  margin-bottom: 0;
   transform: rotate(-1.5deg);
 }
 
-/* Isolated Tape Background - No filter leakage! */
 .click-e-bird-title::before {
   content: "";
   position: absolute;
   inset: 0;
   background: url('/tape-masking-ref.png') no-repeat center center;
   background-size: 100% 100%;
-  filter: sepia(1) saturate(10) hue-rotate(-20deg) brightness(1.0) drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+  filter: sepia(1) saturate(10) hue-rotate(-20deg) brightness(1.0);
   z-index: -1;
 }
 
 .click-e-bird-title span {
   display: inline-block;
-  /* GUARANTEED GREEN IN THE BLACK (EXPLICIT HEX #009b3a) */
   background: linear-gradient(to bottom, #000 0%, #000 40%, #009b3a 41%, #009b3a 59%, #000 60%, #000 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -116,17 +100,13 @@ html, body {
 }
 
 .doctor-bird.origami {
-  width: clamp(250px, 50vw, 400px);
+  width: clamp(250px, 50vw, 450px);
   height: auto;
   cursor: pointer;
-  z-index: 10;
+  z-index: 50; 
+  margin-top: -3rem; /* Tucked slightly up behind the tape */
   transition: transform 0.3s ease;
-  filter: drop-shadow(0 15px 25px rgba(0,0,0,0.25));
-  /* Centered perfectly relative to the viewport/scene */
-  position: absolute;
-  top: 55%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.35));
   /* 3D Flight Path */
   animation: fly3D 12s ease-in-out infinite;
   transform-style: preserve-3d;
