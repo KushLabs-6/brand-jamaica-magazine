@@ -6,7 +6,7 @@
     <title>Brand Jamaica Magazine</title>
     <!-- Modern Typography -->
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:wght@300;600;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./style.css?v=origami-v1">
+    <link rel="stylesheet" href="./style.css?v=doctor-bird-v1">
     <!-- PayPal SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
   </head>
@@ -18,28 +18,37 @@
       <!-- Doctor Bird Intro Screen -->
       <div id="intro-scene" class="scene active">
         <div class="click-e-bird-title"><span>CLICK E BIRD</span></div>
-        <svg id="btn-start" class="doctor-bird origami" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+        <svg id="btn-start" class="doctor-bird origami" viewBox="0 0 150 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="birdGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#009b3a;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#004b1c;stop-opacity:1" />
+            </linearGradient>
+          </defs>
           <g transform="translate(10, 10)">
             <!-- Body -->
-            <path d="M60 40 L90 60 L60 80 L50 60 Z" fill="#009b3a"/>
+            <path d="M60 40 L90 55 L65 75 L50 60 Z" fill="url(#birdGrad)"/>
             <!-- Head -->
-            <path d="M60 40 L75 30 L85 45 Z" fill="#000"/>
-            <!-- Beak -->
-            <path d="M75 30 L110 20 L80 35 Z" fill="#111"/>
-            <!-- Tail Streamers -->
-            <path d="M50 60 L30 110 L45 100 L40 140 L55 105 L60 80 Z" fill="#000"/>
-            <path d="M55 70 L20 120 L40 110 L30 150 L50 115 L60 80 Z" fill="#111"/>
+            <path d="M60 40 L70 30 L80 40 Z" fill="#000"/>
+            <!-- Iconic Needle Beak -->
+            <path d="M70 30 L130 20 L75 35 Z" fill="#111"/>
+            
+            <!-- Long Swallowtail Streamers -->
+            <g class="bird-tail-streamers">
+              <path d="M55 70 L25 180 L45 170 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 70 L55 195 L70 185 Z" fill="#111" opacity="0.8"/>
+            </g>
             
             <!-- Wing Left (Animated) -->
             <g class="bird-wing-l">
-              <path d="M60 45 L10 10 L40 40 Z" fill="#000" opacity="0.9"/>
-              <path d="M60 45 L25 5 L45 35 Z" fill="#222" opacity="0.7"/>
+              <path d="M60 45 L15 5 L45 35 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 45 L5 25 L40 45 Z" fill="#222" opacity="0.7"/>
             </g>
             
             <!-- Wing Right (Animated) -->
             <g class="bird-wing-r">
-              <path d="M60 45 L110 10 L80 40 Z" fill="#000" opacity="0.9"/>
-              <path d="M60 45 L95 5 L75 35 Z" fill="#222" opacity="0.7"/>
+              <path d="M60 45 L105 5 L75 35 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 45 L115 25 L80 45 Z" fill="#222" opacity="0.7"/>
             </g>
           </g>
         </svg>
@@ -162,6 +171,6 @@
       </div>
     </div>
     
-    <script type="module" src="/main.js?v=origami-v1"></script>
+    <script type="module" src="/main.js?v=doctor-bird-v1"></script>
   </body>
 </html>
