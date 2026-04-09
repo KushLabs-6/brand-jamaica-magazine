@@ -20,14 +20,14 @@ html, body {
   margin: 0 !important;
   padding: 0 !important;
   color: #2a1a00;
-  /* DEFINITIVE CARTOONISH/GRAPHIC PAPER TEXTURE */
+  /* HIGH-CONTRAST CARTOONISH GRAPHIC PAPER */
   background: #fdfaf3 !important;
   background-image: 
-    linear-gradient(rgba(0,0,0,.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,.04) 1px, transparent 1px),
-    linear-gradient(rgba(0,0,0,.02) 2px, transparent 2px),
-    linear-gradient(90deg, rgba(0,0,0,.02) 2px, transparent 2px);
-  background-size: 50px 50px, 50px 50px, 5px 5px, 5px 5px;
+    linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px),
+    linear-gradient(rgba(0,0,0,0.05) 5px, transparent 5px),
+    linear-gradient(90deg, rgba(0,0,0,0.05) 5px, transparent 5px);
+  background-size: 100px 100px, 100px 100px, 10px 10px, 10px 10px;
   background-position: center;
 }
 
@@ -103,8 +103,8 @@ html, body {
 
 .click-e-bird-title span {
   display: inline-block;
-  /* DEFINITIVE GREEN IN THE BLACK (Vertical) */
-  background: linear-gradient(to bottom, #000 0%, #000 40%, var(--green) 40%, var(--green) 60%, #000 60%, #000 100%);
+  /* GUARANTEED GREEN IN THE BLACK (EXPLICIT HEX #009b3a) */
+  background: linear-gradient(to bottom, #000 0%, #000 40%, #009b3a 40%, #009b3a 60%, #000 60%, #000 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
