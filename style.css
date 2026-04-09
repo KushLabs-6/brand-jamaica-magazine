@@ -178,10 +178,18 @@ html, body {
 }
 
 /* ---- CONTROLS & NAV BUTTONS ---- */
-.controls {
+.carousel-controls {
   display: flex;
   gap: 1rem;
-  margin: 2rem 0 1rem;
+  margin: 1.5rem 0 0.5rem;
+  justify-content: center;
+  z-index: 10;
+}
+
+.feature-controls {
+  display: flex;
+  gap: 1rem;
+  margin: 0.5rem 0 1rem;
   flex-wrap: wrap;
   justify-content: center;
   z-index: 10;
