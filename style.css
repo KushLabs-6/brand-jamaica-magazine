@@ -20,13 +20,13 @@ html, body {
   margin: 0 !important;
   padding: 0 !important;
   color: #2a1a00;
-  /* BOLD CARTOONISH/GRAPHIC PAPER TEXTURE */
+  /* BOLD CARTOONISH/GRAPHIC PAPER TEXTURE - HIGH VISIBILITY */
   background: #fdfaf3 !important;
   background-image: 
-    linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px),
-    repeating-linear-gradient(45deg, rgba(0,0,0,0.03) 0, rgba(0,0,0,0.03) 1px, transparent 1px, transparent 15px);
-  background-size: 80px 80px, 80px 80px, 20px 20px;
+    linear-gradient(rgba(0,0,0,0.15) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, rgba(0,0,0,0.15) 1.5px, transparent 1.5px),
+    repeating-linear-gradient(45deg, rgba(0,0,0,0.05) 0, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 10px);
+  background-size: 100px 100px, 100px 100px, 20px 20px;
   background-position: center;
 }
 
@@ -47,13 +47,15 @@ html, body {
 /* ---- SCENE SYSTEM ---- */
 .scene {
   display: none;
+  position: relative;
   width: 100vw !important;
   height: 100vh !important;
   max-width: none !important;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding-top: 1.5rem;
+  justify-content: center; /* Center everything */
+  padding: 0 !important;
+}
   position: relative;
   z-index: 1;
 }
@@ -409,12 +411,12 @@ html, body {
   cursor: pointer;
   z-index: 10;
   transition: transform 0.3s ease;
-  filter: drop-shadow(0 15px 25px rgba(0,0,0,0.2));
-  /* Absolute Centering behind the instructional tape */
+  filter: drop-shadow(0 15px 25px rgba(0,0,0,0.25));
+  /* Centered perfectly relative to the viewport/scene */
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
-  transform: translate(-50%, -30%);
+  transform: translate(-50%, -50%);
 }
 
 .social-icon {
