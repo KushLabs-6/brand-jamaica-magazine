@@ -3,18 +3,18 @@ import { PageFlip } from 'page-flip';
 document.addEventListener('DOMContentLoaded', async () => {
     
     let metadata = null;
+    let pageFlip = null;
     
     // Function to safely encode image paths (handling spaces/backticks)
     const encodePath = (path) => {
         return path.split('/').map(segment => encodeURIComponent(segment)).join('/');
     };
     
-    // Attempt to load the static metadata map (crucial for GitHub Pages / Standalone)
+    // Attempt to load the static metadata map
     try {
         const metaRes = await fetch('./metadata.json');
         if (metaRes.ok) {
             metadata = await metaRes.json();
-            console.log('Using static metadata:', metadata);
         } else {
             throw new Error('Metadata not found');
         }
@@ -35,7 +35,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (logoSrc) {
             const logoContainer = document.getElementById('logo-container');
-            // USE ENCODED PATH for the logo
             logoContainer.innerHTML = `<img src="${encodePath(logoSrc)}" alt="Brand Jamaica Logo" style="max-height: 120px; object-fit: contain; margin-bottom: 20px;" />`;
         }
     } catch(e) {
@@ -49,7 +48,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const items = document.querySelectorAll('.carousel-item');
     
     let currentAngle = 0;
-    const itemAngle = 120; // 3 items = 360 / 3
+    const itemAngle = 120;
 
     if (btnNext && btnPrev && carousel) {
         btnNext.addEventListener('click', () => {
@@ -68,19 +67,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     const magazineScene = document.getElementById('magazine-scene');
     const btnBack = document.getElementById('btn-back');
     const bookContainerEl = document.getElementById('book');
-    
-    let pageFlip = null;
+    const bookWrapper = document.querySelector('.book-container');
 
     items.forEach(item => {
-        item.addEventListener('click', () => {
+        item.addEventListener('click', async () => {
             const volumeId = item.getAttribute('data-volume');
-            loadMagazine(volumeId);
             
-            // Switch Scenes
+            // Switch Scenes FIRST
             carouselScene.classList.remove('active');
-            setTimeout(() => {
-                magazineScene.classList.add('active');
-            }, 600);
+            magazineScene.classList.add('active');
+            
+            // WAIT for the transition (0.6s) so dimensions are stable
+            await new Promise(r => setTimeout(r, 650));
+            
+            // THEN load and initialize
+            await loadMagazine(volumeId);
         });
     });
 
@@ -89,7 +90,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             magazineScene.classList.remove('active');
             setTimeout(() => {
                 carouselScene.classList.add('active');
-                // Destroy book to free memory
                 if(pageFlip) {
                     pageFlip.destroy();
                     pageFlip = null;
@@ -99,28 +99,42 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // --- 3. PAGE FLIP (MAGAZINE) LOGIC ---
-    async function loadMagazine(volumeId) {
+    // Handle Window Resize to update flip
+    window.addEventListener('resize', () => {
+        if (pageFlip) {
+            // Re-calculate responsiveness settings
+            const dims = getResponsiveDimensions();
+            pageFlip.updateElementStyles(dims.width, dims.height);
+        }
+    });
+
+    function getResponsiveDimensions() {
+        // Calculate based on window size
+        const winW = window.innerWidth;
+        const winH = window.innerHeight;
         
+        let width = 450;
+        let height = 600;
+        
+        if (winW < 1000) {
+            width = winW * 0.42;
+            height = width * 1.33;
+        }
+        
+        return { width, height };
+    }
+
+    // --- 3. PAGE FLIP LOGIC ---
+    async function loadMagazine(volumeId) {
         let coverImage = '';
-        let title = '';
         let contentPages = '';
 
-        // Base cover images (should be consistent)
-        if(volumeId === '1') {
-            coverImage = './cover-culture.png';
-            title = 'Vol 1: The Culture';
-        } else if(volumeId === '2') {
-            coverImage = './cover-cuisine.png';
-            title = 'Vol 2: The Flavor';
-        } else {
-            coverImage = './cover-landscape.png';
-            title = 'Vol 3: The Landscape';
-        }
+        if(volumeId === '1') coverImage = './cover-culture.png';
+        else if(volumeId === '2') coverImage = './cover-cuisine.png';
+        else coverImage = './cover-landscape.png';
 
         let pagesToLoad = [];
 
-        // Check metadata first (Production/Static Mode)
         if (metadata && metadata.issues) {
             const issueKey = `volume_${volumeId}`;
             if (metadata.issues[issueKey]) {
@@ -128,80 +142,47 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         } 
         
-        // If metadata is empty, try the API (Dev Mode)
         if (pagesToLoad.length === 0) {
             try {
                 const apiRes = await fetch(`./api/issues/${volumeId}`);
                 const data = await apiRes.json();
                 pagesToLoad = data.pages || [];
-            } catch(e) {
-                console.warn('Could not connect to local dynamic API', e);
-            }
+            } catch(e) {}
         }
 
-        // Generate the HTML for the pages
         if (pagesToLoad.length > 0) {
             pagesToLoad.forEach((filename, index) => {
-                // ENCODE FILENAME to handle spaces or special characters
                 const safeUrl = encodePath(`/issues/volume_${volumeId}/${filename}`);
                 contentPages += `
                 <div class="page page-cover">
-                    <div class="page-content" style="padding:0; background: #fff;">
-                         <img src="${safeUrl}" alt="Page ${index + 1}" style="width:100%; height:100%; object-fit:fill; display:block;">
+                    <div class="page-content" style="padding:0; background: white; display: flex; align-items: center; justify-content: center;">
+                         <img src="${safeUrl}" alt="Page ${index + 1}" style="max-width:100%; max-height:100%; object-fit:contain; display:block;">
                     </div>
                 </div>`;
             });
         }
 
-        // If no dynamic pages were found, inject our default mock content!
-        if (!contentPages) {
-            if(volumeId === '1') {
-                contentPages = `
-                    <div class="page">
-                        <div class="page-content">
-                            <div class="page-title">The Heartbeat</div>
-                            <div class="page-subtitle">Origins of Reggae</div>
-                            <div class="scrap-image-container">
-                                <img src="./cover-culture.png" alt="Culture">
-                                <div class="tape"></div>
-                            </div>
-                            <p class="page-text">Reggae is not just music. It carries the spirit of love and unity.<br/><br/>Explore the <span class="interactive-hover" data-preview-img="./cover-culture.png" data-preview-title="Watch: Bob Marley Documentary" data-preview-desc="A brief look into the legend.">early days of Bob Marley</span>.</p>
-                            <div class="page-number right">1</div>
-                        </div>
-                    </div>
-                `;
-            } else {
-                 contentPages = `
-                    <div class="page">
-                        <div class="page-content">
-                            <div class="page-title">Issue Ongoing</div>
-                            <p class="page-text">Content is being curated for this issue. Check back soon!</p>
-                        </div>
-                    </div>
-                `;
-            }
-        }
-
-        // Build DOM structure for the book
+        // Final Book HTML
         bookContainerEl.innerHTML = `
             <div class="page page-cover hard">
                 <div class="page-content" style="padding:0;">
-                    <img src="${coverImage}" alt="Cover">
+                    <img src="${coverImage}" alt="Cover" style="width:100%; height:100%; object-fit:cover;">
                 </div>
             </div>
             ${contentPages}
             <div class="page page-cover hard">
-                <div class="page-content" style="align-items:center; justify-content:center;">
-                    <h2>Thank You for Reading</h2>
+                <div class="page-content" style="align-items:center; justify-content:center; background:#eee;">
+                    <h2>Thank You</h2>
                     <p>Brand Jamaica Magazine</p>
                 </div>
             </div>
         `;
 
-        // Initialize PageFlip with premium, slower, more elegant animation
+        const dims = getResponsiveDimensions();
+
         pageFlip = new PageFlip(bookContainerEl, {
-            width: 450, 
-            height: 600, 
+            width: dims.width, 
+            height: dims.height, 
             size: "stretch",
             minWidth: 315,
             maxWidth: 1000,
@@ -210,37 +191,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             showCover: true,
             mobileScrollSupport: true,
             drawShadow: true,
-            flippingTime: 1200, // Slower, more 'expensive' feel
-            usePortrait: true,
+            flippingTime: 1200,
+            usePortrait: false, // Double spread look
             maxShadowOpacity: 0.8,
-            showPageCorners: true, // Allow user to peel corners
+            showPageCorners: true,
             swipeDistance: 50,
             clickEventForward: true
         });
 
         pageFlip.loadFromHTML(document.querySelectorAll('.page'));
-        setupHoverPreviews();
-    }
-
-    function setupHoverPreviews() {
-        const hoverElements = document.querySelectorAll('.interactive-hover');
-        const previewEl = document.getElementById('hover-preview');
-        const previewContent = previewEl?.querySelector('.preview-content');
-
-        if (!previewEl || !previewContent) return;
-
-        hoverElements.forEach(el => {
-            el.addEventListener('mouseenter', (e) => {
-                const imgSrc = el.getAttribute('data-preview-img');
-                const title = el.getAttribute('data-preview-title');
-                const desc = el.getAttribute('data-preview-desc');
-                previewContent.innerHTML = `<img src="${imgSrc}" alt="${title}"><h4>${title}</h4><p>${desc}</p>`;
-                const rect = el.getBoundingClientRect();
-                previewEl.style.left = (rect.left + (rect.width/2)) + 'px';
-                previewEl.style.top = rect.top + 'px';
-                previewEl.classList.add('active');
-            });
-            el.addEventListener('mouseleave', () => { previewEl.classList.remove('active'); });
-        });
     }
 });
