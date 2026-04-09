@@ -6,7 +6,7 @@
     <title>Brand Jamaica Magazine</title>
     <!-- Modern Typography -->
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:wght@300;600;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./style.css?v=origami-v1">
     <!-- PayPal SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
   </head>
@@ -18,7 +18,31 @@
       <!-- Doctor Bird Intro Screen -->
       <div id="intro-scene" class="scene active">
         <div class="click-e-bird-title"><span>CLICK E BIRD</span></div>
-        <img id="btn-start" class="doctor-bird" src="/bird-real.png" alt="Doctor Bird">
+        <svg id="btn-start" class="doctor-bird origami" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(10, 10)">
+            <!-- Body -->
+            <path d="M60 40 L90 60 L60 80 L50 60 Z" fill="#009b3a"/>
+            <!-- Head -->
+            <path d="M60 40 L75 30 L85 45 Z" fill="#000"/>
+            <!-- Beak -->
+            <path d="M75 30 L110 20 L80 35 Z" fill="#111"/>
+            <!-- Tail Streamers -->
+            <path d="M50 60 L30 110 L45 100 L40 140 L55 105 L60 80 Z" fill="#000"/>
+            <path d="M55 70 L20 120 L40 110 L30 150 L50 115 L60 80 Z" fill="#111"/>
+            
+            <!-- Wing Left (Animated) -->
+            <g class="bird-wing-l">
+              <path d="M60 45 L10 10 L40 40 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 45 L25 5 L45 35 Z" fill="#222" opacity="0.7"/>
+            </g>
+            
+            <!-- Wing Right (Animated) -->
+            <g class="bird-wing-r">
+              <path d="M60 45 L110 10 L80 40 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 45 L95 5 L75 35 Z" fill="#222" opacity="0.7"/>
+            </g>
+          </g>
+        </svg>
       </div>
       
       <!-- Landing 3D Carousel Selection Scene -->
@@ -138,6 +162,6 @@
       </div>
     </div>
     
-    <script type="module" src="/main.js"></script>
+    <script type="module" src="/main.js?v=origami-v1"></script>
   </body>
 </html>

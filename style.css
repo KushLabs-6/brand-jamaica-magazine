@@ -16,9 +16,9 @@ html, body {
   height: 100%;
   font-family: 'Inter', sans-serif;
   overflow: hidden;
-  background-color: #fff;
-  /* EXTREMELY crushed white paper texture - as per user link */
-  background-image: url('https://images.unsplash.com/photo-1542332213-31f87348057f?auto=format&fit=crop&w=1920&q=80');
+  background-color: #ffffff !important;
+  /* EXTREMELY crushed white paper texture - forced refresh */
+  background-image: url('https://images.unsplash.com/photo-1542332213-31f87348057f?auto=format&fit=crop&w=1920&q=80') !important;
   background-size: cover;
   background-position: center;
   color: #2a1a00;
@@ -111,7 +111,7 @@ html, body {
   text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
-.doctor-bird {
+.doctor-bird.origami {
   position: absolute;
   width: 40vw; 
   max-width: 600px;
@@ -119,36 +119,47 @@ html, body {
   height: auto;
   z-index: 100;
   cursor: pointer;
-  /* Multiply blend removes white background on light surface */
-  mix-blend-mode: multiply;
-  /* Soft masking to hide JPEG corners and allow 3D depth layering */
-  mask-image: radial-gradient(circle at center, black 60%, transparent 80%);
-  -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 80%);
-  filter: contrast(1.2) brightness(1.1);
   /* 3D Flight Path */
-  animation: fly3D 10s ease-in-out infinite;
+  animation: fly3D 12s ease-in-out infinite;
   transform-style: preserve-3d;
   will-change: transform;
+  filter: drop-shadow(0 20px 25px rgba(0,0,0,0.15));
+}
+
+.bird-wing-l {
+  transform-origin: 65px 30px;
+  animation: flapL 0.2s infinite alternate ease-in-out;
+}
+.bird-wing-r {
+  transform-origin: 65px 30px;
+  animation: flapR 0.2s infinite alternate ease-in-out;
+}
+
+@keyframes flapL {
+  from { transform: rotateY(0deg) rotateZ(0deg); }
+  to { transform: rotateY(-70deg) rotateZ(20deg); }
+}
+@keyframes flapR {
+  from { transform: rotateY(0deg) rotateZ(0deg); }
+  to { transform: rotateY(70deg) rotateZ(-20deg); }
+}
+
+@keyframes fly3D {
+  0%   { transform: translate3d(-30vw, -10vh, 0px) rotateY(10deg) rotateX(5deg); }
+  25%  { transform: translate3d(15vw, 15vh, 150px) rotateY(-20deg) rotateX(-10deg); }
+  50%  { transform: translate3d(35vw, -20vh, 300px) rotateY(-180deg) rotateX(15deg); }
+  75%  { transform: translate3d(-15vw, 25vh, 100px) rotateY(-210deg) rotateX(-5deg); }
+  100% { transform: translate3d(-30vw, -10vh, 0px) rotateY(-350deg) rotateX(5deg); }
 }
 
 .doctor-bird.fly-away {
-  animation: flyAway 0.8s ease-in forwards !important;
+  animation: flyAway 1.2s ease-in forwards !important;
   pointer-events: none;
-}
-
-
-
-@keyframes fly3D {
-  0%   { transform: translate3d(-40vw, -20vh, -100px) rotateY(0deg) rotateX(10deg); }
-  25%  { transform: translate3d(20vw, 10vh, 100px) rotateY(20deg) rotateX(-5deg); z-index: 3; }
-  50%  { transform: translate3d(40vw, -30vh, 300px) rotateY(180deg) rotateX(15deg); }
-  75%  { transform: translate3d(-10vw, 30vh, 50px) rotateY(200deg) rotateX(-10deg); z-index: 1; }
-  100% { transform: translate3d(-40vw, -20vh, -100px) rotateY(360deg) rotateX(10deg); }
 }
 
 @keyframes flyAway {
   to {
-    transform: translate3d(100vw, -100vh, 500px) rotateY(720deg) scale(0);
+    transform: translate3d(120vw, -120vh, 800px) rotateY(1440deg) scale(0);
     opacity: 0;
   }
 }
