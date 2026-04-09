@@ -5,8 +5,19 @@ window.showScene = (sceneId) => {
     document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
     const target = document.getElementById(sceneId);
     if (target) target.classList.add('active');
-    if (sceneId === 'events-scene') loadEvents();
-    if (sceneId === 'shop-scene') initPayPal();
+    if (sceneId === 'events-scene') window.loadEvents?.();
+    if (sceneId === 'shop-scene') window.initPayPal?.();
+};
+
+// Global volume opener - called from inline onclick
+window.openVolume = async (volumeId) => {
+    const carouselScene = document.getElementById('carousel-scene');
+    const magazineScene = document.getElementById('magazine-scene');
+    if (!carouselScene || !magazineScene) return;
+    carouselScene.classList.remove('active');
+    magazineScene.classList.add('active');
+    await new Promise(r => setTimeout(r, 700));
+    if (window._loadMagazine) await window._loadMagazine(String(volumeId));
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -171,6 +182,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         pageFlip.loadFromHTML(document.querySelectorAll('.page'));
     }
+
+    // Expose loadMagazine globally for openVolume() onclick handler
+    window._loadMagazine = loadMagazine;
 
     // --- 5. EVENTS ---
     window.loadEvents = async function() {
