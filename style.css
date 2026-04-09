@@ -119,8 +119,11 @@ html, body {
   height: auto;
   z-index: 100;
   cursor: pointer;
-  /* Remove white background aggressively */
+  /* Multiply blend removes white background on light surface */
   mix-blend-mode: multiply;
+  /* Soft masking to hide JPEG corners and allow 3D depth layering */
+  mask-image: radial-gradient(circle at center, black 60%, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 80%);
   filter: contrast(1.2) brightness(1.1);
   /* 3D Flight Path */
   animation: fly3D 10s ease-in-out infinite;
@@ -136,11 +139,11 @@ html, body {
 
 
 @keyframes fly3D {
-  0%   { transform: translate3d(-40vw, -20vh, 0px) rotateY(0deg) rotateX(10deg); }
-  25%  { transform: translate3d(20vw, 10vh, 100px) rotateY(20deg) rotateX(-5deg); }
-  50%  { transform: translate3d(40vw, -30vh, 200px) rotateY(180deg) rotateX(15deg); }
-  75%  { transform: translate3d(-10vw, 30vh, 50px) rotateY(200deg) rotateX(-10deg); }
-  100% { transform: translate3d(-40vw, -20vh, 0px) rotateY(360deg) rotateX(10deg); }
+  0%   { transform: translate3d(-40vw, -20vh, -100px) rotateY(0deg) rotateX(10deg); }
+  25%  { transform: translate3d(20vw, 10vh, 100px) rotateY(20deg) rotateX(-5deg); z-index: 3; }
+  50%  { transform: translate3d(40vw, -30vh, 300px) rotateY(180deg) rotateX(15deg); }
+  75%  { transform: translate3d(-10vw, 30vh, 50px) rotateY(200deg) rotateX(-10deg); z-index: 1; }
+  100% { transform: translate3d(-40vw, -20vh, -100px) rotateY(360deg) rotateX(10deg); }
 }
 
 @keyframes flyAway {
