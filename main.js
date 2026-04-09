@@ -22,6 +22,22 @@ window.openVolume = async (volumeId) => {
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // --- 0. AWGE INTRO SCREEN ---
+    const btnStart = document.getElementById('btn-start');
+    const introScene = document.getElementById('intro-scene');
+    const carouselScene = document.getElementById('carousel-scene');
+    const magazineScene = document.getElementById('magazine-scene');
+    
+    if (btnStart && introScene) {
+        btnStart.addEventListener('click', () => {
+            // Glitch effect on click
+            introScene.style.animation = 'glitch-color 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both 3';
+            setTimeout(() => {
+               introScene.classList.remove('active');
+               carouselScene.classList.add('active');
+            }, 600); // Wait for the "flash"
+        });
+    }
 
     let metadata = null;
     let pageFlip = null;
@@ -61,8 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // --- 3. OPEN MAGAZINE ---
-    const carouselScene = document.getElementById('carousel-scene');
-    const magazineScene = document.getElementById('magazine-scene');
+    // Scenes already initialized at the top of DOMContentLoaded
     const btnBack = document.getElementById('btn-back');
     const bookEl = document.getElementById('book');
 
