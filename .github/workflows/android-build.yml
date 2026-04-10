@@ -28,7 +28,6 @@ jobs:
       - name: Build Android App (Docker Sandbox)
         run: |
           chmod -R 777 ${{ github.workspace }}
-          # Use "yes |" to automatically accept the Android SDK licenses and project regeneration prompts
           docker run --rm \
             -v ${{ github.workspace }}:/app \
             -w /app \
@@ -43,25 +42,20 @@ jobs:
           find . -name "*.apk" -exec mv {} ./Brand-Jamaica-Magazine.apk \; || true
           find . -name "*.aab" -exec mv {} ./Brand-Jamaica-Magazine.aab \; || true
 
-      - name: Final Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v1.0.${{ github.run_number }}
-          name: Brand Jamaica Magazine v1.0.${{ github.run_number }}
-          draft: false
-          prerelease: false
-          files: |
-            Brand-Jamaica-Magazine.apk
-            Brand-Jamaica-Magazine.aab
-          fail_on_unmatched_files: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit Logs for Agent
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git pull origin main || true
+          git add debug_build_docker.log debug_files_docker.log
+          git commit -m "Upload Debug Logs from Docker Sandbox" || true
+          git push
 
-      - name: Upload Debug Artifacts (If Failed)
-        if: failure()
+      - name: Upload APK directly to Workflow Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: Debug-Logs-and-Outputs
+          name: Brand-Jamaica-Android-App
           path: |
-            debug_*.log
+            Brand-Jamaica-Magazine.apk
+            Brand-Jamaica-Magazine.aab
           retention-days: 5
