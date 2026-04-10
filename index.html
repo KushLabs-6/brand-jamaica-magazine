@@ -62,9 +62,12 @@
         position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto; 
         width: clamp(350px, 45vw, 480px); height: 260px;
         z-index: 50; animation: flyDynamic 15s cubic-bezier(0.4, 0, 0.2, 1) infinite; transform-style: preserve-3d;
+        cursor: pointer; touch-action: manipulation;
       }
       .doctor-bird.origami { 
         width: 100%; height: auto; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6));
+        cursor: pointer; touch-action: manipulation; pointer-events: all;
+        -webkit-tap-highlight-color: transparent;
       }
 
       /* SVG Interior Animations (RESTORED) */

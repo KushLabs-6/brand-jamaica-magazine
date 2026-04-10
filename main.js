@@ -29,14 +29,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     if (btnStart && introScene) {
         introScene.style.cursor = 'pointer';
-        introScene.addEventListener('click', () => {
-            // Gamified Hummingbird click - bird flies away!
+        introScene.style.touchAction = 'manipulation'; // Prevent double-tap zoom delay on mobile
+        
+        function proceedToCarousel(e) {
+            e.preventDefault();
+            e.stopPropagation();
             btnStart.classList.add('fly-away');
             setTimeout(() => {
                introScene.classList.remove('active');
                carouselScene.classList.add('active');
-            }, 800); // Wait for bird to fly off screen
-        });
+            }, 800);
+        }
+        
+        // Both click (desktop) and touchend (mobile) support
+        introScene.addEventListener('click', proceedToCarousel);
+        introScene.addEventListener('touchend', proceedToCarousel, { passive: false });
+        
+        // Also attach directly to the bird SVG for better mobile hit detection
+        btnStart.addEventListener('click', proceedToCarousel);
+        btnStart.addEventListener('touchend', proceedToCarousel, { passive: false });
     }
 
     let metadata = null;
