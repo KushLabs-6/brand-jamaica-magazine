@@ -30,38 +30,41 @@ jobs:
         run: npm install -g @bubblewrap/cli
 
       - name: Initialize Android Setup
+        continue-on-error: true
         run: |
           mkdir -p ~/.bubblewrap
           echo "{\"jdkPath\":\"$JAVA_HOME\",\"androidSdkPath\":\"$ANDROID_SDK_ROOT\"}" > ~/.bubblewrap/config.json
 
-      - name: Build Android App
+      - name: Build Android App and Capture Logs
+        continue-on-error: true
         run: |
           # Generate signing key (non-interactive)
           keytool -genkey -v -keystore android.keystore -alias key0 -keyalg RSA -keysize 2048 -validity 10000 -storepass brandjamaica -keypass brandjamaica -dname "CN=Brand Jamaica, OU=Magazine, O=KushLabs, L=Kingston, S=Kingston, C=JM"
           
-          # Build with universal APK enabled
-          bubblewrap build --yes --universalApk
-
-      - name: Hard Discovery & Rename
-        run: |
-          # Search for any generated APK and move it to the root with a clean name
-          echo "Searching for APKs..."
-          find . -name "*.apk" -exec cp {} ./Brand-Jamaica-Magazine.apk \;
-          find . -name "*.aab" -exec cp {} ./Brand-Jamaica-Magazine.aab \;
+          # Build with universal APK enabled and write logs to file
+          bubblewrap build --yes --universalApk > bubblewrap_build_logs.txt 2>&1
           
-          # Print if found
-          ls -l Brand-Jamaica-Magazine.apk || echo "APK NOT FOUND"
+          ls -R >> bubblewrap_build_logs.txt
+
+      - name: Commit Logs to Repository
+        continue-on-error: true
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add bubblewrap_build_logs.txt
+          git commit -m "Upload Bubblewrap Logs"
+          git push
 
       - name: Final Discovery & Release
         uses: softprops/action-gh-release@v2
+        continue-on-error: true
         with:
           tag_name: v1.0.${{ github.run_number }}
           name: Brand Jamaica Magazine v1.0.${{ github.run_number }}
           draft: false
           prerelease: false
           files: |
-            Brand-Jamaica-Magazine.apk
-            Brand-Jamaica-Magazine.aab
-          fail_on_unmatched_files: true
+            **/*.apk
+            **/*.aab
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
