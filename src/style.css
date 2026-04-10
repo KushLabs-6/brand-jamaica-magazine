@@ -23,8 +23,8 @@ html, body {
   /* BOLD CARTOONISH/GRAPHIC PAPER TEXTURE - HIGH VISIBILITY GUARANTEED */
   background: #fdfaf3 !important;
   background-image: 
-    linear-gradient(#e0dbcd 2px, transparent 2px),
-    linear-gradient(90deg, #e0dbcd 2px, transparent 2px),
+    linear-gradient(#e6e1d6 2px, transparent 2px),
+    linear-gradient(90deg, #e6e1d6 2px, transparent 2px),
     repeating-linear-gradient(45deg, rgba(0,0,0,0.05) 0, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 12px);
   background-size: 80px 80px, 80px 80px, 24px 24px;
   background-position: center;
@@ -159,9 +159,6 @@ html, body {
   0%   { transform: translate3d(-30vw, -10vh, 0px) rotateY(10deg) rotateX(5deg); }
   25%  { transform: translate3d(15vw, 15vh, 150px) rotateY(-20deg) rotateX(-10deg); }
   50%  { transform: translate3d(35vw, -20vh, 300px) rotateY(-180deg) rotateX(15deg); }
-  75%  { transform: translate3d(-15vw, 25vh, 100px) rotateY(-210deg) rotateX(-5deg); }
-  100% { transform: translate3d(-30vw, -10vh, 0px) rotateY(-350deg) rotateX(5deg); }
-}
   75%  { transform: translate3d(-15vw, 25vh, 100px) rotateY(-210deg) rotateX(-5deg); }
   100% { transform: translate3d(-30vw, -10vh, 0px) rotateY(-350deg) rotateX(5deg); }
 }
