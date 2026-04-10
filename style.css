@@ -1,5 +1,5 @@
 /* =========================================
-   BRAND JAMAICA MAGAZINE 3.0 - THE FINAL FIX
+   BRAND JAMAICA MAGAZINE 3.0 - CLEAN SLATE
    ========================================= */
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:wght@300;600;900&display=swap');
 
@@ -12,23 +12,7 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html, body {
-  height: 100vh !important;
-  width: 100vw !important;
-  font-family: 'Inter', sans-serif;
-  overflow: hidden;
-  margin: 0 !important;
-  padding: 0 !important;
-  color: #2a1a00;
-  background: #fdfaf3 !important;
-  /* BOLD GRAPHIC PAPER TEXTURE */
-  background-image: 
-    linear-gradient(#d0cbb5 2.5px, transparent 2.5px),
-    linear-gradient(90deg, #d0cbb5 2.5px, transparent 2.5px),
-    repeating-linear-gradient(45deg, rgba(0,0,0,0.1) 0, rgba(0,0,0,0.1) 1.5px, transparent 1.5px, transparent 15px);
-  background-size: 80px 80px, 80px 80px, 20px 20px;
-  background-position: center;
-}
+/* The intro styles are now INLINED in index.html for Safe Mode recovery */
 
 #app {
   width: 100vw !important;
@@ -37,121 +21,7 @@ html, body {
   overflow: hidden;
 }
 
-/* ---- SCENE SYSTEM ---- */
-.scene {
-  display: none;
-  position: absolute;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-}
-.scene.active { display: flex; }
-
-/* ---- INTRO SCREEN (TOUCH E BIRD) ---- */
-#intro-scene {
-  background: transparent;
-  z-index: 9999;
-}
-
-.intro-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-.click-e-bird-title {
-  position: relative;
-  font-family: 'Inter', sans-serif;
-  font-weight: 900;
-  font-size: clamp(2.5rem, 12vw, 6rem);
-  letter-spacing: -2px;
-  padding: 4rem 8rem;
-  color: #000;
-  text-transform: uppercase;
-  z-index: 100;
-  transform: rotate(-1.5deg);
-  pointer-events: none;
-}
-
-/* ABSOLUTE GREEN RIBBON - Forced Hex, No Filters */
-.click-e-bird-title span {
-  display: inline-block;
-  background: linear-gradient(to bottom, 
-    #000000 0%, #000000 40%, 
-    #009b3a 41%, #009b3a 59%, 
-    #000000 60%, #000000 100%
-  ) !important;
-  -webkit-background-clip: text !important;
-  background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  color: transparent !important;
-  /* CRITICAL: No filters on children */
-}
-
-/* THE YELLOW TAPE - Physically Separate Layer */
-.tape-masking-bg {
-  position: absolute;
-  inset: 0;
-  background: url('/tape-masking-ref.png') no-repeat center center;
-  background-size: 100% 100%;
-  filter: sepia(1) saturate(10) hue-rotate(-20deg) brightness(1.0);
-  z-index: 90; /* Behind the title (100) */
-  transform: rotate(-1.5deg);
-  pointer-events: none;
-}
-
-.doctor-bird.origami {
-  width: clamp(350px, 60vw, 550px);
-  height: auto;
-  cursor: pointer;
-  z-index: 50; 
-  /* Place perfectly behind the tape/text container */
-  position: absolute;
-  top: 55%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: transform 0.3s ease;
-  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3));
-  animation: fly3D 12s ease-in-out infinite;
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
-/* SVG Interior Animations */
-.bird-wing-l { transform-origin: 65px 55px; animation: flapL 0.15s infinite alternate ease-in-out; }
-.bird-wing-r { transform-origin: 65px 55px; animation: flapR 0.15s infinite alternate ease-in-out; }
-.bird-tail-streamers { transform-origin: 60px 80px; animation: swayTail 2.5s infinite alternate ease-in-out; }
-.bird-leg { transform-origin: 60px 75px; animation: tuckLegs 3s infinite ease-in-out; }
-
-@keyframes tuckLegs { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-10deg) translateY(-2px); } }
-@keyframes swayTail { from { transform: rotate(-8deg); } to { transform: rotate(8deg); } }
-@keyframes flapL { from { transform: rotateY(0deg) rotateZ(0deg); } to { transform: rotateY(-85deg) rotateZ(25deg); } }
-@keyframes flapR { from { transform: rotateY(0deg) rotateZ(0deg); } to { transform: rotateY(85deg) rotateZ(-25deg); } }
-
-@keyframes fly3D {
-  0%   { transform: translate3d(-30vw, -10vh, 0px) rotateY(10deg); }
-  25%  { transform: translate3d(15vw, 15vh, 150px) rotateY(-20deg); }
-  50%  { transform: translate3d(35vw, -10vh, 300px) rotateY(-180deg); }
-  75%  { transform: translate3d(-15vw, 20vh, 100px) rotateY(-210deg); }
-  100% { transform: translate3d(-30vw, -10vh, 0px) rotateY(-360deg); }
-}
-
-.doctor-bird.fly-away {
-  animation: flyAway 1.2s ease-in forwards !important;
-  pointer-events: none;
-}
-
-@keyframes flyAway {
-  to { transform: translate3d(120vw, -120vh, 800px) rotateY(1440deg) scale(0); opacity: 0; }
-}
-
-/* ---- CAROUSEL & HUB STYLES (Cleaned) ---- */
+/* CAROUSEL & HUB STYLES */
 .header-elements { text-align: center; margin-bottom: 2rem; }
 .magazine-title { 
   font-family: 'Inter', sans-serif; font-weight: 900; font-size: 4rem; letter-spacing: -2px;
@@ -159,25 +29,19 @@ html, body {
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
   transform: rotate(-1deg); display: inline-block;
 }
-.tape-separator {
-  width: 160px; height: 25px; background: rgba(254, 209, 0, 0.7);
-  margin: -10px auto; transform: rotate(-3deg); mix-blend-mode: hard-light;
-}
 
+#carousel-scene { overflow: visible; }
 .carousel-container { width: 100%; height: 400px; perspective: 1500px; display: flex; align-items: center; justify-content: center; margin-top: 2rem; }
 .carousel { width: 260px; height: 360px; position: relative; transform-style: preserve-3d; transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1); }
 .carousel-item { position: absolute; width: 260px; height: 360px; left: 0; top: 0; transform: rotateY(var(--rotation)) translateZ(330px); cursor: pointer; }
 .cover-wrapper { background: white; padding: 10px 10px 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: transform 0.3s ease; }
-.carousel-item:hover .cover-wrapper { transform: translateY(-20px); }
 .cover-wrapper img { width: 100%; height: 280px; object-fit: cover; }
 
 .scrap-button { background: #000; color: #fff; border: none; padding: 12px 24px; font-weight: 700; cursor: pointer; text-transform: uppercase; box-shadow: 4px 4px 0 #5a3e1b; }
-.scrap-button:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #5a3e1b; }
 .hub-nav-btn { background: var(--green); }
 
-.social-links { display: flex; gap: 2rem; margin-top: 3rem; padding: 1rem 3rem; background: rgba(255,255,255,0.3); backdrop-filter: blur(10px); border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+.social-links { display: flex; gap: 2rem; margin-top: 3rem; padding: 1rem 3rem; background: rgba(255,255,255,0.3); backdrop-filter: blur(10px); border-radius: 50px; }
 .social-icon { width: 35px; height: 35px; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-.social-icon:hover { transform: scale(1.4) translateY(-5px); }
 
 /* Reader */
 #magazine-scene { background: rgba(0,0,0,0.9); display: none; }
@@ -186,6 +50,4 @@ html, body {
 
 @media (max-width: 768px) {
   .magazine-title { font-size: 2.2rem; }
-  .click-e-bird-title { font-size: 3rem; padding: 2rem 4rem; }
-  .doctor-bird.origami { width: 85vw; }
 }
