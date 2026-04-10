@@ -29,19 +29,21 @@ jobs:
       - name: Install Bubblewrap CLI
         run: npm install -g @bubblewrap/cli
 
-      - name: Initialize Android Setup
+      - name: Configure Bubblewrap
         run: |
-          mkdir -p ~/.bubblewrap
-          echo "{\"jdkPath\":\"$JAVA_HOME\",\"androidSdkPath\":\"$ANDROID_HOME\"}" > ~/.bubblewrap/config.json
+          # Explicitly set paths for the CI environment
+          bubblewrap updateConfig --jdkPath="$JAVA_HOME" --androidSdkPath="$ANDROID_SDK_ROOT"
 
       - name: Build Android App
-        id: build_step
         run: |
           # Generate signing key (non-interactive)
           keytool -genkey -v -keystore android.keystore -alias key0 -keyalg RSA -keysize 2048 -validity 10000 -storepass brandjamaica -keypass brandjamaica -dname "CN=Brand Jamaica, OU=Magazine, O=KushLabs, L=Kingston, S=Kingston, C=JM"
           
-          # Build with universal APK enabled
-          bubblewrap build --yes --universalApk
+          # Build with universal APK enabled and verbose logging
+          bubblewrap build --yes --universalApk --verbose
+
+      - name: List Files (Debug)
+        run: ls -R
 
       - name: Final Discovery & Release
         uses: softprops/action-gh-release@v2
