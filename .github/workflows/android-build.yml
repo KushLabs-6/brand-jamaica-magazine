@@ -33,22 +33,22 @@ jobs:
             -w /app \
             -e BUBBLEWRAP_KEYSTORE_PASSWORD=brandjamaica \
             -e BUBBLEWRAP_KEY_PASSWORD=brandjamaica \
-            ghcr.io/googlechromelabs/bubblewrap:latest build --yes --universalApk
+            ghcr.io/googlechromelabs/bubblewrap:latest build --yes --universalApk > debug_build.log 2>&1 || true
+          
+          ls -laR > debug_files.log
 
       - name: Hard Discovery & Rename
         run: |
-          echo "Searching for APKs..."
-          find . -name "*.apk" -exec mv {} ./Brand-Jamaica-Magazine.apk \;
-          find . -name "*.aab" -exec mv {} ./Brand-Jamaica-Magazine.aab \;
-          
-          # Force a failure if not found to catch silent errors
-          ls -l Brand-Jamaica-Magazine.apk || exit 1
+          find . -name "*.apk" -exec cp {} ./Brand-Jamaica-Magazine.apk \; || true
+          find . -name "*.aab" -exec cp {} ./Brand-Jamaica-Magazine.aab \; || true
 
-      - name: Upload APK directly to Workflow Artifacts
+      - name: Upload Debug Artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: Brand-Jamaica-Android-App
+          name: Debug-Logs-and-Outputs
           path: |
-            Brand-Jamaica-Magazine.apk
-            Brand-Jamaica-Magazine.aab
+            debug_*.log
+            Brand-*.apk
+            Brand-*.aab
           retention-days: 5
