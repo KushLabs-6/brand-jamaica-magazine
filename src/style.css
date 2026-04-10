@@ -23,10 +23,10 @@ html, body {
   /* BOLD CARTOONISH/GRAPHIC PAPER TEXTURE - HIGH VISIBILITY GUARANTEED */
   background: #fdfaf3 !important;
   background-image: 
-    linear-gradient(#e6e1d6 2px, transparent 2px),
-    linear-gradient(90deg, #e6e1d6 2px, transparent 2px),
-    repeating-linear-gradient(45deg, rgba(0,0,0,0.05) 0, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 12px);
-  background-size: 80px 80px, 80px 80px, 24px 24px;
+    linear-gradient(#d0cbb5 2.5px, transparent 2.5px),
+    linear-gradient(90deg, #d0cbb5 2.5px, transparent 2.5px),
+    repeating-linear-gradient(45deg, rgba(0,0,0,0.08) 0, rgba(0,0,0,0.08) 1.5px, transparent 1.5px, transparent 15px);
+  background-size: 80px 80px, 80px 80px, 20px 20px;
   background-position: center;
 }
 
@@ -100,7 +100,8 @@ html, body {
 }
 
 .doctor-bird.origami {
-  width: clamp(250px, 50vw, 450px);
+  width: clamp(300px, 60vw, 550px);
+  max-width: none;
   height: auto;
   cursor: pointer;
   z-index: 50; 
@@ -110,27 +111,26 @@ html, body {
   left: 50%;
   transform: translate(-50%, -50%);
   transition: transform 0.3s ease;
-  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.35));
+  filter: drop-shadow(0 20px 35px rgba(0,0,0,0.3));
   /* 3D Flight Path */
   animation: fly3D 12s ease-in-out infinite;
   transform-style: preserve-3d;
   will-change: transform;
 }
 
+/* SVG Interior Animations */
 .bird-wing-l {
-  transform-origin: 65px 30px;
+  transform-origin: 65px 55px;
   animation: flapL 0.15s infinite alternate ease-in-out;
 }
 .bird-wing-r {
-  transform-origin: 65px 30px;
+  transform-origin: 65px 55px;
   animation: flapR 0.15s infinite alternate ease-in-out;
 }
-
 .bird-tail-streamers {
   transform-origin: 60px 80px;
   animation: swayTail 2.5s infinite alternate ease-in-out;
 }
-
 .bird-leg {
   transform-origin: 60px 75px;
   animation: tuckLegs 3s infinite ease-in-out;
@@ -159,6 +159,9 @@ html, body {
   0%   { transform: translate3d(-30vw, -10vh, 0px) rotateY(10deg) rotateX(5deg); }
   25%  { transform: translate3d(15vw, 15vh, 150px) rotateY(-20deg) rotateX(-10deg); }
   50%  { transform: translate3d(35vw, -20vh, 300px) rotateY(-180deg) rotateX(15deg); }
+  75%  { transform: translate3d(-15vw, 25vh, 100px) rotateY(-210deg) rotateX(-5deg); }
+  100% { transform: translate3d(-30vw, -10vh, 0px) rotateY(-350deg) rotateX(5deg); }
+}
   75%  { transform: translate3d(-15vw, 25vh, 100px) rotateY(-210deg) rotateX(-5deg); }
   100% { transform: translate3d(-30vw, -10vh, 0px) rotateY(-350deg) rotateX(5deg); }
 }
