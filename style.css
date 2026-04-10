@@ -73,9 +73,9 @@
 .social-icon { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .social-icon:hover { transform: scale(1.2) translateY(-2px); }
 
-/* Reader */
+/* Reader - paper texture background */
 #magazine-scene { 
-  background: rgba(0,0,0,0.95); 
+  background: #fdfaf3 url('cream-paper-ai.png') center/cover no-repeat; 
   display: none; 
   flex-direction: column;
   align-items: center; 
@@ -83,6 +83,7 @@
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  position: relative;
 }
 #magazine-scene.active { display: flex; }
 .book-container { 
@@ -94,6 +95,30 @@
   padding: 0;
   overflow: hidden;
 }
+
+/* Floating close button */
+.mag-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 200;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+  border: 2px solid rgba(255,255,255,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: background 0.2s, transform 0.2s;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.mag-close-btn:hover { background: rgba(0,155,58,0.9); transform: scale(1.1); }
+.mag-close-btn:active { transform: scale(0.95); }
 
 /* Make page-flip pages fill their container with no white padding */
 .page .page-content {

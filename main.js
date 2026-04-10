@@ -114,12 +114,37 @@ document.addEventListener('DOMContentLoaded', async () => {
         currentIndex = (currentIndex + 1) % totalItems;
         updateCarousel();
     });
+    btnNext?.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        currentIndex = (currentIndex + 1) % totalItems;
+        updateCarousel();
+    }, { passive: false });
 
     btnPrev?.addEventListener('click', () => {
         currentIndex = (currentIndex - 1 + totalItems) % totalItems;
         updateCarousel();
     });
+    btnPrev?.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+        updateCarousel();
+    }, { passive: false });
     
+    // Swipe left/right on the carousel to change volumes
+    let carouselTouchStartX = 0;
+    const carouselContainer = document.querySelector('.carousel-container');
+    carouselContainer?.addEventListener('touchstart', (e) => {
+        carouselTouchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    carouselContainer?.addEventListener('touchend', (e) => {
+        const dx = e.changedTouches[0].clientX - carouselTouchStartX;
+        if (Math.abs(dx) > 40) { // 40px threshold
+            if (dx < 0) currentIndex = (currentIndex + 1) % totalItems; // swipe left = next
+            else currentIndex = (currentIndex - 1 + totalItems) % totalItems; // swipe right = prev
+            updateCarousel();
+        }
+    }, { passive: true });
+
     updateCarousel();
 
     // --- 3. OPEN MAGAZINE ---
@@ -127,28 +152,53 @@ document.addEventListener('DOMContentLoaded', async () => {
     const btnBack = document.getElementById('btn-back');
     const bookEl = document.getElementById('book');
 
+    // Also open on touchend for mobile reliability
     items.forEach(item => {
-        item.addEventListener('click', async () => {
+        async function openItem(e) {
+            e.preventDefault();
             const volumeId = item.getAttribute('data-volume');
+            // Push a history state so Android back button works
+            history.pushState({ scene: 'magazine', volumeId }, '');
             carouselScene.classList.remove('active');
             magazineScene.classList.add('active');
-            // Wait for scene transition before initializing PageFlip
             await new Promise(r => setTimeout(r, 700));
             await loadMagazine(volumeId);
-        });
+        }
+        item.addEventListener('click', openItem);
+        item.addEventListener('touchend', openItem, { passive: false });
     });
 
-    btnBack?.addEventListener('click', () => {
+    // Handle hardware back button on Android (popstate)
+    window.addEventListener('popstate', (e) => {
+        if (magazineScene.classList.contains('active')) {
+            magazineScene.classList.remove('active');
+            setTimeout(() => {
+                carouselScene.classList.add('active');
+                if (pageFlip) { pageFlip.destroy(); pageFlip = null; }
+            }, 300);
+        }
+    });
+
+    function closeMagazine() {
         magazineScene.classList.remove('active');
         setTimeout(() => {
             carouselScene.classList.add('active');
-            if (pageFlip) {
-                pageFlip.destroy();
-                pageFlip = null;
-                bookEl.innerHTML = '';
-            }
+            if (pageFlip) { pageFlip.destroy(); pageFlip = null; bookEl.innerHTML = ''; }
         }, 400);
-    });
+    }
+
+    btnBack?.addEventListener('click', closeMagazine);
+    btnBack?.addEventListener('touchend', (e) => { e.preventDefault(); closeMagazine(); }, { passive: false });
+
+    // Swipe-down to close the magazine
+    let magTouchStartY = 0;
+    magazineScene.addEventListener('touchstart', (e) => {
+        magTouchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    magazineScene.addEventListener('touchend', (e) => {
+        const dy = e.changedTouches[0].clientY - magTouchStartY;
+        if (dy > 80) closeMagazine(); // swipe down 80px closes the magazine
+    }, { passive: true });
 
     // Resize support
     window.addEventListener('resize', () => {
@@ -157,6 +207,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             try { pageFlip.updateElementStyles(dims.width, dims.height); } catch(e){}
         }
     });
+
 
     function responsiveDims() {
         const vw = window.innerWidth;
