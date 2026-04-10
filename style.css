@@ -1,5 +1,5 @@
 /* =========================================
-   BRAND JAMAICA MAGAZINE 3.0 - RECOVERY
+   BRAND JAMAICA MAGAZINE 3.0 - DEFINITIVE
    ========================================= */
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:wght@300;600;900&display=swap');
 
@@ -20,8 +20,8 @@ html, body {
   margin: 0 !important;
   padding: 0 !important;
   color: #2a1a00;
-  /* BOLD GRAPHIC PAPER TEXTURE */
   background: #fdfaf3 !important;
+  /* BOLD GRAPHIC PAPER TEXTURE - CRISP & VISIBLE */
   background-image: 
     linear-gradient(#d0cbb5 2.5px, transparent 2.5px),
     linear-gradient(90deg, #d0cbb5 2.5px, transparent 2.5px),
@@ -33,6 +33,7 @@ html, body {
 #app {
   width: 100vw !important;
   height: 100vh !important;
+  background: transparent;
   position: relative;
   overflow: hidden;
 }
@@ -63,7 +64,6 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
 }
 
 .click-e-bird-title {
@@ -77,10 +77,9 @@ html, body {
   text-transform: uppercase;
   z-index: 100;
   transform: rotate(-1.5deg);
-  margin-bottom: 2rem;
 }
 
-/* Isolated Tape Filter - Using Sibling instead of Parent to avoid color bleeding */
+/* ISOLATED TAPE BACKGROUND - Filter ONLY applied here */
 .click-e-bird-title::before {
   content: "";
   position: absolute;
@@ -88,17 +87,26 @@ html, body {
   background: url('/tape-masking-ref.png') no-repeat center center;
   background-size: 100% 100%;
   filter: sepia(1) saturate(10) hue-rotate(-20deg) brightness(1.0);
-  z-index: -1;
+  z-index: -1; 
+  /* Pointer events none to ensure clicks hit the bird/title area */
+  pointer-events: none;
 }
 
+/* GREEN RIBBON - Forced Green, No Filters */
 .click-e-bird-title span {
   display: inline-block;
-  background: linear-gradient(to bottom, #000 0%, #000 40%, #009b3a 41%, #009b3a 59%, #000 60%, #000 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  pointer-events: none;
+  background: linear-gradient(to bottom, 
+    #000000 0%, #000000 40%, 
+    #009b3a 41%, #009b3a 59%, 
+    #000000 60%, #000000 100%
+  ) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  filter: none !important; /* EXPLICITLY REMOVE ANY INHERITED FILTERS */
+  position: relative;
+  z-index: 101;
 }
 
 .doctor-bird.origami {
@@ -106,16 +114,15 @@ html, body {
   height: auto;
   cursor: pointer;
   z-index: 50; 
+  margin-top: -6.5rem; /* Tuck behind the tape headline */
   transition: transform 0.3s ease;
   filter: drop-shadow(0 20px 35px rgba(0,0,0,0.3));
-  margin-top: -6rem; /* Tuck behind the tape headline */
-  /* Animations */
   animation: fly3D 12s ease-in-out infinite;
   transform-style: preserve-3d;
   will-change: transform;
 }
 
-/* Interior SVG Animations */
+/* SVG Interior Animations */
 .bird-wing-l { transform-origin: 65px 55px; animation: flapL 0.15s infinite alternate ease-in-out; }
 .bird-wing-r { transform-origin: 65px 55px; animation: flapR 0.15s infinite alternate ease-in-out; }
 .bird-tail-streamers { transform-origin: 60px 80px; animation: swayTail 2.5s infinite alternate ease-in-out; }
@@ -138,13 +145,11 @@ html, body {
   animation: flyAway 1.2s ease-in forwards !important;
   pointer-events: none;
 }
-
 @keyframes flyAway {
   to { transform: translate3d(120vw, -120vh, 800px) rotateY(1440deg) scale(0); opacity: 0; }
 }
 
-/* ---- CAROUSEL & HUB STYLES (Cleaned) ---- */
-#carousel-scene { overflow: visible; }
+/* ---- HUB SECTIONS ---- */
 .header-elements { text-align: center; margin-bottom: 2rem; }
 .magazine-title { 
   font-family: 'Inter', sans-serif; font-weight: 900; font-size: 4rem; letter-spacing: -2px;
@@ -157,6 +162,7 @@ html, body {
   margin: -10px auto; transform: rotate(-3deg); mix-blend-mode: hard-light;
 }
 
+#carousel-scene { overflow: visible; }
 .carousel-container { width: 100%; height: 400px; perspective: 1500px; display: flex; align-items: center; justify-content: center; margin-top: 2rem; }
 .carousel { width: 260px; height: 360px; position: relative; transform-style: preserve-3d; transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1); }
 .carousel-item { position: absolute; width: 260px; height: 360px; left: 0; top: 0; transform: rotateY(var(--rotation)) translateZ(330px); cursor: pointer; }
@@ -169,12 +175,12 @@ html, body {
 .scrap-button:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #5a3e1b; }
 .hub-nav-btn { background: var(--green); }
 
-.social-links { display: flex; gap: 2rem; margin-top: 3rem; padding: 1rem 3rem; background: rgba(255,255,255,0.3); backdrop-filter: blur(10px); border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+.social-links { display: flex; gap: 2rem; margin-top: 3rem; padding: 1rem 3rem; background: rgba(255,255,255,0.3); backdrop-filter: blur(10px); border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
 .social-icon { width: 35px; height: 35px; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .social-icon:hover { transform: scale(1.4) translateY(-5px); }
 
 /* Reader */
-#magazine-scene { background: rgba(0,0,0,0.85); display: none; }
+#magazine-scene { background: rgba(0,0,0,0.9); display: none; }
 #magazine-scene.active { display: flex; }
 .book-container { width: 95vw; height: 90vh; display: flex; align-items: center; justify-content: center; }
 
