@@ -1,0 +1,38 @@
+name: Build Android APK (TWA)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'microsoft'
+          java-version: '17'
+
+      - name: Build and Sign APK
+        id: build
+        uses: google-chrome-labs/bubblewrap-github-action@v1.3.1
+        with:
+          twa-manifest: 'twa-manifest.json'
+          signing-key-path: 'android.keystore'
+          signing-key-alias: 'key0'
+          signing-key-password: 'brandjamaica'
+          signing-key-store-password: 'brandjamaica'
+          # We'll generate the keystore in the next step to avoid interactive prompts
+          # Actually, we can generate it before this step
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Brand-Jamaica-Android-APK
+          path: ./*.apk
