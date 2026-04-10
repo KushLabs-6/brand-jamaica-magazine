@@ -31,19 +31,25 @@ jobs:
 
       - name: Configure Bubblewrap
         run: |
-          # Explicitly set paths for the CI environment
           bubblewrap updateConfig --jdkPath="$JAVA_HOME" --androidSdkPath="$ANDROID_SDK_ROOT"
 
       - name: Build Android App
         run: |
-          # Generate signing key (non-interactive)
+          # Generate signing key
           keytool -genkey -v -keystore android.keystore -alias key0 -keyalg RSA -keysize 2048 -validity 10000 -storepass brandjamaica -keypass brandjamaica -dname "CN=Brand Jamaica, OU=Magazine, O=KushLabs, L=Kingston, S=Kingston, C=JM"
           
-          # Build with universal APK enabled and verbose logging
-          bubblewrap build --yes --universalApk --verbose
+          # Build
+          bubblewrap build --yes --universalApk
 
-      - name: List Files (Debug)
-        run: ls -R
+      - name: Hard Discovery & Rename
+        run: |
+          # Search for any generated APK and move it to the root with a clean name
+          echo "Searching for APKs..."
+          find . -name "*.apk" -exec cp {} ./Brand-Jamaica-Magazine.apk \;
+          find . -name "*.aab" -exec cp {} ./Brand-Jamaica-Magazine.aab \;
+          
+          # Print if found
+          ls -l Brand-Jamaica-Magazine.apk || echo "APK NOT FOUND"
 
       - name: Final Discovery & Release
         uses: softprops/action-gh-release@v2
@@ -53,7 +59,8 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            **/*.apk
-            **/*.aab
+            Brand-Jamaica-Magazine.apk
+            Brand-Jamaica-Magazine.aab
+          fail_on_unmatched_files: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
