@@ -120,19 +120,21 @@
 .mag-close-btn:hover { background: rgba(0,155,58,0.9); transform: scale(1.1); }
 .mag-close-btn:active { transform: scale(0.95); }
 
-/* Make page-flip pages fill their container with no white padding */
+/* Make page-flip pages show full content without cropping */
 .page .page-content {
   padding: 0 !important;
   margin: 0 !important;
   width: 100% !important;
   height: 100% !important;
   overflow: hidden;
+  background: #fff;
 }
 .page .page-content img {
   width: 100% !important;
   height: 100% !important;
-  object-fit: cover !important;
+  object-fit: contain !important; /* contain = show full page, no cropping */
   display: block !important;
+  background: #fff;
 }
 
 /* Mobile responsive carousel */

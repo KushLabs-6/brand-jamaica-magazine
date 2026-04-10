@@ -215,14 +215,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         const isMobile = vw < 768;
         
         if (isMobile) {
-            // Portrait mode on mobile: single page fills 95% width
-            const width = Math.round(vw * 0.92);
-            const height = Math.round(Math.min(vh * 0.80, width * 1.41)); // A4-ish ratio
+            // Leave ~8% margin each side so words near the edge aren't clipped
+            const width = Math.round(vw * 0.82);
+            const height = Math.round(Math.min(vh * 0.78, width * 1.41));
             return { width, height, portrait: true };
         } else {
-            // Desktop: two-page spread, each page ~42% of viewport width
-            const width = Math.round(Math.min(vw * 0.42, 500));
-            const height = Math.round(Math.min(vh * 0.82, width * 1.33));
+            // Desktop: two-page spread, bounded comfortably within the viewport
+            const width = Math.round(Math.min(vw * 0.38, 460));
+            const height = Math.round(Math.min(vh * 0.80, width * 1.38));
             return { width, height, portrait: false };
         }
     }
