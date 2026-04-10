@@ -162,9 +162,6 @@ html, body {
   75%  { transform: translate3d(-15vw, 25vh, 100px) rotateY(-210deg) rotateX(-5deg); }
   100% { transform: translate3d(-30vw, -10vh, 0px) rotateY(-350deg) rotateX(5deg); }
 }
-  75%  { transform: translate3d(-15vw, 25vh, 100px) rotateY(-210deg) rotateX(-5deg); }
-  100% { transform: translate3d(-30vw, -10vh, 0px) rotateY(-350deg) rotateX(5deg); }
-}
 
 .doctor-bird.fly-away {
   animation: flyAway 1.2s ease-in forwards !important;
