@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brand Jamaica Magazine</title>
+    <!-- Modern Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:wght@300;600;900&family=Finger+Paint&family=Knewave&display=swap" rel="stylesheet">
+    <!-- PWA -->
+    <link rel="manifest" href="/brand-jamaica-magazine/manifest.json">
+    <meta name="theme-color" content="#009b3a">
+    <link rel="apple-touch-icon" href="/brand-jamaica-magazine/icon-512.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Brand Jamaica">
+    
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
+    <style>
+      /* --- SAFE MODE RECOVERY STYLES --- */
+      :root { --green: #009b3a; --gold: #fed100; --black: #000; }
+      html, body {
+        margin: 0; padding: 0; width: 100vw; height: 100vh; overflow: hidden;
+        background-color: #fcebd0 !important;
+        /* FINAL CRUSHED PAPER TEXTURE - PHOTOREALISTIC */
+        background-image: url('/brand-jamaica-magazine/cream-paper-ai.png') !important;
+        background-size: cover !important;
+        background-position: center !important;
+        background-attachment: fixed !important;
+        background-blend-mode: luminosity !important;
+      }
+      .scene { display: none; position: absolute; inset: 0; align-items: center; justify-content: center; flex-direction: column; }
+      .scene.active { display: flex; }
+      #intro-scene { z-index: 9999; perspective: 1000px; }
+      .intro-container { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; }
+      .click-e-bird-title { 
+        position: relative; z-index: 100; font-family: 'Finger Paint', 'Knewave', cursive; 
+        font-size: clamp(4rem, 16vw, 7rem); letter-spacing: 2px; padding: 3rem 6rem; 
+        text-transform: uppercase; transform: rotate(-2deg); 
+        font-weight: 900; /* Force synthetic bolding if supported */
+      }
+      .click-e-bird-title::before { 
+        display: none; /* Disabling pseudo to use the isolated div for better color control */
+      }
+      .tape-masking-bg {
+        position: absolute; inset: 0; background: url('/brand-jamaica-magazine/new-tape.png') no-repeat center center;
+        background-size: 100% 100%; 
+        /* PURE TAPE FROM ASSET */
+        filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)) !important; 
+        z-index: 90; transform: rotate(-2deg); pointer-events: none;
+      }
+      .click-e-bird-title span { 
+        /* ULTRA-SOFT FADED GREEN GRADIENT */
+        background: linear-gradient(180deg, #18b552 0%, #009b3a 100%) !important;
+        -webkit-background-clip: text !important; background-clip: text !important; -webkit-text-fill-color: transparent !important;
+        /* THICKEN THE STROKE TO SATISFY "MAKE IT THICK" */
+        -webkit-text-stroke: 2px #0a9d41;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)) !important; position: relative; z-index: 101;
+      }
+      .bird-flight-container {
+        position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto; 
+        width: clamp(350px, 45vw, 480px); height: 260px;
+        z-index: 50; animation: flyDynamic 15s cubic-bezier(0.4, 0, 0.2, 1) infinite; transform-style: preserve-3d;
+      }
+      .doctor-bird.origami { 
+        width: 100%; height: auto; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6));
+      }
+
+      /* SVG Interior Animations (RESTORED) */
+      .bird-wing-l { transform-origin: 65px 55px; animation: flapL 0.05s infinite alternate ease-in-out; }
+      .bird-wing-r { transform-origin: 65px 55px; animation: flapR 0.05s infinite alternate ease-in-out; }
+      .bird-tail-streamers { transform-origin: 60px 80px; animation: swayTail 2s infinite alternate ease-in-out; }
+      .bird-leg { transform-origin: 60px 75px; animation: tuckLegs 3s infinite ease-in-out; }
+
+      @keyframes flapL { from { transform: rotateY(0deg) rotateZ(0deg); } to { transform: rotateY(-80deg) rotateZ(20deg); } }
+      @keyframes flapR { from { transform: rotateY(0deg) rotateZ(0deg); } to { transform: rotateY(80deg) rotateZ(-20deg); } }
+      @keyframes swayTail { from { transform: rotate(-5deg); } to { transform: rotate(5deg); } }
+      @keyframes tuckLegs { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-5deg) translateY(-2px); } }
+
+      /* DYNAMIC FLIGHT PATH - FULL CANVAS EXPERIMENT */
+      @keyframes flyDynamic {
+        0%   { transform: translate(-80vw, -30vh) scale(0.5) rotateY(0deg); }
+        25%  { transform: translate(10vw, 10vh) scale(1.2) rotateY(20deg); }
+        50%  { transform: translate(80vw, -40vh) scale(0.6) rotateY(180deg); }
+        75%  { transform: translate(-30vw, 40vh) scale(1) rotateY(200deg); }
+        100% { transform: translate(-80vw, -30vh) scale(0.5) rotateY(360deg); }
+      }
+    </style>
+    <script type="module" crossorigin src="/brand-jamaica-magazine/assets/index-CfUbl98l.js"></script>
+    <link rel="stylesheet" crossorigin href="/brand-jamaica-magazine/assets/index-qTWm5kJ0.css">
+  </head>
+  <body>
+    <div id="app">
+      <!-- Scrapbook Background -->
+      <div id="texture-bg"></div>
+
+      <!-- Doctor Bird Intro Screen -->
+      <div id="intro-scene" class="scene active">
+        <div class="intro-container">
+            <!-- Isolated Masking Tape Layer -->
+            <div class="tape-masking-bg"></div>
+            <!-- Isolated Green Ribbon Text Layer -->
+            <div class="click-e-bird-title" style="pointer-events: none;"><span>TOUCH E BIRD</span></div>
+        </div>
+        <div class="bird-flight-container">
+          <svg id="btn-start" class="doctor-bird origami" viewBox="0 0 150 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="birdGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#009b3a;stop-opacity:1" />
+              <stop offset="70%" style="stop-color:#007a2e;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#fed100;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <g transform="translate(10, 10)">
+            <!-- Body -->
+            <path d="M60 40 L90 55 L65 75 L50 60 Z" fill="url(#birdGrad)"/>
+            <!-- Head -->
+            <path d="M60 40 L70 30 L80 40 Z" fill="#009b3a"/>
+            <!-- Eye -->
+            <circle cx="70" cy="35" r="1.5" fill="#000"/>
+            <!-- Iconic Needle Beak -->
+            <path d="M70 30 L130 20 L75 35 Z" fill="#000"/>
+            
+            <!-- Legs (Tucked) -->
+            <g class="bird-leg">
+              <path d="M60 70 L55 80 L65 80 Z" fill="#000" opacity="0.8"/>
+              <path d="M55 70 L50 78 L60 78 Z" fill="#111" opacity="0.7"/>
+            </g>
+
+            <!-- Long Swallowtail Streamers -->
+            <g class="bird-tail-streamers">
+              <path d="M55 70 L25 180 L45 170 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 70 L55 195 L70 185 Z" fill="#111" opacity="0.8"/>
+            </g>
+            
+            <!-- Wing Left (Animated) -->
+            <g class="bird-wing-l">
+              <path d="M60 45 L15 5 L45 35 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 45 L5 25 L40 45 Z" fill="#222" opacity="0.7"/>
+            </g>
+            
+            <!-- Wing Right (Animated) -->
+            <g class="bird-wing-r">
+              <path d="M60 45 L105 5 L75 35 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 45 L115 25 L80 45 Z" fill="#222" opacity="0.7"/>
+            </g>
+          </g>
+        </svg>
+        </div>
+      </div>
+      
+      <!-- Landing 3D Carousel Selection Scene -->
+      <div id="carousel-scene" class="scene">
+        <div class="header-elements">
+          <div id="logo-container" class="modern-header-logo">
+             <span class="logo-brand">BRAND JAMAICA</span>
+             <span class="logo-mag">MAGAZINE</span>
+          </div>
+          <p class="issue-select-title">Select an Issue to Read</p>
+        </div>
+        
+        <div class="carousel-container">
+          <div class="carousel">
+            <div class="carousel-item" data-volume="1" onclick="openVolume(1)">
+              <div class="cover-wrapper polaroid">
+                <div class="tape"></div>
+                <img src="/brand-jamaica-magazine/cover-culture.png" alt="Culture Issue" />
+                <div class="volume-title">Vol 1: The Culture</div>
+              </div>
+            </div>
+            <div class="carousel-item" data-volume="2" onclick="openVolume(2)">
+              <div class="cover-wrapper polaroid">
+                <div class="tape"></div>
+                <img src="/brand-jamaica-magazine/cover-cuisine.png" alt="Cuisine Issue" />
+                <div class="volume-title" style="transform: rotate(1deg);">Vol 2: The Flavor</div>
+              </div>
+            </div>
+            <div class="carousel-item" data-volume="3" onclick="openVolume(3)">
+              <div class="cover-wrapper polaroid">
+                <div class="tape"></div>
+                <img src="/brand-jamaica-magazine/cover-landscape.png" alt="Landscape Issue" />
+                <div class="volume-title" style="transform: rotate(-1deg);">Vol 3: The Landscape</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="carousel-controls">
+          <button id="btn-prev" class="scrap-button">&lt; Prev</button>
+          <button id="btn-next" class="scrap-button">Next &gt;</button>
+        </div>
+        
+        <div class="feature-controls">
+          <button class="scrap-button hub-nav-btn" onclick="showScene('hub-scene')">Community Feed</button>
+          <button class="scrap-button hub-nav-btn" onclick="showScene('events-scene')">Events & Places</button>
+          <button class="scrap-button hub-nav-btn" onclick="showScene('shop-scene')">Buy Magazine</button>
+        </div>
+
+        <!-- Social Media Links -->
+        <div class="social-links">
+          <a href="https://www.instagram.com/brandjamaicamagazine/" target="_blank" class="social-icon">
+             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </a>
+          <a href="https://www.youtube.com/@BRANDJAMAICAMAGAZINE" target="_blank" class="social-icon">
+             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fed100" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+          </a>
+          <a href="https://www.tiktok.com/@brandjamaicamagazine" target="_blank" class="social-icon">
+             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#009b3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path><path d="M15 8v8a4 4 0 0 1-4 4"></path><path d="M15 4v4a4 4 0 0 0 4 4"></path></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Magazine Reading Interface -->
+      <div id="magazine-scene" class="scene">
+        <button id="btn-back" class="scrap-button sticky-btn">&lt; Back to Volumes</button>
+        <div class="book-container">
+          <div id="book">
+            <!-- Pages added via JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Community Hub (The For You Page) -->
+      <div id="hub-scene" class="scene">
+        <button class="scrap-button scroll-btn" onclick="showScene('carousel-scene')">&lt; Back</button>
+        <section class="hub-section">
+          <h2 class="hub-title">Community Feed &#128248;</h2>
+          <div id="upload-form">
+            <input type="text" id="upload-name" placeholder="Your Name" class="scrap-input">
+            <input type="file" id="upload-file" class="scrap-input" accept="image/*,video/*">
+            <button class="scrap-button-primary" id="btn-upload">Upload to local desktop folder</button>
+          </div>
+          <div id="community-grid" class="grid-view">
+            <!-- Uploads show here -->
+          </div>
+        </section>
+      </div>
+
+      <!-- Events & Places to Visit -->
+      <div id="events-scene" class="scene">
+        <button class="scrap-button scroll-btn" onclick="showScene('carousel-scene')">&lt; Back</button>
+        <section class="hub-section">
+          <h2 class="hub-title">Events & Places &#127796;</h2>
+          <div id="events-list">
+            <!-- Loaded from events.txt -->
+          </div>
+          <div id="add-event-form">
+            <input type="text" id="event-input" placeholder="Add an event (e.g. Reggae Sumfest - Montego Bay)" class="scrap-input">
+            <button class="scrap-button-primary" id="btn-add-event">Add Event</button>
+          </div>
+        </section>
+      </div>
+
+      <!-- PayPal Shop -->
+      <div id="shop-scene" class="scene">
+        <button class="scrap-button scroll-btn" onclick="showScene('carousel-scene')">&lt; Back</button>
+        <section class="hub-section" style="text-align: center;">
+          <h2 class="hub-title">Official Shop &#128722;</h2>
+          <p style="margin-bottom: 2rem;">Get your high-quality physical copy of Brand Jamaica Magazine delivered.</p>
+          <div id="paypal-button-container"></div>
+          <p style="margin-top: 2rem; font-size: 0.9rem; color: #666;">Payments secured by PayPal (demolacunningham@gmail.com)</p>
+        </section>
+      </div>
+    </div>
+    
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('SW Registered', reg))
+            .catch(err => console.log('SW Failed', err));
+        });
+      }
+    </script>
+  </body>
+</html>
