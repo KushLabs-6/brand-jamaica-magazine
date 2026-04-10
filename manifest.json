@@ -8,22 +8,28 @@
   "orientation": "portrait",
   "background_color": "#fcebd0",
   "theme_color": "#009b3a",
-  "categories": ["entertainment", "news"],
+  "categories": ["entertainment", "lifestyle"],
   "icons": [
     {
-      "src": "/brand-jamaica-magazine/icon-512.png",
+      "src": "https://kushlabs-6.github.io/brand-jamaica-magazine/icon-512.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/brand-jamaica-magazine/icon-512.png",
+      "src": "https://kushlabs-6.github.io/brand-jamaica-magazine/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/brand-jamaica-magazine/icon-512.png",
+      "src": "https://kushlabs-6.github.io/brand-jamaica-magazine/icon-512.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://kushlabs-6.github.io/brand-jamaica-magazine/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
@@ -31,11 +37,18 @@
   ],
   "screenshots": [
     {
-      "src": "/brand-jamaica-magazine/icon-512.png",
+      "src": "https://kushlabs-6.github.io/brand-jamaica-magazine/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Brand Jamaica Magazine Home"
+      "label": "Home Screen"
+    },
+    {
+      "src": "https://kushlabs-6.github.io/brand-jamaica-magazine/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "App Preview"
     }
   ]
 }
