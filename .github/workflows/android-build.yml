@@ -10,8 +10,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -19,19 +24,26 @@ jobs:
           distribution: 'microsoft'
           java-version: '17'
 
-      - name: Build and Sign APK
-        id: build
-        uses: google-chrome-labs/bubblewrap-github-action@v1.3.1
-        with:
-          twa-manifest: 'twa-manifest.json'
-          signing-key-path: 'android.keystore'
-          signing-key-alias: 'key0'
-          signing-key-password: 'brandjamaica'
-          signing-key-store-password: 'brandjamaica'
-          # We'll generate the keystore in the next step to avoid interactive prompts
-          # Actually, we can generate it before this step
+      - name: Install Bubblewrap CLI
+        run: npm install -g @bubblewrap/cli
 
-      - name: Upload APK
+      - name: Generate Signing Key
+        run: |
+          # Generate a signing key non-interactively
+          keytool -genkey -v -keystore android.keystore -alias key0 -keyalg RSA -keysize 2048 -validity 10000 -storepass brandjamaica -keypass brandjamaica -dname "CN=Brand Jamaica, OU=Magazine, O=KushLabs, L=Kingston, S=Kingston, C=JM"
+
+      - name: Build Android App
+        run: |
+          # Initialize and build using the committed twa-manifest.json
+          # We use --yes to skip all prompts
+          bubblewrap build --yes --universalApk
+
+      - name: Log SHA256 Fingerprint
+        run: |
+          # Extract and log the SHA256 fingerprint for assetlinks.json
+          keytool -list -v -keystore android.keystore -alias key0 -storepass brandjamaica | grep SHA256
+
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Brand-Jamaica-Android-APK
