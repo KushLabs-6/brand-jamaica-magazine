@@ -27,11 +27,13 @@ jobs:
 
       - name: Build Android App (Docker Sandbox)
         run: |
-          # Make sure directory is fully accessible to the docker container volume mapping
           chmod -R 777 ${{ github.workspace }}
-          
-          # Run the official Google Chrome Labs bubblewrap container to build the package
-          docker run --rm -v ${{ github.workspace }}:/app -w /app ghcr.io/googlechromelabs/bubblewrap:latest build --yes --universalApk
+          docker run --rm \
+            -v ${{ github.workspace }}:/app \
+            -w /app \
+            -e BUBBLEWRAP_KEYSTORE_PASSWORD=brandjamaica \
+            -e BUBBLEWRAP_KEY_PASSWORD=brandjamaica \
+            ghcr.io/googlechromelabs/bubblewrap:latest build --yes --universalApk
 
       - name: Hard Discovery & Rename
         run: |
@@ -39,19 +41,14 @@ jobs:
           find . -name "*.apk" -exec mv {} ./Brand-Jamaica-Magazine.apk \;
           find . -name "*.aab" -exec mv {} ./Brand-Jamaica-Magazine.aab \;
           
-          # Verify found
-          ls -l Brand-Jamaica-Magazine.apk || echo "APK NOT FOUND"
+          # Force a failure if not found to catch silent errors
+          ls -l Brand-Jamaica-Magazine.apk || exit 1
 
-      - name: Final Release
-        uses: softprops/action-gh-release@v2
+      - name: Upload APK directly to Workflow Artifacts
+        uses: actions/upload-artifact@v4
         with:
-          tag_name: v1.0.${{ github.run_number }}
-          name: Brand Jamaica Magazine v1.0.${{ github.run_number }}
-          draft: false
-          prerelease: false
-          files: |
+          name: Brand-Jamaica-Android-App
+          path: |
             Brand-Jamaica-Magazine.apk
             Brand-Jamaica-Magazine.aab
-          fail_on_unmatched_files: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          retention-days: 5
