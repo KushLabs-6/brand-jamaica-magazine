@@ -1,0 +1,806 @@
+.:
+total 176
+drwxrwxrwx 6 runner runner  4096 Apr 10 12:43 .
+drwxr-xr-x 3 runner runner  4096 Apr 10 12:42 ..
+drwxrwxrwx 7 runner runner  4096 Apr 10 12:43 .git
+drwxrwxrwx 3 runner runner  4096 Apr 10 12:43 .github
+-rwxrwxrwx 1 runner runner    36 Apr 10 12:43 .gitignore
+-rwxrwxrwx 1 runner runner  2740 Apr 10 12:43 android.keystore
+-rwxrwxrwx 1 runner runner   436 Apr 10 12:43 bubblewrap_build_logs.txt
+-rw-r--r-- 1 runner runner 21207 Apr 10 12:43 debug_build_docker.log
+-rw-r--r-- 1 runner runner     0 Apr 10 12:43 debug_files_docker.log
+-rwxrwxrwx 1 runner runner  1658 Apr 10 12:43 generate-apk.ps1
+-rwxrwxrwx 1 runner runner 14731 Apr 10 12:43 index.html
+-rwxrwxrwx 1 runner runner 16322 Apr 10 12:43 main.js
+-rwxrwxrwx 1 runner runner 55754 Apr 10 12:43 package-lock.json
+-rwxrwxrwx 1 runner runner   476 Apr 10 12:43 package.json
+drwxrwxrwx 5 runner runner  4096 Apr 10 12:43 public
+drwxrwxrwx 2 runner runner  4096 Apr 10 12:43 scripts
+-rwxrwxrwx 1 runner runner  5682 Apr 10 12:43 style.css
+-rwxrwxrwx 1 runner runner   964 Apr 10 12:43 twa-manifest.json
+-rwxrwxrwx 1 runner runner  6019 Apr 10 12:43 vite.config.js
+
+./.git:
+total 60
+drwxrwxrwx  7 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx  6 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner  141 Apr 10 12:43 FETCH_HEAD
+-rwxrwxrwx  1 runner runner   21 Apr 10 12:43 HEAD
+-rwxrwxrwx  1 runner runner  430 Apr 10 12:43 config
+-rwxrwxrwx  1 runner runner   83 Apr 10 12:43 config.worktree
+-rwxrwxrwx  1 runner runner   73 Apr 10 12:42 description
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 hooks
+-rwxrwxrwx  1 runner runner 7641 Apr 10 12:43 index
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 info
+drwxrwxrwx  3 runner runner 4096 Apr 10 12:43 logs
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 objects
+drwxrwxrwx  5 runner runner 4096 Apr 10 12:43 refs
+-rwxrwxrwx  1 runner runner   41 Apr 10 12:42 shallow
+
+./.git/hooks:
+total 72
+drwxrwxrwx 2 runner runner 4096 Apr 10 12:42 .
+drwxrwxrwx 7 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx 1 runner runner  478 Apr 10 12:42 applypatch-msg.sample
+-rwxrwxrwx 1 runner runner  896 Apr 10 12:42 commit-msg.sample
+-rwxrwxrwx 1 runner runner 4726 Apr 10 12:42 fsmonitor-watchman.sample
+-rwxrwxrwx 1 runner runner  189 Apr 10 12:42 post-update.sample
+-rwxrwxrwx 1 runner runner  424 Apr 10 12:42 pre-applypatch.sample
+-rwxrwxrwx 1 runner runner 1649 Apr 10 12:42 pre-commit.sample
+-rwxrwxrwx 1 runner runner  416 Apr 10 12:42 pre-merge-commit.sample
+-rwxrwxrwx 1 runner runner 1374 Apr 10 12:42 pre-push.sample
+-rwxrwxrwx 1 runner runner 4898 Apr 10 12:42 pre-rebase.sample
+-rwxrwxrwx 1 runner runner  544 Apr 10 12:42 pre-receive.sample
+-rwxrwxrwx 1 runner runner 1492 Apr 10 12:42 prepare-commit-msg.sample
+-rwxrwxrwx 1 runner runner 2783 Apr 10 12:42 push-to-checkout.sample
+-rwxrwxrwx 1 runner runner 2308 Apr 10 12:42 sendemail-validate.sample
+-rwxrwxrwx 1 runner runner 3650 Apr 10 12:42 update.sample
+
+./.git/info:
+total 12
+drwxrwxrwx 2 runner runner 4096 Apr 10 12:42 .
+drwxrwxrwx 7 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx 1 runner runner  240 Apr 10 12:42 exclude
+
+./.git/logs:
+total 16
+drwxrwxrwx 3 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 7 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx 1 runner runner  218 Apr 10 12:43 HEAD
+drwxrwxrwx 4 runner runner 4096 Apr 10 12:43 refs
+
+./.git/logs/refs:
+total 16
+drwxrwxrwx 4 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 3 runner runner 4096 Apr 10 12:43 ..
+drwxrwxrwx 2 runner runner 4096 Apr 10 12:43 heads
+drwxrwxrwx 3 runner runner 4096 Apr 10 12:43 remotes
+
+./.git/logs/refs/heads:
+total 12
+drwxrwxrwx 2 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 4 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx 1 runner runner  227 Apr 10 12:43 main
+
+./.git/logs/refs/remotes:
+total 12
+drwxrwxrwx 3 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 4 runner runner 4096 Apr 10 12:43 ..
+drwxrwxrwx 2 runner runner 4096 Apr 10 12:43 origin
+
+./.git/logs/refs/remotes/origin:
+total 12
+drwxrwxrwx 2 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 3 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx 1 runner runner  326 Apr 10 12:43 main
+
+./.git/objects:
+total 320
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx  7 runner runner 4096 Apr 10 12:43 ..
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 09
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 0b
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 0d
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 0e
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 0f
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 10
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 13
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 14
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 16
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 1a
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 1b
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 1f
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 25
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 27
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 28
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 2c
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 2e
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 2f
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 30
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 32
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 36
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 3a
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 3f
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 41
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 48
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 49
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 4b
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 4e
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 50
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 51
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 59
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 5a
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 5d
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 5f
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 63
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 6a
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 6f
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 70
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 79
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 7f
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 84
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 85
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 8a
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 8d
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 91
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 94
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 97
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 a0
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 a6
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 aa
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 ad
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 b1
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 b2
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 bb
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 be
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 bf
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 c2
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 c4
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 c7
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 c9
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 ca
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 cd
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 cf
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 d6
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 d7
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 dc
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 df
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 e7
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 e9
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 ea
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 ee
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 f1
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 f3
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 f4
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 fb
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 fe
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 info
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 pack
+
+./.git/objects/09:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 1633 Apr 10 12:42 06f9ca5ea46fa7481d645fa1fd380cba0428ad
+
+./.git/objects/0b:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner   65 Apr 10 12:43 6a638bdadec024a49c4e4fedf0b9447db8bb1e
+
+./.git/objects/0d:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner  376 Apr 10 12:43 f77c4cbe048355dbda792b99c877135e812583
+
+./.git/objects/0e:
+total 32
+drwxrwxrwx  2 runner runner  4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner  4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 23844 Apr 10 12:43 3ea283dd4c99651e75512c9feb73e51133fe62
+
+./.git/objects/0f:
+total 1076
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 1093592 Apr 10 12:42 9417399d960686ae009345af056e16d5e27ed1
+
+./.git/objects/10:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner  765 Apr 10 12:42 107e612d0d428318ae424e594471a7cd4c3703
+
+./.git/objects/13:
+total 3512
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 3584815 Apr 10 12:43 939d88eb6f8c32b18a75f1f92e4956338ef153
+
+./.git/objects/14:
+total 2472
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 2523037 Apr 10 12:43 26e7de18d05933589a003cd0a3856336a3fd24
+
+./.git/objects/16:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner   93 Apr 10 12:42 485cb5eccbdf5082774f9ed539d253fc99af38
+
+./.git/objects/1a:
+total 6372
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 6514743 Apr 10 12:43 2313c15283adb5c526ea25927a03404a988fba
+
+./.git/objects/1b:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner  212 Apr 10 12:43 2368de09b45534068d4cda8e439a875cd4732a
+
+./.git/objects/1f:
+total 284
+drwxrwxrwx  2 runner runner   4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner   4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 280156 Apr 10 12:42 42152f106e9bd6ad02ccb49b4a6971d647396b
+
+./.git/objects/25:
+total 340
+drwxrwxrwx  2 runner runner   4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner   4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 335426 Apr 10 12:43 9ad8b5e8e03b3bbbe3b446147dee42e9d769c5
+-rwxrwxrwx  1 runner runner    183 Apr 10 12:42 eaad9910a5c8b85948d15b4c61e8e56c2a0a98
+
+./.git/objects/27:
+total 2528
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 2577049 Apr 10 12:43 c1ba161ca2f757a14360ff9d25cc131c9c6914
+
+./.git/objects/28:
+total 500
+drwxrwxrwx  2 runner runner   4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner   4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 501753 Apr 10 12:43 da1e2925899f0781c9ce66eeb2b72b42e13075
+
+./.git/objects/2c:
+total 2924
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner      76 Apr 10 12:43 6566bb0f69a7f01ac0048211b74ec5b00b5d86
+-rwxrwxrwx  1 runner runner 2978640 Apr 10 12:43 ed6554b6b18093c2657d2275dcf7034ad34566
+
+./.git/objects/2e:
+total 5352
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 5469649 Apr 10 12:43 994adb6e65ad6f3ffa00bc1a76f727359cc86c
+
+./.git/objects/2f:
+total 16
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 5530 Apr 10 12:42 0f380c827c2a7fd15fb3069e04f79896652974
+
+./.git/objects/30:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 2163 Apr 10 12:43 3e1381a0f668165ec2d0bcfb2926221ddec71d
+
+./.git/objects/32:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner  213 Apr 10 12:42 315c4adfc3b21fdd57b3be0f48e06019ed4447
+
+./.git/objects/36:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner  750 Apr 10 12:43 3b54a43820374b76b35aad890ba08a98502cf6
+
+./.git/objects/3a:
+total 24
+drwxrwxrwx  2 runner runner  4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner  4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 14608 Apr 10 12:42 b88afb83f122610780567c812a92dd3e162f37
+
+./.git/objects/3f:
+total 3584
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 3659241 Apr 10 12:43 278c1310c14fd23951b34282aa638c0dc0b6da
+
+./.git/objects/41:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner  473 Apr 10 12:42 b52de3c07579f6b10119bda9931ede56905d2a
+
+./.git/objects/48:
+total 604
+drwxrwxrwx  2 runner runner   4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner   4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 606515 Apr 10 12:43 905980607b4fe8289d9352042fdbeb97c942c9
+
+./.git/objects/49:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner  335 Apr 10 12:42 95ae073749d96baa390d11cf58ea19f1314456
+
+./.git/objects/4b:
+total 6044
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 5171550 Apr 10 12:43 2df262a010eb3e94d0222a9c8898dc1ea62398
+-rwxrwxrwx  1 runner runner 1007040 Apr 10 12:42 a04ded7c0c6329e19d79469c68122ea06d75d7
+
+./.git/objects/4e:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner  852 Apr 10 12:42 226b6ed99c53521f2eb27d794eb5fa7b28931d
+
+./.git/objects/50:
+total 596
+drwxrwxrwx  2 runner runner   4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner   4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 598370 Apr 10 12:43 9f24cfc43cec5ed0706264c9badfdf1f395728
+
+./.git/objects/51:
+total 4204
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 4293824 Apr 10 12:43 3f701162023b3080c79cac45359c3f4e33539c
+
+./.git/objects/59:
+total 2696
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 2750363 Apr 10 12:43 e640bd3aa90780a6c97fa0dcbe7e7589c3b89d
+
+./.git/objects/5a:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner   58 Apr 10 12:42 0e53e3dc55b0d1e8aaaa09e6234aeb78ab2783
+
+./.git/objects/5d:
+total 248
+drwxrwxrwx  2 runner runner   4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner   4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 237772 Apr 10 12:43 5f4b92c416ea60e86bc43172e0947ef6defef3
+-rwxrwxrwx  1 runner runner   1936 Apr 10 12:43 6175f248f3177b47c19a31e510a7d71a5857cf
+
+./.git/objects/5f:
+total 1868
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 1902990 Apr 10 12:43 8bc4cb3d429f0074c305f09ca11f13e909a1a8
+
+./.git/objects/63:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner  422 Apr 10 12:43 f2447fd9bac0d5eac95f8283a48ddce8196aba
+
+./.git/objects/6a:
+total 4184
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 4275338 Apr 10 12:43 ca975e1b8385e14fd2ae6fb3387d3be3a13aa4
+
+./.git/objects/6f:
+total 2612
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 2664706 Apr 10 12:43 87411c640eb8c6903f0a7fa70e1540abc91e63
+
+./.git/objects/70:
+total 3228
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 3294808 Apr 10 12:43 f716118ae21bfd4a78c8700913b8d0f364e961
+
+./.git/objects/79:
+total 680
+drwxrwxrwx  2 runner runner   4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner   4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 363364 Apr 10 12:43 7c62ac47c17c133cca10a08346499c912951f9
+-rwxrwxrwx  1 runner runner 320039 Apr 10 12:43 d19a0f03cd12e9697cf43f699772cfcc2abe5d
+
+./.git/objects/7f:
+total 2232
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 1204154 Apr 10 12:42 76bf7d775571d56dd7d283647972de6d86340b
+-rwxrwxrwx  1 runner runner 1070787 Apr 10 12:43 9333997536d25ff51a6119d19d0df3c4e5fa82
+
+./.git/objects/84:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner  602 Apr 10 12:43 d67947616919b18322741e1c523cd39817f230
+
+./.git/objects/85:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner   60 Apr 10 12:42 f8d042104972cf83f36e05ca4e9aa906b08a4c
+
+./.git/objects/8a:
+total 16
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 5065 Apr 10 12:42 4fd4d562e8a7f4cab88e70234bebfad8ed3064
+
+./.git/objects/8d:
+total 32
+drwxrwxrwx  2 runner runner  4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner  4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 23504 Apr 10 12:43 53fb421e2ecff863ca47c0f490a91c14810387
+
+./.git/objects/91:
+total 432
+drwxrwxrwx  2 runner runner   4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner   4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 430468 Apr 10 12:43 e053b94890e90013e0497b6772af3a74d404bb
+
+./.git/objects/94:
+total 2860
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 2916803 Apr 10 12:43 901bc1c638f56407b83d82c7eeab78e222dd71
+
+./.git/objects/97:
+total 1616
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 1644272 Apr 10 12:43 f9f4a0aa5e0f2890b9f32e080d76fcdb3e9909
+
+./.git/objects/a0:
+total 5356
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 5475898 Apr 10 12:43 fa4e88d1bd022a5a1e19deb14bc8ce08eff1f0
+
+./.git/objects/a6:
+total 1608
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner  441081 Apr 10 12:43 b50077b4838429cbf56f29e06c59ead6e76914
+-rwxrwxrwx  1 runner runner 1195082 Apr 10 12:42 edb6776f9d80f657bd00d91714a935670984cd
+
+./.git/objects/aa:
+total 6808
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 6961634 Apr 10 12:43 27ac5b7d2f4a36c9cc205f4826f74a2179bde7
+
+./.git/objects/ad:
+total 2392
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 2438157 Apr 10 12:43 40bbb6c4c7f7ab06026ca0792fec36f755a6ef
+
+./.git/objects/b1:
+total 352
+drwxrwxrwx  2 runner runner   4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner   4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 348309 Apr 10 12:43 bf8f500c5dc70074a70d6bc4ead4731ae30f5b
+
+./.git/objects/b2:
+total 9692
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 4687621 Apr 10 12:43 372fccc680ec0009e3177d17d4bc1327485894
+-rwxrwxrwx  1 runner runner 5223025 Apr 10 12:43 5ee18842670408b630e045610be45af7b66d84
+
+./.git/objects/bb:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner  245 Apr 10 12:42 c3fbbeb7ac1a6b373076ea5d9fec2dc4e4b2e5
+
+./.git/objects/be:
+total 1916
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 1950467 Apr 10 12:43 774a202951e75189b4a70ad08552d4cfc08fa2
+
+./.git/objects/bf:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner  498 Apr 10 12:43 a6009aa2a482d7cd5c5fd89f2b29a9aa6ec3d8
+
+./.git/objects/c2:
+total 356
+drwxrwxrwx  2 runner runner   4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner   4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 354240 Apr 10 12:43 15b79f778b867166bda58c0ee30f08d4725679
+
+./.git/objects/c4:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner  183 Apr 10 12:42 f2a1c4c50e69ad6ef604004bbb0189cd0a4b40
+
+./.git/objects/c7:
+total 3060
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 3123206 Apr 10 12:43 f110248105ce4e8711e7a12b99fad51730c6d4
+
+./.git/objects/c9:
+total 676
+drwxrwxrwx  2 runner runner   4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner   4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 683565 Apr 10 12:42 8a683641cec8dfda6ef58d7407dca08dc22186
+
+./.git/objects/ca:
+total 448
+drwxrwxrwx  2 runner runner   4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner   4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 449579 Apr 10 12:43 2ddccde77605aff43e8faf4b8e0b8ce398e6d9
+
+./.git/objects/cd:
+total 3752
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 3830411 Apr 10 12:43 8bcf48d1d668119e2a1b975f73c1923001c636
+
+./.git/objects/cf:
+total 152
+drwxrwxrwx  2 runner runner   4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner   4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 144698 Apr 10 12:42 236d1deee8a9464aae54439044e34b86c9d924
+
+./.git/objects/d6:
+total 2312
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 2355441 Apr 10 12:43 15942906758219b9160ef02f97f836c0b0169b
+
+./.git/objects/d7:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner   52 Apr 10 12:42 0bb9ccd31c1c153f55a7b0065f29d6c1cbe272
+
+./.git/objects/dc:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner  579 Apr 10 12:43 7b1fcfde76e9153abd9d148402e3d76ef0f8c1
+
+./.git/objects/df:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner   80 Apr 10 12:43 bcdde3ef9f956553c18fe94d05f60b85638924
+
+./.git/objects/e7:
+total 3204
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 2435513 Apr 10 12:43 57d0286804c5b30996266f004d0e6cf9f6d465
+-rwxrwxrwx  1 runner runner  832947 Apr 10 12:42 7e5deccdb0931f61b7964a22f026591a20a962
+
+./.git/objects/e9:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 2253 Apr 10 12:43 522193d9f796a9748e9ad8c952a5df73c87db9
+
+./.git/objects/ea:
+total 2420
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 2469640 Apr 10 12:43 b7e73b86ba4dd1489b94a947d6750e2c418650
+
+./.git/objects/ee:
+total 1036
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 1049122 Apr 10 12:43 4c2ecd6cf0d1c01dc21e1012ce2e5fe0c95263
+
+./.git/objects/f1:
+total 4400
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner  675562 Apr 10 12:43 6373a4c16929b4770ac7ca77015837558bae18
+-rwxrwxrwx  1 runner runner 3815775 Apr 10 12:43 adc133beb9e15feb1fabc45bec31e75aa5ab87
+-rwxrwxrwx  1 runner runner     738 Apr 10 12:42 d8d129edaef9b66155953688a671ff9fe6a20a
+
+./.git/objects/f3:
+total 12
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner   51 Apr 10 12:42 f4fb85cb8670025b79147ec5812af2250a7c2a
+
+./.git/objects/f4:
+total 1276
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 1295180 Apr 10 12:42 a2d6a132e1646c6ab18c687f29b06baaf89509
+
+./.git/objects/fb:
+total 3348
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 3416401 Apr 10 12:43 a84f752def79e1912c1dd95ba167de12b523f4
+
+./.git/objects/fe:
+total 1808
+drwxrwxrwx  2 runner runner    4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx  1 runner runner 1842365 Apr 10 12:42 4fef231a40a01122ee1444e385006ca765f684
+
+./.git/objects/info:
+total 8
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+
+./.git/objects/pack:
+total 8
+drwxrwxrwx  2 runner runner 4096 Apr 10 12:42 .
+drwxrwxrwx 80 runner runner 4096 Apr 10 12:43 ..
+
+./.git/refs:
+total 20
+drwxrwxrwx 5 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 7 runner runner 4096 Apr 10 12:43 ..
+drwxrwxrwx 2 runner runner 4096 Apr 10 12:43 heads
+drwxrwxrwx 3 runner runner 4096 Apr 10 12:43 remotes
+drwxrwxrwx 2 runner runner 4096 Apr 10 12:42 tags
+
+./.git/refs/heads:
+total 12
+drwxrwxrwx 2 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 5 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx 1 runner runner   41 Apr 10 12:43 main
+
+./.git/refs/remotes:
+total 12
+drwxrwxrwx 3 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 5 runner runner 4096 Apr 10 12:43 ..
+drwxrwxrwx 2 runner runner 4096 Apr 10 12:43 origin
+
+./.git/refs/remotes/origin:
+total 12
+drwxrwxrwx 2 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 3 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx 1 runner runner   41 Apr 10 12:43 main
+
+./.git/refs/tags:
+total 8
+drwxrwxrwx 2 runner runner 4096 Apr 10 12:42 .
+drwxrwxrwx 5 runner runner 4096 Apr 10 12:43 ..
+
+./.github:
+total 12
+drwxrwxrwx 3 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 6 runner runner 4096 Apr 10 12:43 ..
+drwxrwxrwx 2 runner runner 4096 Apr 10 12:43 workflows
+
+./.github/workflows:
+total 16
+drwxrwxrwx 2 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 3 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx 1 runner runner 1526 Apr 10 12:43 android-build.yml
+-rwxrwxrwx 1 runner runner  614 Apr 10 12:43 deploy.yml
+
+./public:
+total 15016
+drwxrwxrwx 5 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 6 runner runner    4096 Apr 10 12:43 ..
+drwxrwxrwx 2 runner runner    4096 Apr 10 12:43 .well-known
+-rwxrwxrwx 1 runner runner  288936 Apr 10 12:43 bird-real.png
+-rwxrwxrwx 1 runner runner 1202949 Apr 10 12:43 cover-cuisine.png
+-rwxrwxrwx 1 runner runner 1210937 Apr 10 12:43 cover-culture.png
+-rwxrwxrwx 1 runner runner 1305456 Apr 10 12:43 cover-landscape.png
+-rwxrwxrwx 1 runner runner  686086 Apr 10 12:43 cream-paper-ai.png
+-rwxrwxrwx 1 runner runner  837221 Apr 10 12:43 crushed-paper-ai.png
+-rwxrwxrwx 1 runner runner  144863 Apr 10 12:43 crushed-paper-real.jpg
+-rwxrwxrwx 1 runner runner 1016010 Apr 10 12:43 crushed-paper-ultra-v2.png
+-rwxrwxrwx 1 runner runner  144863 Apr 10 12:43 crushed-paper-ultra.jpg
+-rwxrwxrwx 1 runner runner 1104725 Apr 10 12:43 crushed-paper.png
+-rwxrwxrwx 1 runner runner      44 Apr 10 12:43 events.txt
+-rwxrwxrwx 1 runner runner    9523 Apr 10 12:43 favicon.svg
+-rwxrwxrwx 1 runner runner 1844429 Apr 10 12:43 icon-192.png
+-rwxrwxrwx 1 runner runner 1644439 Apr 10 12:43 icon-512.png
+-rwxrwxrwx 1 runner runner    5031 Apr 10 12:43 icons.svg
+drwxrwxrwx 4 runner runner    4096 Apr 10 12:43 issues
+-rwxrwxrwx 1 runner runner 1054822 Apr 10 12:43 leather-notebook.png
+drwxrwxrwx 2 runner runner    4096 Apr 10 12:43 logo
+-rwxrwxrwx 1 runner runner    1103 Apr 10 12:43 manifest.json
+-rwxrwxrwx 1 runner runner     747 Apr 10 12:43 metadata.json
+-rwxrwxrwx 1 runner runner  599328 Apr 10 12:43 new-tape.png
+-rwxrwxrwx 1 runner runner 1080410 Apr 10 12:43 scrapbook-texture.png
+-rwxrwxrwx 1 runner runner  144863 Apr 10 12:43 soft-crumble-wide.jpg
+-rwxrwxrwx 1 runner runner    1609 Apr 10 12:43 sw.js
+-rwxrwxrwx 1 runner runner  599328 Apr 10 12:43 tape-masking-ref.png
+-rwxrwxrwx 1 runner runner  372709 Apr 10 12:43 yellow-tape-wrinkled.png
+
+./public/.well-known:
+total 12
+drwxrwxrwx 2 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 5 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx 1 runner runner  333 Apr 10 12:43 assetlinks.json
+
+./public/issues:
+total 16
+drwxrwxrwx 4 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 5 runner runner 4096 Apr 10 12:43 ..
+drwxrwxrwx 2 runner runner 4096 Apr 10 12:43 volume_1
+drwxrwxrwx 2 runner runner 4096 Apr 10 12:43 volume_2
+
+./public/issues/volume_1:
+total 63320
+drwxrwxrwx 2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 4 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx 1 runner runner 5171837 Apr 10 12:43 1.png
+-rwxrwxrwx 1 runner runner 2363801 Apr 10 12:43 10.png
+-rwxrwxrwx 1 runner runner 3421851 Apr 10 12:43 11.png
+-rwxrwxrwx 1 runner runner 2591370 Apr 10 12:43 12.png
+-rwxrwxrwx 1 runner runner 3129697 Apr 10 12:43 13.1-1.png
+-rwxrwxrwx 1 runner runner 5223137 Apr 10 12:43 13.1-2.png
+-rwxrwxrwx 1 runner runner 6959961 Apr 10 12:43 13.1.png
+-rwxrwxrwx 1 runner runner  258884 Apr 10 12:43 13.2.png
+-rwxrwxrwx 1 runner runner 4299980 Apr 10 12:43 13.png
+-rwxrwxrwx 1 runner runner 5481151 Apr 10 12:43 2.png
+-rwxrwxrwx 1 runner runner 3592791 Apr 10 12:43 3.png
+-rwxrwxrwx 1 runner runner 3661871 Apr 10 12:43 4.png
+-rwxrwxrwx 1 runner runner 2450659 Apr 10 12:43 5.png
+-rwxrwxrwx 1 runner runner 2759298 Apr 10 12:43 6.png
+-rwxrwxrwx 1 runner runner 6513351 Apr 10 12:43 7.png
+-rwxrwxrwx 1 runner runner 2924145 Apr 10 12:43 8.png
+-rwxrwxrwx 1 runner runner 3302785 Apr 10 12:43 9.png
+-rwxrwxrwx 1 runner runner  678686 Apr 10 12:43 `17.jpg
+
+./public/issues/volume_2:
+total 42404
+drwxrwxrwx 2 runner runner    4096 Apr 10 12:43 .
+drwxrwxrwx 4 runner runner    4096 Apr 10 12:43 ..
+-rwxrwxrwx 1 runner runner  347803 Apr 10 12:43 14.jpg
+-rwxrwxrwx 1 runner runner  366369 Apr 10 12:43 15.jpg
+-rwxrwxrwx 1 runner runner  439415 Apr 10 12:43 16.jpg
+-rwxrwxrwx 1 runner runner  511041 Apr 10 12:43 18.jpg
+-rwxrwxrwx 1 runner runner  609681 Apr 10 12:43 19.jpg
+-rwxrwxrwx 1 runner runner  453425 Apr 10 12:43 20.jpg
+-rwxrwxrwx 1 runner runner 3857813 Apr 10 12:43 21.png
+-rwxrwxrwx 1 runner runner 3082179 Apr 10 12:43 22.png
+-rwxrwxrwx 1 runner runner 3888879 Apr 10 12:43 23.png
+-rwxrwxrwx 1 runner runner 5473879 Apr 10 12:43 24.png
+-rwxrwxrwx 1 runner runner 4342727 Apr 10 12:43 25.png
+-rwxrwxrwx 1 runner runner 4767465 Apr 10 12:43 26-1.png
+-rwxrwxrwx 1 runner runner 1971020 Apr 10 12:43 26.png
+-rwxrwxrwx 1 runner runner 2486670 Apr 10 12:43 27.png
+-rwxrwxrwx 1 runner runner 2680054 Apr 10 12:43 28.png
+-rwxrwxrwx 1 runner runner 1923002 Apr 10 12:43 29.png
+-rwxrwxrwx 1 runner runner 2536889 Apr 10 12:43 30.png
+-rwxrwxrwx 1 runner runner 2449788 Apr 10 12:43 31.png
+-rwxrwxrwx 1 runner runner  374977 Apr 10 12:43 32.jpg
+-rwxrwxrwx 1 runner runner  346131 Apr 10 12:43 33.jpg
+-rwxrwxrwx 1 runner runner  462400 Apr 10 12:43 34.jpg
+
+./public/logo:
+total 112
+drwxrwxrwx 2 runner runner  4096 Apr 10 12:43 .
+drwxrwxrwx 5 runner runner  4096 Apr 10 12:43 ..
+-rwxrwxrwx 1 runner runner 52596 Apr 10 12:43 bjm B.png
+-rwxrwxrwx 1 runner runner 52246 Apr 10 12:43 bjm W.png
+
+./scripts:
+total 12
+drwxrwxrwx 2 runner runner 4096 Apr 10 12:43 .
+drwxrwxrwx 6 runner runner 4096 Apr 10 12:43 ..
+-rwxrwxrwx 1 runner runner 1351 Apr 10 12:43 generate-metadata.cjs
