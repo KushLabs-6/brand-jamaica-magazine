@@ -36,24 +36,40 @@
       .tape-masking-bg {
         position: absolute; inset: 0; background: url('/tape-masking-ref.png') no-repeat center center;
         background-size: 100% 100%; 
-        /* CALIBRATED FOR PERFECT JAMAICAN GREEN (#009B3A) */
-        filter: invert(34%) sepia(87%) saturate(1914%) hue-rotate(124deg) brightness(96%) contrast(102%) !important; 
+        /* RESTORED YELLOW MASKING TAPE COLOR */
+        filter: sepia(1) saturate(8) hue-rotate(-20deg) brightness(1.0) !important; 
         z-index: 90; transform: rotate(-1.5deg); pointer-events: none;
       }
       .click-e-bird-title span { 
-        background: linear-gradient(to bottom, #000 0%, #000 40%, #009b3a 41%, #009b3a 59%, #000 60%, #000 100%) !important;
+        background: linear-gradient(to bottom, #000 0%, #000 42%, #009b3a 43%, #009b3a 57%, #000 58%, #000 100%) !important;
         -webkit-background-clip: text !important; background-clip: text !important; -webkit-text-fill-color: transparent !important;
         filter: none !important; position: relative; z-index: 101;
       }
       .doctor-bird.origami { 
-        width: clamp(330px, 50vw, 480px); height: auto; position: absolute; top: 55%; left: 50%; 
+        width: clamp(350px, 45vw, 480px); height: auto; position: absolute; top: 50%; left: 50%; 
         transform: translate(-50%, -50%); z-index: 50; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.4));
-        animation: fly3D-safe 12s ease-in-out infinite;
+        animation: flyDynamic 15s ease-in-out infinite;
+        transform-style: preserve-3d;
       }
-      @keyframes fly3D-safe {
-        0%   { transform: translate(-50%, -50%) rotateY(10deg); }
-        50%  { transform: translate(-50%, -50%) rotateY(-180deg); }
-        100% { transform: translate(-50%, -50%) rotateY(-360deg); }
+
+      /* SVG Interior Animations (RESTORED) */
+      .bird-wing-l { transform-origin: 65px 55px; animation: flapL 0.1s infinite alternate ease-in-out; }
+      .bird-wing-r { transform-origin: 65px 55px; animation: flapR 0.1s infinite alternate ease-in-out; }
+      .bird-tail-streamers { transform-origin: 60px 80px; animation: swayTail 2s infinite alternate ease-in-out; }
+      .bird-leg { transform-origin: 60px 75px; animation: tuckLegs 3s infinite ease-in-out; }
+
+      @keyframes flapL { from { transform: rotateY(0deg) rotateZ(0deg); } to { transform: rotateY(-80deg) rotateZ(20deg); } }
+      @keyframes flapR { from { transform: rotateY(0deg) rotateZ(0deg); } to { transform: rotateY(80deg) rotateZ(-20deg); } }
+      @keyframes swayTail { from { transform: rotate(-5deg); } to { transform: rotate(5deg); } }
+      @keyframes tuckLegs { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-5deg) translateY(-2px); } }
+
+      /* DYNAMIC FLIGHT PATH - ACROSS THE CANVAS (RESTORED) */
+      @keyframes flyDynamic {
+        0%   { transform: translate(-80vw, -30vh) scale(0.5) rotateY(0deg); }
+        25%  { transform: translate(10vw, 10vh) scale(1.2) rotateY(20deg); }
+        50%  { transform: translate(80vw, -40vh) scale(0.6) rotateY(180deg); }
+        75%  { transform: translate(-30vw, 40vh) scale(1) rotateY(200deg); }
+        100% { transform: translate(-80vw, -30vh) scale(0.5) rotateY(360deg); }
       }
     </style>
   </head>
