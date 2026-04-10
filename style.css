@@ -73,9 +73,9 @@
 .social-icon { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .social-icon:hover { transform: scale(1.2) translateY(-2px); }
 
-/* Reader - paper texture background */
+/* Reader - transparent so the body's fixed paper texture shows through */
 #magazine-scene { 
-  background: #fdfaf3 url('cream-paper-ai.png') center/cover no-repeat; 
+  background: transparent;
   display: none; 
   flex-direction: column;
   align-items: center; 
