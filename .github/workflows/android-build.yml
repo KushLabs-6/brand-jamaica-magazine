@@ -48,6 +48,9 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git pull origin main || true
-          git add Brand-Jamaica-Magazine.apk Brand-Jamaica-Magazine.aab debug_build_docker.log debug_files_docker.log || true
+          git add debug_build_docker.log || true
+          git add debug_files_docker.log || true
+          git add Brand-Jamaica-Magazine.apk || true
+          git add Brand-Jamaica-Magazine.aab || true
           git commit -m "[skip ci] Direct Repository APK Archive" || true
-          git push
+          git push || true
