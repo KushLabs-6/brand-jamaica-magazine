@@ -43,25 +43,11 @@ jobs:
           find . -name "*.apk" -exec mv {} ./Brand-Jamaica-Magazine.apk \; || true
           find . -name "*.aab" -exec mv {} ./Brand-Jamaica-Magazine.aab \; || true
 
-      - name: Final Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v1.0.${{ github.run_number }}
-          name: Brand Jamaica Magazine v1.0.${{ github.run_number }}
-          draft: false
-          prerelease: false
-          files: |
-            Brand-Jamaica-Magazine.apk
-            Brand-Jamaica-Magazine.aab
-          fail_on_unmatched_files: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Commit Logs for Agent
+      - name: Archive Direct to Repository
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git pull origin main || true
-          git add debug_build_docker.log debug_files_docker.log
-          git commit -m "Upload Debug Logs from Docker Sandbox" || true
+          git add Brand-Jamaica-Magazine.apk Brand-Jamaica-Magazine.aab debug_build_docker.log debug_files_docker.log || true
+          git commit -m "[skip ci] Direct Repository APK Archive" || true
           git push
