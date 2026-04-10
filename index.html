@@ -16,9 +16,9 @@
         margin: 0; padding: 0; width: 100vw; height: 100vh; overflow: hidden;
         background: #fdfaf3 !important;
         background-image: 
-          linear-gradient(#d0cbb5 2.5px, transparent 2.5px),
-          linear-gradient(90deg, #d0cbb5 2.5px, transparent 2.5px),
-          repeating-linear-gradient(45deg, rgba(0,0,0,0.1) 0, rgba(0,0,0,0.1) 1.5px, transparent 1.5px, transparent 15px) !important;
+          linear-gradient(#d0cbb5 4px, transparent 4px),
+          linear-gradient(90deg, #d0cbb5 4px, transparent 4px),
+          repeating-linear-gradient(45deg, rgba(0,0,0,0.15) 0, rgba(0,0,0,0.15) 3px, transparent 3px, transparent 15px) !important;
         background-size: 80px 80px, 80px 80px, 20px 20px !important;
       }
       .scene { display: none; position: absolute; inset: 0; align-items: center; justify-content: center; flex-direction: column; }
@@ -32,7 +32,10 @@
       }
       .click-e-bird-title::before { 
         content: ""; position: absolute; inset: 0; background: url('/tape-masking-ref.png') no-repeat center center;
-        background-size: 100% 100%; filter: sepia(1) saturate(10) hue-rotate(-20deg); z-index: -1; 
+        background-size: 100% 100%; 
+        /* VIBRANT JAMAICAN GREEN TAPE */
+        filter: sepia(1) saturate(15) hue-rotate(100deg) brightness(0.9) !important; 
+        z-index: -1; 
       }
       .click-e-bird-title span { 
         background: linear-gradient(to bottom, #000 0%, #000 40%, #009b3a 41%, #009b3a 59%, #000 60%, #000 100%) !important;
@@ -226,6 +229,6 @@
       </div>
     </div>
     
-    <script type="module" src="/main.js?v=crushed-tape-v1"></script></script>
+    <script type="module" src="/main.js?v=crushed-tape-v1"></script>
   </body>
 </html>
