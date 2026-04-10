@@ -13,42 +13,41 @@ fe69296eff94: Pulling fs layer
 374d6af5114c: Pulling fs layer
 b61d09c01f6c: Pulling fs layer
 8c7496c1d284: Pulling fs layer
-8c1ed1def9d2: Waiting
-9fa90b7e1816: Waiting
-916926b748ba: Waiting
+e94932625c5a: Waiting
 fe69296eff94: Waiting
-374d6af5114c: Waiting
-b61d09c01f6c: Waiting
-8c7496c1d284: Waiting
 7704b1a39512: Waiting
 762aa0aa2e63: Waiting
-e94932625c5a: Waiting
-06b6c820e694: Verifying Checksum
+8c1ed1def9d2: Waiting
+374d6af5114c: Waiting
+9fa90b7e1816: Waiting
+b61d09c01f6c: Waiting
+8c7496c1d284: Waiting
+916926b748ba: Waiting
 06b6c820e694: Download complete
 9a69a0203501: Verifying Checksum
 9a69a0203501: Download complete
-7e44806e0d7f: Verifying Checksum
-7e44806e0d7f: Download complete
 7704b1a39512: Verifying Checksum
 7704b1a39512: Download complete
+7e44806e0d7f: Verifying Checksum
+7e44806e0d7f: Download complete
 8c1ed1def9d2: Verifying Checksum
 8c1ed1def9d2: Download complete
 9fa90b7e1816: Verifying Checksum
 9fa90b7e1816: Download complete
 762aa0aa2e63: Verifying Checksum
 762aa0aa2e63: Download complete
-e94932625c5a: Verifying Checksum
-e94932625c5a: Download complete
 916926b748ba: Verifying Checksum
 916926b748ba: Download complete
+e94932625c5a: Verifying Checksum
+e94932625c5a: Download complete
 374d6af5114c: Verifying Checksum
 374d6af5114c: Download complete
 8c7496c1d284: Verifying Checksum
 8c7496c1d284: Download complete
-b61d09c01f6c: Verifying Checksum
-b61d09c01f6c: Download complete
 fe69296eff94: Verifying Checksum
 fe69296eff94: Download complete
+b61d09c01f6c: Verifying Checksum
+b61d09c01f6c: Download complete
 7e44806e0d7f: Pull complete
 06b6c820e694: Pull complete
 9a69a0203501: Pull complete
@@ -33315,7 +33314,7 @@ build file '/app/app/build.gradle': 44: Unexpected input: ',' @ line 44, column 
 	... 231 more
 
 
-BUILD FAILED in 24s
+BUILD FAILED in 26s
 [0m
 
 
