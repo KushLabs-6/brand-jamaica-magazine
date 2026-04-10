@@ -29,11 +29,12 @@ jobs:
         run: |
           chmod -R 777 ${{ github.workspace }}
           docker run --rm \
+            --entrypoint /bin/sh \
             -v ${{ github.workspace }}:/app \
             -w /app \
             -e BUBBLEWRAP_KEYSTORE_PASSWORD=brandjamaica \
             -e BUBBLEWRAP_KEY_PASSWORD=brandjamaica \
-            ghcr.io/googlechromelabs/bubblewrap:latest sh -c "yes | bubblewrap build --universalApk" > debug_build_docker.log 2>&1 || true
+            ghcr.io/googlechromelabs/bubblewrap:latest -c "yes | bubblewrap build --universalApk" > debug_build_docker.log 2>&1 || true
           
           ls -laR > debug_files_docker.log
 
@@ -41,6 +42,20 @@ jobs:
         run: |
           find . -name "*.apk" -exec mv {} ./Brand-Jamaica-Magazine.apk \; || true
           find . -name "*.aab" -exec mv {} ./Brand-Jamaica-Magazine.aab \; || true
+
+      - name: Final Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: Brand Jamaica Magazine v1.0.${{ github.run_number }}
+          draft: false
+          prerelease: false
+          files: |
+            Brand-Jamaica-Magazine.apk
+            Brand-Jamaica-Magazine.aab
+          fail_on_unmatched_files: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Commit Logs for Agent
         run: |
@@ -50,12 +65,3 @@ jobs:
           git add debug_build_docker.log debug_files_docker.log
           git commit -m "Upload Debug Logs from Docker Sandbox" || true
           git push
-
-      - name: Upload APK directly to Workflow Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: Brand-Jamaica-Android-App
-          path: |
-            Brand-Jamaica-Magazine.apk
-            Brand-Jamaica-Magazine.aab
-          retention-days: 5
