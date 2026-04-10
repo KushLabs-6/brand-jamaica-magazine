@@ -1,5 +1,5 @@
 /* =========================================
-   BRAND JAMAICA MAGAZINE 2.0 - FULL STYLES
+   BRAND JAMAICA MAGAZINE 3.0 - RECOVERY
    ========================================= */
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:wght@300;600;900&display=swap');
 
@@ -20,7 +20,7 @@ html, body {
   margin: 0 !important;
   padding: 0 !important;
   color: #2a1a00;
-  /* BOLD CARTOONISH/GRAPHIC PAPER TEXTURE - HIGH VISIBILITY GUARANTEED */
+  /* BOLD GRAPHIC PAPER TEXTURE */
   background: #fdfaf3 !important;
   background-image: 
     linear-gradient(#d0cbb5 2.5px, transparent 2.5px),
@@ -30,16 +30,9 @@ html, body {
   background-position: center;
 }
 
-#texture-bg {
-  display: none;
-}
-
 #app {
   width: 100vw !important;
   height: 100vh !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  max-width: none !important;
   position: relative;
   overflow: hidden;
 }
@@ -49,21 +42,28 @@ html, body {
   display: none;
   position: absolute;
   inset: 0;
-  width: 100vw !important;
-  height: 100vh !important;
-  max-width: none !important;
+  width: 100vw;
+  height: 100vh;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Center everything perfectly */
-  padding: 0 !important;
+  justify-content: center;
   z-index: 10;
 }
 .scene.active { display: flex; }
 
-/* ---- INTRO SCENE (TOUCH E BIRD) ---- */
+/* ---- INTRO SCREEN (TOUCH E BIRD) ---- */
 #intro-scene {
   background: transparent;
   z-index: 9999;
+}
+
+.intro-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 .click-e-bird-title {
@@ -76,10 +76,11 @@ html, body {
   color: #000;
   text-transform: uppercase;
   z-index: 100;
-  margin-bottom: 0;
   transform: rotate(-1.5deg);
+  margin-bottom: 2rem;
 }
 
+/* Isolated Tape Filter - Using Sibling instead of Parent to avoid color bleeding */
 .click-e-bird-title::before {
   content: "";
   position: absolute;
@@ -97,70 +98,40 @@ html, body {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
+  pointer-events: none;
 }
 
 .doctor-bird.origami {
   width: clamp(300px, 60vw, 550px);
-  max-width: none;
   height: auto;
   cursor: pointer;
   z-index: 50; 
-  /* Perfect Absolute Centering behind the instructional tape */
-  position: absolute;
-  top: 55%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   transition: transform 0.3s ease;
   filter: drop-shadow(0 20px 35px rgba(0,0,0,0.3));
-  /* 3D Flight Path */
+  margin-top: -6rem; /* Tuck behind the tape headline */
+  /* Animations */
   animation: fly3D 12s ease-in-out infinite;
   transform-style: preserve-3d;
   will-change: transform;
 }
 
-/* SVG Interior Animations */
-.bird-wing-l {
-  transform-origin: 65px 55px;
-  animation: flapL 0.15s infinite alternate ease-in-out;
-}
-.bird-wing-r {
-  transform-origin: 65px 55px;
-  animation: flapR 0.15s infinite alternate ease-in-out;
-}
-.bird-tail-streamers {
-  transform-origin: 60px 80px;
-  animation: swayTail 2.5s infinite alternate ease-in-out;
-}
-.bird-leg {
-  transform-origin: 60px 75px;
-  animation: tuckLegs 3s infinite ease-in-out;
-}
+/* Interior SVG Animations */
+.bird-wing-l { transform-origin: 65px 55px; animation: flapL 0.15s infinite alternate ease-in-out; }
+.bird-wing-r { transform-origin: 65px 55px; animation: flapR 0.15s infinite alternate ease-in-out; }
+.bird-tail-streamers { transform-origin: 60px 80px; animation: swayTail 2.5s infinite alternate ease-in-out; }
+.bird-leg { transform-origin: 60px 75px; animation: tuckLegs 3s infinite ease-in-out; }
 
-@keyframes tuckLegs {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-10deg) translateY(-2px); }
-}
-
-@keyframes swayTail {
-  from { transform: rotate(-8deg); }
-  to { transform: rotate(8deg); }
-}
-
-@keyframes flapL {
-  from { transform: rotateY(0deg) rotateZ(0deg); }
-  to { transform: rotateY(-85deg) rotateZ(25deg); }
-}
-@keyframes flapR {
-  from { transform: rotateY(0deg) rotateZ(0deg); }
-  to { transform: rotateY(85deg) rotateZ(-25deg); }
-}
+@keyframes tuckLegs { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-10deg) translateY(-2px); } }
+@keyframes swayTail { from { transform: rotate(-8deg); } to { transform: rotate(8deg); } }
+@keyframes flapL { from { transform: rotateY(0deg) rotateZ(0deg); } to { transform: rotateY(-85deg) rotateZ(25deg); } }
+@keyframes flapR { from { transform: rotateY(0deg) rotateZ(0deg); } to { transform: rotateY(85deg) rotateZ(-25deg); } }
 
 @keyframes fly3D {
-  0%   { transform: translate3d(-30vw, -10vh, 0px) rotateY(10deg) rotateX(5deg); }
-  25%  { transform: translate3d(15vw, 15vh, 150px) rotateY(-20deg) rotateX(-10deg); }
-  50%  { transform: translate3d(35vw, -20vh, 300px) rotateY(-180deg) rotateX(15deg); }
-  75%  { transform: translate3d(-15vw, 25vh, 100px) rotateY(-210deg) rotateX(-5deg); }
-  100% { transform: translate3d(-30vw, -10vh, 0px) rotateY(-350deg) rotateX(5deg); }
+  0%   { transform: translate3d(-10vw, -5vh, 100px) rotateY(10deg); }
+  25%  { transform: translate3d(5vw, 5vh, 200px) rotateY(-10deg); }
+  50%  { transform: translate3d(10vw, -10vh, 100px) rotateY(-180deg); }
+  75%  { transform: translate3d(-5vw, 10vh, 150px) rotateY(-200deg); }
+  100% { transform: translate3d(-10vw, -5vh, 100px) rotateY(-360deg); }
 }
 
 .doctor-bird.fly-away {
@@ -169,362 +140,46 @@ html, body {
 }
 
 @keyframes flyAway {
-  to {
-    transform: translate3d(120vw, -120vh, 800px) rotateY(1440deg) scale(0);
-    opacity: 0;
-  }
+  to { transform: translate3d(120vw, -120vh, 800px) rotateY(1440deg) scale(0); opacity: 0; }
 }
 
-
-
-
-
-/* ---- LANDING PAGE ---- */
-.header-elements {
-  text-align: center;
-  margin-bottom: 1rem;
+/* ---- CAROUSEL & HUB STYLES (Cleaned) ---- */
+#carousel-scene { overflow: visible; }
+.header-elements { text-align: center; margin-bottom: 2rem; }
+.magazine-title { 
+  font-family: 'Inter', sans-serif; font-weight: 900; font-size: 4rem; letter-spacing: -2px;
+  background: linear-gradient(135deg, #111, #009b3a, #111);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  transform: rotate(-1deg); display: inline-block;
 }
-
-/* Tape-Style Logo */
-.logo-wrapper {
-  position: relative;
-  display: inline-block;
-  padding: 0.5rem 2rem;
-  margin-bottom: 0.5rem;
-}
-
 .tape-separator {
-  width: 160px;
-  height: 25px;
-  background: rgba(254, 209, 0, 0.7); /* translucent Jamaican Gold/Yellow */
-  margin: -8px auto -10px; /* Overlap the texts tightly */
-  transform: rotate(-3deg);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-  border-left: 2px dashed rgba(255, 255, 255, 0.3);
-  border-right: 2px dashed rgba(255, 255, 255, 0.3);
-  background-image: linear-gradient(
-    90deg, 
-    rgba(255,255,255,0.2) 0%, 
-    rgba(255,255,255,0) 10%, 
-    rgba(255,255,255,0) 90%, 
-    rgba(255,255,255,0.2) 100%
-  ), repeating-linear-gradient(
-    45deg,
-    transparent,
-    transparent 10px,
-    rgba(255, 255, 255, 0.05) 10px,
-    rgba(255, 255, 255, 0.05) 20px
-  );
-  mix-blend-mode: hard-light;
-  position: relative;
-  z-index: 3;
+  width: 160px; height: 25px; background: rgba(254, 209, 0, 0.7);
+  margin: -10px auto; transform: rotate(-3deg); mix-blend-mode: hard-light;
 }
 
-.magazine-title {
-  position: relative; z-index: 2;
-  margin: 0;
-  line-height: 1;
-  font-size: 4.5rem;
-  font-weight: 900;
-  letter-spacing: -2px;
-  
-  /* Black with Green Mixed In */
-  background: linear-gradient(135deg, #111111 20%, #007a2e 50%, #111111 80%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    
-  font-family: 'Inter', sans-serif;
-  transform: rotate(-1deg);
-  display: inline-block;
-}
+.carousel-container { width: 100%; height: 400px; perspective: 1500px; display: flex; align-items: center; justify-content: center; margin-top: 2rem; }
+.carousel { width: 260px; height: 360px; position: relative; transform-style: preserve-3d; transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1); }
+.carousel-item { position: absolute; width: 260px; height: 360px; left: 0; top: 0; transform: rotateY(var(--rotation)) translateZ(330px); cursor: pointer; }
+.cover-wrapper { background: white; padding: 10px 10px 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: transform 0.3s ease; }
+.carousel-item:hover .cover-wrapper { transform: translateY(-20px); }
+.cover-wrapper img { width: 100%; height: 280px; object-fit: cover; }
+.volume-title { font-family: 'Caveat', cursive; font-size: 1.4rem; text-align: center; margin-top: 10px; color: #333; }
 
-.magazine-title-sub {
-  position: relative; z-index: 2;
-  margin: -10px auto 0;
-  line-height: 1;
-  font-size: 2.2rem;
-  font-weight: 900;
-  letter-spacing: 2px;
-  color: #fff;
-  background: #111; /* Stencil Block Background */
-  padding: 0.3rem 1rem;
-  transform: rotate(1deg);
-  display: inline-block;
-  box-shadow: 3px 3px 0 rgba(0,0,0,0.8);
-}
+.scrap-button { background: #000; color: #fff; border: none; padding: 12px 24px; font-weight: 700; cursor: pointer; text-transform: uppercase; box-shadow: 4px 4px 0 #5a3e1b; }
+.scrap-button:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #5a3e1b; }
+.hub-nav-btn { background: var(--green); }
 
-.magazine-subtitle {
-  font-family: 'Caveat', cursive;
-  font-size: 1.6rem;
-  color: #5a2e00;
-}
+.social-links { display: flex; gap: 2rem; margin-top: 3rem; padding: 1rem 3rem; background: rgba(255,255,255,0.3); backdrop-filter: blur(10px); border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+.social-icon { width: 35px; height: 35px; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.social-icon:hover { transform: scale(1.4) translateY(-5px); }
 
-/* ---- 3D CAROUSEL ---- */
-.carousel-container {
-  width: 100%;
-  height: 400px;
-  perspective: 1500px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-top: 1rem;
-}
+/* Reader */
+#magazine-scene { background: rgba(0,0,0,0.85); display: none; }
+#magazine-scene.active { display: flex; }
+.book-container { width: 95vw; height: 90vh; display: flex; align-items: center; justify-content: center; }
 
-.carousel {
-  width: 260px;
-  height: 360px;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.carousel-item {
-  position: absolute;
-  width: 260px;
-  height: 360px;
-  left: 0; top: 0;
-  transform: rotateY(var(--rotation)) translateZ(330px);
-  cursor: pointer;
-  pointer-events: all;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.cover-wrapper {
-  background: white;
-  padding: 8px 8px 36px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-  position: relative;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.carousel-item:hover .cover-wrapper {
-  transform: translateY(-15px) rotate(0deg);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.35);
-}
-
-.cover-wrapper img {
-  width: 100%;
-  height: 280px;
-  object-fit: cover;
-  display: block;
-}
-
-.volume-title {
-  font-family: 'Caveat', cursive;
-  font-size: 1.3rem;
-  text-align: center;
-  margin-top: 8px;
-  color: #333;
-}
-
-.tape {
-  position: absolute;
-  top: -10px; left: 50%;
-  transform: translateX(-50%) rotate(-4deg);
-  width: 90px; height: 26px;
-  background: rgba(254, 209, 0, 0.5);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-}
-
-/* ---- CONTROLS & NAV BUTTONS ---- */
-.carousel-controls {
-  display: flex;
-  gap: 1rem;
-  margin: 1.5rem 0 0.5rem;
-  justify-content: center;
-  z-index: 10;
-}
-
-.feature-controls {
-  display: flex;
-  gap: 1rem;
-  margin: 0.5rem 0 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  z-index: 10;
-}
-
-.scrap-button {
-  background: var(--black);
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  font-size: 0.85rem;
-  cursor: pointer;
-  box-shadow: 3px 3px 0 #5a3e1b;
-  transition: all 0.15s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.scrap-button:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0 #5a3e1b;
-}
-
-.hub-nav-btn {
-  background: var(--green);
-  color: white;
-}
-.hub-nav-btn:hover { background: #007a2d; }
-
-/* ---- SOCIAL LINKS ---- */
-.social-links {
-  display: flex;
-  gap: 1.5rem;
-  margin-top: 2rem;
-  padding: 1rem 2.5rem;
-  background: rgba(255,255,255,0.25);
-  backdrop-filter: blur(15px);
-  border-radius: 50px;
-  border: 1px solid rgba(255,255,255,0.4);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  z-index: 10;
-}
-
-
-
-.social-icon {
-  width: 30px; height: 30px;
-  display: flex; align-items: center;
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.social-icon img { width: 100%; height: 100%; object-fit: contain; }
-.social-icon:hover { transform: scale(1.3) translateY(-4px); }
-
-/* ---- MAGAZINE READER ---- */
-#magazine-scene {
-  justify-content: center;
-  background: rgba(40,20,0,0.6);
-  overflow: hidden;
-}
-
-.sticky-btn {
-  position: absolute;
-  top: 1rem; left: 1rem;
-  z-index: 20;
-}
-
-.book-container {
-  width: 95vw;
-  max-width: 1200px;
-  height: 85vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Full-stretch page images — no white borders */
-.magazine-page-img#app {
-  width: 100vw;
-  height: 100vh;
-  margin: 0 !important;
-  padding: 0 !important;
-  max-width: none !important;
-  display: block;
-  overflow: hidden;
-}
-
-.page { background: white; }
-.page-content { width: 100%; height: 100%; position: relative; }
-
-/* ---- HUB SECTIONS ---- */
-.hub-section {
-  width: 90vw;
-  max-width: 900px;
-  background: var(--paper);
-  border: 3px solid var(--black);
-  box-shadow: 8px 8px 0 var(--black);
-  padding: 2rem;
-  margin: 1.5rem auto;
-  position: relative;
-}
-
-.hub-title {
-  font-family: 'Caveat', cursive;
-  font-size: 2.5rem;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 3px dashed var(--green);
-}
-
-.scroll-btn {
-  margin-bottom: 1rem;
-}
-
-/* ---- EVENTS ---- */
-.event-item {
-  padding: 0.75rem 1rem;
-  margin-bottom: 0.5rem;
-  background: white;
-  border-left: 4px solid var(--green);
-  font-size: 1rem;
-}
-
-/* ---- COMMUNITY FEED ---- */
-.grid-view {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.community-card {
-  background: white;
-  padding: 8px;
-  box-shadow: 4px 4px 0 var(--black);
-  border: 2px solid var(--black);
-  overflow: hidden;
-}
-
-/* ---- FORMS ---- */
-.scrap-input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  margin-bottom: 0.75rem;
-  border: 2px solid var(--black);
-  font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  background: white;
-  display: block;
-}
-
-.scrap-button-primary {
-  background: var(--green);
-  color: white;
-  border: none;
-  padding: 0.85rem 1.75rem;
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  box-shadow: 4px 4px 0 var(--black);
-  transition: all 0.15s;
-  text-transform: uppercase;
-}
-.scrap-button-primary:hover {
-  background: #007a2d;
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 var(--black);
-}
-.scrap-button-primary:disabled { opacity: 0.6; cursor: default; }
-
-/* ---- PAYPAL SECTION ---- */
-#paypal-button-container {
-  min-height: 60px;
-  margin: 1.5rem auto;
-  max-width: 400px;
-}
-
-/* ---- MOBILE ---- */
 @media (max-width: 768px) {
-  .magazine-title { font-size: 2.2rem; }
-  .controls { gap: 0.5rem; }
-  .scrap-button { padding: 8px 12px; font-size: 0.75rem; }
+  .magazine-title { font-size: 2.5rem; }
+  .click-e-bird-title { font-size: 3rem; padding: 2rem 4rem; }
+  .doctor-bird.origami { width: 80vw; }
 }
