@@ -53,9 +53,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     let metadata = null;
     let pageFlip = null;
 
-    // Safely encode image paths (handles spaces, backticks, brackets)
-    const encodePath = (path) =>
-        path.split('/').map(segment => encodeURIComponent(segment)).join('/');
+    // Safely encode image paths - respects the Vite base URL (e.g. /brand-jamaica-magazine/ on GitHub Pages)
+    const BASE = import.meta.env.BASE_URL; // '/' locally, '/brand-jamaica-magazine/' on GitHub Pages
+    const encodePath = (relativePath) => {
+        // relativePath looks like: /issues/volume_1/1.png
+        // We strip the leading slash and prepend BASE
+        const clean = relativePath.replace(/^\//, '');
+        const parts = clean.split('/');
+        const encoded = parts.map(segment => encodeURIComponent(segment)).join('/');
+        return BASE + encoded;
+    };
 
     // --- 0. LOAD METADATA ---
     try {
@@ -152,10 +159,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     function responsiveDims() {
-        // Return original aspect ratio base dims
-        const w = window.innerWidth;
-        const width = w < 1000 ? w * 0.42 : 450;
-        return { width, height: Math.round(width * 1.33) };
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const isMobile = vw < 768;
+        
+        if (isMobile) {
+            // Portrait mode on mobile: single page fills 95% width
+            const width = Math.round(vw * 0.92);
+            const height = Math.round(Math.min(vh * 0.80, width * 1.41)); // A4-ish ratio
+            return { width, height, portrait: true };
+        } else {
+            // Desktop: two-page spread, each page ~42% of viewport width
+            const width = Math.round(Math.min(vw * 0.42, 500));
+            const height = Math.round(Math.min(vh * 0.82, width * 1.33));
+            return { width, height, portrait: false };
+        }
     }
 
     // --- 4. LOAD MAGAZINE PAGES  ---
@@ -198,18 +216,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             width: dims.width,
             height: dims.height,
             size: 'stretch',
-            minWidth: 300,
-            maxWidth: 550,  // Bound single page stretch to 550 (1100px spread total)
-            minHeight: 400,
-            maxHeight: 733, 
-            showCover: false, // Ensures it opens as a standard 2-page spread immediately, centered!
-            mobileScrollSupport: true,
+            minWidth: 280,
+            maxWidth: 550,
+            minHeight: 380,
+            maxHeight: 750,
+            showCover: false,
+            mobileScrollSupport: false,
             drawShadow: true,
-            flippingTime: 1000,
-            usePortrait: window.innerWidth < 768, 
-            maxShadowOpacity: 0.7,
+            flippingTime: 800,
+            usePortrait: dims.portrait,
+            maxShadowOpacity: 0.5,
             showPageCorners: true,
-            swipeDistance: 40,
+            swipeDistance: 30,
             clickEventForward: true
         });
 
