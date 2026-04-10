@@ -19,6 +19,7 @@ const upload = multer({ storage });
 const __dirname = path.dirname(new URL(import.meta.url).pathname.slice(1));
 
 export default defineConfig({
+  base: '/brand-jamaica-magazine/',
   server: {
     host: '0.0.0.0',
     port: 5173,
