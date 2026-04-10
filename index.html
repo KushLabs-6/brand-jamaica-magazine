@@ -15,11 +15,11 @@
       html, body {
         margin: 0; padding: 0; width: 100vw; height: 100vh; overflow: hidden;
         background: #fdfaf3 !important;
-        background-image: 
-          linear-gradient(#b0ab90 4.5px, transparent 4.5px),
-          linear-gradient(90deg, #b0ab90 4.5px, transparent 4.5px),
-          repeating-linear-gradient(45deg, rgba(0,0,0,0.18) 0, rgba(0,0,0,0.18) 3px, transparent 3px, transparent 15px) !important;
-        background-size: 80px 80px, 80px 80px, 20px 20px !important;
+        /* FINAL CRUSHED PAPER TEXTURE - PHOTOREALISTIC */
+        background-image: url('/crushed-paper.png') !important;
+        background-size: cover !important;
+        background-position: center !important;
+        background-attachment: fixed !important;
       }
       .scene { display: none; position: absolute; inset: 0; align-items: center; justify-content: center; flex-direction: column; }
       .scene.active { display: flex; }
