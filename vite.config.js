@@ -99,11 +99,26 @@ export default defineConfig({
           }
         });
 
-        // 4. Volume Issues API - natural sort
+        // 3.5. Desktop Pipeline for physical magazine assets 
+        server.middlewares.use('/issues', (req, res, next) => {
+            const desktopIssuesRoot = 'C:\\Users\\demol\\Desktop\\Brand Jamaica Magazine\\public\\issues';
+            const requestedPath = decodeURIComponent(req.url.split('?')[0]);
+            const targetPath = path.join(desktopIssuesRoot, requestedPath);
+            if (fs.existsSync(targetPath) && fs.statSync(targetPath).isFile()) {
+                const ext = path.extname(targetPath).toLowerCase();
+                if (ext === '.png') res.setHeader('Content-Type', 'image/png');
+                if (ext === '.jpg' || ext === '.jpeg') res.setHeader('Content-Type', 'image/jpeg');
+                res.end(fs.readFileSync(targetPath));
+            } else {
+                next();
+            }
+        });
+
+        // 4. Volume Issues API - natural sort (Mapped to Desktop)
         server.middlewares.use('/api/issues', (req, res, next) => {
           const volumeId = req.url.split('/').filter(Boolean)[0];
           if (!volumeId) return next();
-          const folderPath = path.resolve(__dirname, 'public/issues/volume_' + volumeId);
+          const folderPath = 'C:\\Users\\demol\\Desktop\\Brand Jamaica Magazine\\public\\issues\\volume_' + volumeId;
           if (fs.existsSync(folderPath)) {
             const files = fs.readdirSync(folderPath);
             const images = files

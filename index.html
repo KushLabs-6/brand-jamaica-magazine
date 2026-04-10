@@ -5,8 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Brand Jamaica Magazine</title>
     <!-- Modern Typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:wght@300;600;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./style.css?v=definitive-fix-v1">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:wght@300;600;900&family=Finger+Paint&family=Knewave&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#009b3a">
+    <link rel="apple-touch-icon" href="/icon-512.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Brand Jamaica">
+    
     <!-- PayPal SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
     <style>
@@ -14,52 +22,54 @@
       :root { --green: #009b3a; --gold: #fed100; --black: #000; }
       html, body {
         margin: 0; padding: 0; width: 100vw; height: 100vh; overflow: hidden;
-        background: #fdfaf3 !important;
+        background-color: #fcebd0 !important;
         /* FINAL CRUSHED PAPER TEXTURE - PHOTOREALISTIC */
-        background-image: url('/crushed-paper.png') !important;
+        background-image: url('/cream-paper-ai.png') !important;
         background-size: cover !important;
         background-position: center !important;
         background-attachment: fixed !important;
+        background-blend-mode: luminosity !important;
       }
       .scene { display: none; position: absolute; inset: 0; align-items: center; justify-content: center; flex-direction: column; }
       .scene.active { display: flex; }
       #intro-scene { z-index: 9999; perspective: 1000px; }
       .intro-container { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; }
       .click-e-bird-title { 
-        position: relative; z-index: 100; font-family: 'Inter', sans-serif; font-weight: 900; 
-        font-size: clamp(2.5rem, 12vw, 5.5rem); letter-spacing: -2px; padding: 4rem 8rem; 
-        text-transform: uppercase; transform: rotate(-1.5deg); 
+        position: relative; z-index: 100; font-family: 'Finger Paint', 'Knewave', cursive; 
+        font-size: clamp(4rem, 16vw, 7rem); letter-spacing: 2px; padding: 3rem 6rem; 
+        text-transform: uppercase; transform: rotate(-2deg); 
+        font-weight: 900; /* Force synthetic bolding if supported */
       }
       .click-e-bird-title::before { 
         display: none; /* Disabling pseudo to use the isolated div for better color control */
       }
       .tape-masking-bg {
-        position: absolute; inset: 0; background: url('/tape-masking-ref.png') no-repeat center center;
+        position: absolute; inset: 0; background: url('/new-tape.png') no-repeat center center;
         background-size: 100% 100%; 
-        /* RESTORED YELLOW MASKING TAPE COLOR */
-        filter: sepia(1) saturate(8) hue-rotate(-20deg) brightness(1.0) !important; 
-        z-index: 90; transform: rotate(-1.5deg); pointer-events: none;
+        /* PURE TAPE FROM ASSET */
+        filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)) !important; 
+        z-index: 90; transform: rotate(-2deg); pointer-events: none;
       }
       .click-e-bird-title span { 
         /* ULTRA-SOFT FADED GREEN GRADIENT */
-        background: linear-gradient(to bottom, 
-          #000 0%, 
-          #009b3a 50%, 
-          #000 100%
-        ) !important;
+        background: linear-gradient(180deg, #18b552 0%, #009b3a 100%) !important;
         -webkit-background-clip: text !important; background-clip: text !important; -webkit-text-fill-color: transparent !important;
-        filter: none !important; position: relative; z-index: 101;
+        /* THICKEN THE STROKE TO SATISFY "MAKE IT THICK" */
+        -webkit-text-stroke: 2px #0a9d41;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)) !important; position: relative; z-index: 101;
+      }
+      .bird-flight-container {
+        position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto; 
+        width: clamp(350px, 45vw, 480px); height: 260px;
+        z-index: 50; animation: flyDynamic 15s cubic-bezier(0.4, 0, 0.2, 1) infinite; transform-style: preserve-3d;
       }
       .doctor-bird.origami { 
-        width: clamp(350px, 45vw, 480px); height: auto; position: absolute; top: 50%; left: 50%; 
-        transform: translate(-50%, -50%); z-index: 50; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6));
-        animation: flyDynamic 15s ease-in-out infinite;
-        transform-style: preserve-3d;
+        width: 100%; height: auto; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6));
       }
 
       /* SVG Interior Animations (RESTORED) */
-      .bird-wing-l { transform-origin: 65px 55px; animation: flapL 0.1s infinite alternate ease-in-out; }
-      .bird-wing-r { transform-origin: 65px 55px; animation: flapR 0.1s infinite alternate ease-in-out; }
+      .bird-wing-l { transform-origin: 65px 55px; animation: flapL 0.05s infinite alternate ease-in-out; }
+      .bird-wing-r { transform-origin: 65px 55px; animation: flapR 0.05s infinite alternate ease-in-out; }
       .bird-tail-streamers { transform-origin: 60px 80px; animation: swayTail 2s infinite alternate ease-in-out; }
       .bird-leg { transform-origin: 60px 75px; animation: tuckLegs 3s infinite ease-in-out; }
 
@@ -68,7 +78,7 @@
       @keyframes swayTail { from { transform: rotate(-5deg); } to { transform: rotate(5deg); } }
       @keyframes tuckLegs { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-5deg) translateY(-2px); } }
 
-      /* DYNAMIC FLIGHT PATH - ACROSS THE CANVAS (RESTORED) */
+      /* DYNAMIC FLIGHT PATH - FULL CANVAS EXPERIMENT */
       @keyframes flyDynamic {
         0%   { transform: translate(-80vw, -30vh) scale(0.5) rotateY(0deg); }
         25%  { transform: translate(10vw, 10vh) scale(1.2) rotateY(20deg); }
@@ -89,9 +99,10 @@
             <!-- Isolated Masking Tape Layer -->
             <div class="tape-masking-bg"></div>
             <!-- Isolated Green Ribbon Text Layer -->
-            <div class="click-e-bird-title"><span>TOUCH E BIRD</span></div>
+            <div class="click-e-bird-title" style="pointer-events: none;"><span>TOUCH E BIRD</span></div>
         </div>
-        <svg id="btn-start" class="doctor-bird origami" viewBox="0 0 150 200" xmlns="http://www.w3.org/2000/svg">
+        <div class="bird-flight-container">
+          <svg id="btn-start" class="doctor-bird origami" viewBox="0 0 150 200" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="birdGrad" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" style="stop-color:#009b3a;stop-opacity:1" />
@@ -134,42 +145,40 @@
             </g>
           </g>
         </svg>
+        </div>
       </div>
       
       <!-- Landing 3D Carousel Selection Scene -->
       <div id="carousel-scene" class="scene">
         <div class="header-elements">
-          <div id="logo-container">
-            <div class="logo-wrapper">
-              <h1 class="magazine-title">BRAND JAMAICA</h1>
-              <div class="tape-separator"></div>
-              <h2 class="magazine-title-sub">MAGAZINE</h2>
-            </div>
+          <div id="logo-container" class="modern-header-logo">
+             <span class="logo-brand">BRAND JAMAICA</span>
+             <span class="logo-mag">MAGAZINE</span>
           </div>
-          <p class="magazine-subtitle">The Real Cultural Scrapbook Experience</p>
+          <p class="issue-select-title">Select an Issue to Read</p>
         </div>
         
         <div class="carousel-container">
           <div class="carousel">
-            <div class="carousel-item" data-volume="1" style="--rotation: 0deg;" onclick="openVolume(1)">
+            <div class="carousel-item" data-volume="1" onclick="openVolume(1)">
               <div class="cover-wrapper polaroid">
+                <div class="tape"></div>
                 <img src="/cover-culture.png" alt="Culture Issue" />
                 <div class="volume-title">Vol 1: The Culture</div>
-                <div class="tape"></div>
               </div>
             </div>
-            <div class="carousel-item" data-volume="2" style="--rotation: 120deg;" onclick="openVolume(2)">
+            <div class="carousel-item" data-volume="2" onclick="openVolume(2)">
               <div class="cover-wrapper polaroid">
+                <div class="tape"></div>
                 <img src="/cover-cuisine.png" alt="Cuisine Issue" />
-                <div class="volume-title">Vol 2: The Flavor</div>
-                <div class="tape"></div>
+                <div class="volume-title" style="transform: rotate(1deg);">Vol 2: The Flavor</div>
               </div>
             </div>
-            <div class="carousel-item" data-volume="3" style="--rotation: 240deg;" onclick="openVolume(3)">
+            <div class="carousel-item" data-volume="3" onclick="openVolume(3)">
               <div class="cover-wrapper polaroid">
-                <img src="/cover-landscape.png" alt="Landscape Issue" />
-                <div class="volume-title">Vol 3: The Landscape</div>
                 <div class="tape"></div>
+                <img src="/cover-landscape.png" alt="Landscape Issue" />
+                <div class="volume-title" style="transform: rotate(-1deg);">Vol 3: The Landscape</div>
               </div>
             </div>
           </div>
@@ -189,13 +198,13 @@
         <!-- Social Media Links -->
         <div class="social-links">
           <a href="https://www.instagram.com/brandjamaicamagazine/" target="_blank" class="social-icon">
-             <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
+             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
           </a>
           <a href="https://www.youtube.com/@BRANDJAMAICAMAGAZINE" target="_blank" class="social-icon">
-             <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
+             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fed100" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
           </a>
           <a href="https://www.tiktok.com/@brandjamaicamagazine" target="_blank" class="social-icon">
-             <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok">
+             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#009b3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path><path d="M15 8v8a4 4 0 0 1-4 4"></path><path d="M15 4v4a4 4 0 0 0 4 4"></path></svg>
           </a>
         </div>
       </div>
@@ -253,6 +262,15 @@
       </div>
     </div>
     
-    <script type="module" src="/main.js?v=definitive-restored-v2"></script>
+    <script type="module" src="/main.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('SW Registered', reg))
+            .catch(err => console.log('SW Failed', err));
+        });
+      }
+    </script>
   </body>
 </html>

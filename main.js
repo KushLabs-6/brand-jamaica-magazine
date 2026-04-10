@@ -28,7 +28,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const magazineScene = document.getElementById('magazine-scene');
     
     if (btnStart && introScene) {
-        btnStart.addEventListener('click', () => {
+        introScene.style.cursor = 'pointer';
+        introScene.addEventListener('click', () => {
             // Gamified Hummingbird click - bird flies away!
             btnStart.classList.add('fly-away');
             setTimeout(() => {
@@ -62,18 +63,46 @@ document.addEventListener('DOMContentLoaded', async () => {
     const btnPrev = document.getElementById('btn-prev');
     const items = document.querySelectorAll('.carousel-item');
 
-    let currentAngle = 0;
-    const itemAngle = 120;
+    let currentIndex = 0;
+    const totalItems = items.length;
+
+    function updateCarousel() {
+        items.forEach((item, index) => {
+            let dist = index - currentIndex;
+            if (dist > totalItems / 2) dist -= totalItems;
+            if (dist < -totalItems / 2) dist += totalItems;
+
+            if (dist === 0) {
+                item.style.transform = `translateX(0) translateZ(0) rotateY(0deg) scale(1)`;
+                item.style.zIndex = 10;
+                item.style.opacity = 1;
+            } else if (dist === -1 || (dist === totalItems - 1 && currentIndex === 0)) {
+                item.style.transform = `translateX(-90%) translateZ(-100px) rotateY(15deg) scale(0.85)`;
+                item.style.zIndex = 5;
+                item.style.opacity = 0.9;
+            } else if (dist === 1 || (dist === -(totalItems - 1) && currentIndex === totalItems - 1)) {
+                item.style.transform = `translateX(90%) translateZ(-100px) rotateY(-15deg) scale(0.85)`;
+                item.style.zIndex = 5;
+                item.style.opacity = 0.9;
+            } else {
+                item.style.transform = `translateX(${Math.sign(dist) * 100}%) translateZ(-300px) rotateY(${Math.sign(dist) * -45}deg) scale(0.5)`;
+                item.style.zIndex = 1;
+                item.style.opacity = 0;
+            }
+        });
+    }
 
     btnNext?.addEventListener('click', () => {
-        currentAngle -= itemAngle;
-        carousel.style.transform = `rotateY(${currentAngle}deg)`;
+        currentIndex = (currentIndex + 1) % totalItems;
+        updateCarousel();
     });
 
     btnPrev?.addEventListener('click', () => {
-        currentAngle += itemAngle;
-        carousel.style.transform = `rotateY(${currentAngle}deg)`;
+        currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+        updateCarousel();
     });
+    
+    updateCarousel();
 
     // --- 3. OPEN MAGAZINE ---
     // Scenes already initialized at the top of DOMContentLoaded
@@ -112,6 +141,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     function responsiveDims() {
+        // Return original aspect ratio base dims
         const w = window.innerWidth;
         const width = w < 1000 ? w * 0.42 : 450;
         return { width, height: Math.round(width * 1.33) };
@@ -119,16 +149,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- 4. LOAD MAGAZINE PAGES  ---
     async function loadMagazine(volumeId) {
-        const coverMap = { '1': './cover-culture.png', '2': './cover-cuisine.png', '3': './cover-landscape.png' };
-        const coverImage = coverMap[volumeId] || './cover-culture.png';
-
         let pages = [];
 
-        // Try static metadata first
         if (metadata?.issues?.[`volume_${volumeId}`]?.length > 0) {
             pages = metadata.issues[`volume_${volumeId}`];
         } else {
-            // Fallback to dev API
             try {
                 const res = await fetch(`./api/issues/${volumeId}`);
                 const data = await res.json();
@@ -140,23 +165,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             const url = encodePath(`/issues/volume_${volumeId}/${filename}`);
             return `
             <div class="page page-cover">
-                <div class="page-content" style="padding:0; background:#fff;">
-                    <img src="${url}" alt="Page ${i+1}" class="magazine-page-img">
+                <div class="page-content" style="padding:0; margin:0; background:#fff; width:100%; height:100%;">
+                    <img src="${url}" alt="Page ${i+1}" class="magazine-page-img" style="width:100%;height:100%;object-fit:cover;display:block;">
                 </div>
             </div>`;
         }).join('');
 
+        // Do not include the cover image again since we clicked it in the carousel!
+        // Start directly with the interior pages, and end with the back cover.
         bookEl.innerHTML = `
-            <div class="page page-cover hard">
-                <div class="page-content" style="padding:0;">
-                    <img src="${coverImage}" alt="Cover" style="width:100%;height:100%;object-fit:cover;">
-                </div>
-            </div>
             ${pageHTML}
             <div class="page page-cover hard">
-                <div class="page-content" style="display:flex;align-items:center;justify-content:center;flex-direction:column;background:linear-gradient(135deg,#009b3a,#fed100);color:white;text-align:center;">
-                    <h2 style="font-family:'Caveat',cursive;font-size:3rem;">One Love 🇯🇲</h2>
-                    <p>Brand Jamaica Magazine</p>
+                <div class="page-content" style="display:flex;align-items:center;justify-content:center;flex-direction:column;background:linear-gradient(135deg,#009b3a,#fed100);color:white;text-align:center;height:100%;">
+                    <h2 style="font-family:'Caveat',cursive;font-size:3rem;">Brand Jamaica 🇯🇲</h2>
+                    <p>The End</p>
                 </div>
             </div>`;
 
@@ -166,14 +188,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             height: dims.height,
             size: 'stretch',
             minWidth: 300,
-            maxWidth: 1000,
+            maxWidth: 550,  // Bound single page stretch to 550 (1100px spread total)
             minHeight: 400,
-            maxHeight: 1400,
-            showCover: true,
+            maxHeight: 733, 
+            showCover: false, // Ensures it opens as a standard 2-page spread immediately, centered!
             mobileScrollSupport: true,
             drawShadow: true,
             flippingTime: 1000,
-            usePortrait: false,
+            usePortrait: window.innerWidth < 768, 
             maxShadowOpacity: 0.7,
             showPageCorners: true,
             swipeDistance: 40,
