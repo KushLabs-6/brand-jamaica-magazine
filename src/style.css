@@ -1,5 +1,5 @@
 /* =========================================
-   BRAND JAMAICA MAGAZINE 3.0 - DEFINITIVE
+   BRAND JAMAICA MAGAZINE 3.0 - THE FINAL FIX
    ========================================= */
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Inter:wght@300;600;900&display=swap');
 
@@ -21,11 +21,11 @@ html, body {
   padding: 0 !important;
   color: #2a1a00;
   background: #fdfaf3 !important;
-  /* BOLD GRAPHIC PAPER TEXTURE - CRISP & VISIBLE */
+  /* BOLD GRAPHIC PAPER TEXTURE */
   background-image: 
     linear-gradient(#d0cbb5 2.5px, transparent 2.5px),
     linear-gradient(90deg, #d0cbb5 2.5px, transparent 2.5px),
-    repeating-linear-gradient(45deg, rgba(0,0,0,0.08) 0, rgba(0,0,0,0.08) 1.5px, transparent 1.5px, transparent 15px);
+    repeating-linear-gradient(45deg, rgba(0,0,0,0.1) 0, rgba(0,0,0,0.1) 1.5px, transparent 1.5px, transparent 15px);
   background-size: 80px 80px, 80px 80px, 20px 20px;
   background-position: center;
 }
@@ -33,7 +33,6 @@ html, body {
 #app {
   width: 100vw !important;
   height: 100vh !important;
-  background: transparent;
   position: relative;
   overflow: hidden;
 }
@@ -58,12 +57,12 @@ html, body {
   z-index: 9999;
 }
 
-.intro-content {
+.intro-container {
   position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 
 .click-e-bird-title {
@@ -77,22 +76,10 @@ html, body {
   text-transform: uppercase;
   z-index: 100;
   transform: rotate(-1.5deg);
-}
-
-/* ISOLATED TAPE BACKGROUND - Filter ONLY applied here */
-.click-e-bird-title::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url('/tape-masking-ref.png') no-repeat center center;
-  background-size: 100% 100%;
-  filter: sepia(1) saturate(10) hue-rotate(-20deg) brightness(1.0);
-  z-index: -1; 
-  /* Pointer events none to ensure clicks hit the bird/title area */
   pointer-events: none;
 }
 
-/* GREEN RIBBON - Forced Green, No Filters */
+/* ABSOLUTE GREEN RIBBON - Forced Hex, No Filters */
 .click-e-bird-title span {
   display: inline-block;
   background: linear-gradient(to bottom, 
@@ -104,19 +91,33 @@ html, body {
   background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   color: transparent !important;
-  filter: none !important; /* EXPLICITLY REMOVE ANY INHERITED FILTERS */
-  position: relative;
-  z-index: 101;
+  /* CRITICAL: No filters on children */
+}
+
+/* THE YELLOW TAPE - Physically Separate Layer */
+.tape-masking-bg {
+  position: absolute;
+  inset: 0;
+  background: url('/tape-masking-ref.png') no-repeat center center;
+  background-size: 100% 100%;
+  filter: sepia(1) saturate(10) hue-rotate(-20deg) brightness(1.0);
+  z-index: 90; /* Behind the title (100) */
+  transform: rotate(-1.5deg);
+  pointer-events: none;
 }
 
 .doctor-bird.origami {
-  width: clamp(300px, 60vw, 550px);
+  width: clamp(350px, 60vw, 550px);
   height: auto;
   cursor: pointer;
   z-index: 50; 
-  margin-top: -6.5rem; /* Tuck behind the tape headline */
+  /* Place perfectly behind the tape/text container */
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   transition: transform 0.3s ease;
-  filter: drop-shadow(0 20px 35px rgba(0,0,0,0.3));
+  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3));
   animation: fly3D 12s ease-in-out infinite;
   transform-style: preserve-3d;
   will-change: transform;
@@ -134,22 +135,23 @@ html, body {
 @keyframes flapR { from { transform: rotateY(0deg) rotateZ(0deg); } to { transform: rotateY(85deg) rotateZ(-25deg); } }
 
 @keyframes fly3D {
-  0%   { transform: translate3d(-10vw, -5vh, 100px) rotateY(10deg); }
-  25%  { transform: translate3d(5vw, 5vh, 200px) rotateY(-10deg); }
-  50%  { transform: translate3d(10vw, -10vh, 100px) rotateY(-180deg); }
-  75%  { transform: translate3d(-5vw, 10vh, 150px) rotateY(-200deg); }
-  100% { transform: translate3d(-10vw, -5vh, 100px) rotateY(-360deg); }
+  0%   { transform: translate3d(-30vw, -10vh, 0px) rotateY(10deg); }
+  25%  { transform: translate3d(15vw, 15vh, 150px) rotateY(-20deg); }
+  50%  { transform: translate3d(35vw, -10vh, 300px) rotateY(-180deg); }
+  75%  { transform: translate3d(-15vw, 20vh, 100px) rotateY(-210deg); }
+  100% { transform: translate3d(-30vw, -10vh, 0px) rotateY(-360deg); }
 }
 
 .doctor-bird.fly-away {
   animation: flyAway 1.2s ease-in forwards !important;
   pointer-events: none;
 }
+
 @keyframes flyAway {
   to { transform: translate3d(120vw, -120vh, 800px) rotateY(1440deg) scale(0); opacity: 0; }
 }
 
-/* ---- HUB SECTIONS ---- */
+/* ---- CAROUSEL & HUB STYLES (Cleaned) ---- */
 .header-elements { text-align: center; margin-bottom: 2rem; }
 .magazine-title { 
   font-family: 'Inter', sans-serif; font-weight: 900; font-size: 4rem; letter-spacing: -2px;
@@ -162,20 +164,18 @@ html, body {
   margin: -10px auto; transform: rotate(-3deg); mix-blend-mode: hard-light;
 }
 
-#carousel-scene { overflow: visible; }
 .carousel-container { width: 100%; height: 400px; perspective: 1500px; display: flex; align-items: center; justify-content: center; margin-top: 2rem; }
 .carousel { width: 260px; height: 360px; position: relative; transform-style: preserve-3d; transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1); }
 .carousel-item { position: absolute; width: 260px; height: 360px; left: 0; top: 0; transform: rotateY(var(--rotation)) translateZ(330px); cursor: pointer; }
 .cover-wrapper { background: white; padding: 10px 10px 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: transform 0.3s ease; }
 .carousel-item:hover .cover-wrapper { transform: translateY(-20px); }
 .cover-wrapper img { width: 100%; height: 280px; object-fit: cover; }
-.volume-title { font-family: 'Caveat', cursive; font-size: 1.4rem; text-align: center; margin-top: 10px; color: #333; }
 
 .scrap-button { background: #000; color: #fff; border: none; padding: 12px 24px; font-weight: 700; cursor: pointer; text-transform: uppercase; box-shadow: 4px 4px 0 #5a3e1b; }
 .scrap-button:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 #5a3e1b; }
 .hub-nav-btn { background: var(--green); }
 
-.social-links { display: flex; gap: 2rem; margin-top: 3rem; padding: 1rem 3rem; background: rgba(255,255,255,0.3); backdrop-filter: blur(10px); border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 1000; }
+.social-links { display: flex; gap: 2rem; margin-top: 3rem; padding: 1rem 3rem; background: rgba(255,255,255,0.3); backdrop-filter: blur(10px); border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
 .social-icon { width: 35px; height: 35px; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .social-icon:hover { transform: scale(1.4) translateY(-5px); }
 
@@ -185,7 +185,7 @@ html, body {
 .book-container { width: 95vw; height: 90vh; display: flex; align-items: center; justify-content: center; }
 
 @media (max-width: 768px) {
-  .magazine-title { font-size: 2.5rem; }
+  .magazine-title { font-size: 2.2rem; }
   .click-e-bird-title { font-size: 3rem; padding: 2rem 4rem; }
-  .doctor-bird.origami { width: 80vw; }
+  .doctor-bird.origami { width: 85vw; }
 }
