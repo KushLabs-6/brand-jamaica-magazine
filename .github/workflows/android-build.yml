@@ -9,33 +9,58 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Build Android App (PWA to APK)
-        id: pwa-to-apk
-        uses: flaycks/pwa-to-apk@v1.0.1
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          # Basic App Info
-          package-id: 'com.brandjamaica.magazine'
-          app-name: 'Brand Jamaica Magazine'
-          url: 'https://kushlabs-6.github.io/brand-jamaica-magazine/'
-          
-          # Colors
-          theme-color: '#009b3a'
-          background-color: '#fcebd0'
-          
-          # Signing (This action auto-generates keys if not provided)
-          # We'll use the default signing for this initial APK
+          node-version: '20'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'microsoft'
+          java-version: '17'
+
+      - name: Install Bubblewrap CLI
+        run: npm install -g @bubblewrap/cli
+
+      - name: Initialize Android Setup
+        run: |
+          # Create dummy JDK and SDK paths to satisfy bubblewrap's check 
+          # It will use the environment's JAVA_HOME and ANDROID_HOME later
+          mkdir -p ~/.bubblewrap
+          echo "{\"jdkPath\":\"$JAVA_HOME\",\"androidSdkPath\":\"$ANDROID_HOME\"}" > ~/.bubblewrap/config.json
+
+      - name: Build Android App
+        run: |
+          # Use a manual initialization to avoid interactive prompts
+          # We'll re-generate the twa-manifest.json if needed or use the existing one
+          # Since we are using the CLI now, let's just run build and see.
+          # We'll use --yes to skip prompts.
+          bubblewrap build --yes --universalApk
 
       - name: Log SHA256 Fingerprint
         run: |
-          echo "SHA256 Fingerprint for assetlinks.json:"
-          echo "${{ steps.pwa-to-apk.outputs.sha256-fingerprint }}"
-
-      - name: Upload APK Artifact
-        uses: actions/upload-artifact@v4
+          # This action generates a key if missing, let's find it.
+          # If we used the bubblewrap build, it generated something.
+          # For now, we'll just look for any .apk and print info.
+          ls -R
+          
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
         with:
-          name: Brand-Jamaica-Android-APK
-          path: ./*.apk
+          tag_name: v1.0.${{ github.run_number }}
+          name: Brand Jamaica Magazine v1.0.${{ github.run_number }}
+          draft: false
+          prerelease: false
+          files: |
+            ./*.apk
+            ./*.aab
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
