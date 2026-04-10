@@ -16,9 +16,9 @@
         margin: 0; padding: 0; width: 100vw; height: 100vh; overflow: hidden;
         background: #fdfaf3 !important;
         background-image: 
-          linear-gradient(#d0cbb5 4px, transparent 4px),
-          linear-gradient(90deg, #d0cbb5 4px, transparent 4px),
-          repeating-linear-gradient(45deg, rgba(0,0,0,0.15) 0, rgba(0,0,0,0.15) 3px, transparent 3px, transparent 15px) !important;
+          linear-gradient(#b0ab90 4.5px, transparent 4.5px),
+          linear-gradient(90deg, #b0ab90 4.5px, transparent 4.5px),
+          repeating-linear-gradient(45deg, rgba(0,0,0,0.18) 0, rgba(0,0,0,0.18) 3px, transparent 3px, transparent 15px) !important;
         background-size: 80px 80px, 80px 80px, 20px 20px !important;
       }
       .scene { display: none; position: absolute; inset: 0; align-items: center; justify-content: center; flex-direction: column; }
@@ -31,26 +31,29 @@
         text-transform: uppercase; transform: rotate(-1.5deg); 
       }
       .click-e-bird-title::before { 
-        content: ""; position: absolute; inset: 0; background: url('/tape-masking-ref.png') no-repeat center center;
+        display: none; /* Disabling pseudo to use the isolated div for better color control */
+      }
+      .tape-masking-bg {
+        position: absolute; inset: 0; background: url('/tape-masking-ref.png') no-repeat center center;
         background-size: 100% 100%; 
-        /* VIBRANT JAMAICAN GREEN TAPE */
-        filter: sepia(1) saturate(15) hue-rotate(100deg) brightness(0.9) !important; 
-        z-index: -1; 
+        /* CALIBRATED FOR PERFECT JAMAICAN GREEN (#009B3A) */
+        filter: invert(34%) sepia(87%) saturate(1914%) hue-rotate(124deg) brightness(96%) contrast(102%) !important; 
+        z-index: 90; transform: rotate(-1.5deg); pointer-events: none;
       }
       .click-e-bird-title span { 
         background: linear-gradient(to bottom, #000 0%, #000 40%, #009b3a 41%, #009b3a 59%, #000 60%, #000 100%) !important;
         -webkit-background-clip: text !important; background-clip: text !important; -webkit-text-fill-color: transparent !important;
-        filter: none !important;
+        filter: none !important; position: relative; z-index: 101;
       }
       .doctor-bird.origami { 
-        width: 450px; height: auto; position: absolute; top: 55%; left: 50%; transform: translate(-50%, -50%);
-        z-index: 50; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3));
+        width: clamp(330px, 50vw, 480px); height: auto; position: absolute; top: 55%; left: 50%; 
+        transform: translate(-50%, -50%); z-index: 50; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.4));
         animation: fly3D-safe 12s ease-in-out infinite;
       }
       @keyframes fly3D-safe {
-        0%   { transform: translate(-65%, -55%) rotateY(10deg); }
-        50%  { transform: translate(-35%, -45%) rotateY(-180deg); }
-        100% { transform: translate(-65%, -55%) rotateY(-360deg); }
+        0%   { transform: translate(-50%, -50%) rotateY(10deg); }
+        50%  { transform: translate(-50%, -50%) rotateY(-180deg); }
+        100% { transform: translate(-50%, -50%) rotateY(-360deg); }
       }
     </style>
   </head>

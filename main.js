@@ -1,5 +1,4 @@
 import { PageFlip } from 'page-flip';
-import './style.css';
 
 // --- SCENE NAVIGATION (GLOBAL) ---
 window.showScene = (sceneId) => {
