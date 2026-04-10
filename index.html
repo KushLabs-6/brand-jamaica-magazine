@@ -41,9 +41,15 @@
         z-index: 90; transform: rotate(-1.5deg); pointer-events: none;
       }
       .click-e-bird-title span { 
-        background: linear-gradient(to bottom, #000 0%, #000 42%, #009b3a 43%, #009b3a 57%, #000 58%, #000 100%) !important;
+        /* FADED IN GREEN GRADIENT */
+        background: linear-gradient(to bottom, 
+          #000 0%, #000 25%, 
+          #009b3a 50%, 
+          #000 75%, #000 100%
+        ) !important;
         -webkit-background-clip: text !important; background-clip: text !important; -webkit-text-fill-color: transparent !important;
         filter: none !important; position: relative; z-index: 101;
+        text-shadow: 0 0 1px rgba(0,0,0,0.1);
       }
       .doctor-bird.origami { 
         width: clamp(350px, 45vw, 480px); height: auto; position: absolute; top: 50%; left: 50%; 
