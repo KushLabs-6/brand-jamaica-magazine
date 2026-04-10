@@ -13,35 +13,26 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Build Android App (PWA to APK)
+        id: pwa-to-apk
+        uses: flaycks/pwa-to-apk@v1.0.1
         with:
-          node-version: '20'
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'microsoft'
-          java-version: '17'
-
-      - name: Install Bubblewrap CLI
-        run: npm install -g @bubblewrap/cli
-
-      - name: Generate Signing Key
-        run: |
-          # Generate a signing key non-interactively
-          keytool -genkey -v -keystore android.keystore -alias key0 -keyalg RSA -keysize 2048 -validity 10000 -storepass brandjamaica -keypass brandjamaica -dname "CN=Brand Jamaica, OU=Magazine, O=KushLabs, L=Kingston, S=Kingston, C=JM"
-
-      - name: Build Android App
-        run: |
-          # Initialize and build using the committed twa-manifest.json
-          # We use --yes to skip all prompts
-          bubblewrap build --yes --universalApk
+          # Basic App Info
+          package-id: 'com.brandjamaica.magazine'
+          app-name: 'Brand Jamaica Magazine'
+          url: 'https://kushlabs-6.github.io/brand-jamaica-magazine/'
+          
+          # Colors
+          theme-color: '#009b3a'
+          background-color: '#fcebd0'
+          
+          # Signing (This action auto-generates keys if not provided)
+          # We'll use the default signing for this initial APK
 
       - name: Log SHA256 Fingerprint
         run: |
-          # Extract and log the SHA256 fingerprint for assetlinks.json
-          keytool -list -v -keystore android.keystore -alias key0 -storepass brandjamaica | grep SHA256
+          echo "SHA256 Fingerprint for assetlinks.json:"
+          echo "${{ steps.pwa-to-apk.outputs.sha256-fingerprint }}"
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
