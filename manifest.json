@@ -11,7 +11,7 @@
   "categories": ["entertainment", "lifestyle"],
   "icons": [
     {
-      "src": "https://kushlabs-6.github.io/brand-jamaica-magazine/icon-512.png",
+      "src": "https://kushlabs-6.github.io/brand-jamaica-magazine/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
@@ -35,20 +35,5 @@
       "purpose": "maskable"
     }
   ],
-  "screenshots": [
-    {
-      "src": "https://kushlabs-6.github.io/brand-jamaica-magazine/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Home Screen"
-    },
-    {
-      "src": "https://kushlabs-6.github.io/brand-jamaica-magazine/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "App Preview"
-    }
-  ]
+  "screenshots": []
 }
