@@ -15,17 +15,36 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Build Android App (PWA to APK)
-        uses: sharadcodes/pwa-to-apk-action@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          pwasite: "https://kushlabs-6.github.io/brand-jamaica-magazine/"
-          id: "com.brandjamaica.magazine"
-          name: "Brand Jamaica Magazine"
-          # This action handles keys internally; we'll get the fingerprint from logs
+          node-version: '20'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'microsoft'
+          java-version: '17'
+
+      - name: Install Bubblewrap CLI
+        run: npm install -g @bubblewrap/cli
+
+      - name: Initialize Android Setup
+        run: |
+          mkdir -p ~/.bubblewrap
+          echo "{\"jdkPath\":\"$JAVA_HOME\",\"androidSdkPath\":\"$ANDROID_SDK_ROOT\"}" > ~/.bubblewrap/config.json
+
+      - name: Build Android App
+        run: |
+          # Generate signing key (non-interactive)
+          keytool -genkey -v -keystore android.keystore -alias key0 -keyalg RSA -keysize 2048 -validity 10000 -storepass brandjamaica -keypass brandjamaica -dname "CN=Brand Jamaica, OU=Magazine, O=KushLabs, L=Kingston, S=Kingston, C=JM"
+          
+          # Build with universal APK enabled
+          bubblewrap build --yes --universalApk
 
       - name: Hard Discovery & Rename
         run: |
-          # The action usually outputs to specific folders, but we'll find it recursively
+          # Search for any generated APK and move it to the root with a clean name
           echo "Searching for APKs..."
           find . -name "*.apk" -exec cp {} ./Brand-Jamaica-Magazine.apk \;
           find . -name "*.aab" -exec cp {} ./Brand-Jamaica-Magazine.aab \;
