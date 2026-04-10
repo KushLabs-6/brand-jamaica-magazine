@@ -33,22 +33,14 @@ jobs:
             -w /app \
             -e BUBBLEWRAP_KEYSTORE_PASSWORD=brandjamaica \
             -e BUBBLEWRAP_KEY_PASSWORD=brandjamaica \
-            ghcr.io/googlechromelabs/bubblewrap:latest build --yes --universalApk > debug_build.log 2>&1 || true
+            ghcr.io/googlechromelabs/bubblewrap:latest build --yes --universalApk > debug_build_docker.log 2>&1 || true
           
-          ls -laR > debug_files.log
+          ls -laR > debug_files_docker.log
 
-      - name: Hard Discovery & Rename
+      - name: Commit Logs to Repository
         run: |
-          find . -name "*.apk" -exec cp {} ./Brand-Jamaica-Magazine.apk \; || true
-          find . -name "*.aab" -exec cp {} ./Brand-Jamaica-Magazine.aab \; || true
-
-      - name: Upload Debug Artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: Debug-Logs-and-Outputs
-          path: |
-            debug_*.log
-            Brand-*.apk
-            Brand-*.aab
-          retention-days: 5
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add debug_build_docker.log debug_files_docker.log
+          git commit -m "Upload Docker Bubblewrap Logs"
+          git push
