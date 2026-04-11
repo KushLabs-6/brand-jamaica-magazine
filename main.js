@@ -306,39 +306,56 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Expose loadMagazine globally for openVolume() onclick handler
     window._loadMagazine = loadMagazine;
 
-    // --- 5. EVENTS ---
+    // --- 5. EVENTS & PLACES ---
     window.loadEvents = async function() {
-        const list = document.getElementById('events-list');
-        if (!list) return;
-        try {
-            const res = await fetch('./api/events');
-            const data = await res.json();
-            list.innerHTML = data.events.map(e =>
-                `<div class="polaroid-event">
-                  <div class="tape"></div>
-                  <div class="polaroid-text">🗓 ${e}</div>
-                 </div>`
-            ).join('');
-        } catch (e) {
-            list.innerHTML = '<p>Add your first event below! (You can also edit events.txt in your Desktop folder)</p>';
-        }
-    };
+        const grid = document.getElementById('events-grid');
+        if (!grid) return;
 
-    document.getElementById('btn-add-event')?.addEventListener('click', async () => {
-        const input = document.getElementById('event-input');
-        if (!input?.value.trim()) return;
-        try {
-            await fetch('./api/events-add', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ event: input.value.trim() })
-            });
-            input.value = '';
-            window.loadEvents();
-        } catch (e) {
-            alert('Server not running. Please launch via Launch Magazine.bat');
-        }
-    });
+        // Hardcoded Featured Event: Beat Street Fridays
+        const featuredEvent = {
+            id: 'beat-street',
+            title: 'Beat Street Fridays',
+            location: 'Oranje Street, Kingston',
+            caption: 'The heart of Kingston street culture. Vibes, music, and pure energy every Friday! 🎼🇯🇲',
+            img: 'events/beat-street-fridays.jpg',
+            video: 'uyY5Uo1YhEA', // YouTube ID
+            insta: 'https://www.instagram.com/oranjestreetzmusick_mitchie/?hl=en'
+        };
+
+        const basePath = typeof BASE !== 'undefined' ? BASE : './';
+
+        const renderCard = (e) => `
+        <div class="insta-card event-card">
+            <div class="card-tape"></div>
+            <div class="insta-header">
+                <div class="insta-avatar">BS</div>
+                <div class="insta-user-info">
+                    <span class="insta-user">${e.title}</span>
+                    <span class="insta-name">${e.location}</span>
+                </div>
+            </div>
+            <div class="insta-media-container" style="position:relative;">
+                <img src="${basePath}${e.img}" class="insta-media" style="position:absolute; inset:0; z-index:1;">
+                <div class="event-video-container">
+                    <iframe src="https://www.youtube.com/embed/${e.video}?autoplay=1&mute=1&loop=1&playlist=${e.video}&modestbranding=1&controls=0" 
+                            allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="insta-actions">
+                <a href="${e.insta}" target="_blank" class="insta-icon-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    <span>View on Instagram</span>
+                </a>
+            </div>
+            <div class="insta-caption-wrapper">
+                <span class="insta-user-bold">@BeatStreet</span>
+                <p class="insta-caption-text" style="font-size: 1.3rem;">${e.caption}</p>
+            </div>
+        </div>`;
+
+        // Render Featured + Any dynamic ones (if any)
+        grid.innerHTML = renderCard(featuredEvent);
+    };
 
     // --- 6. PAYPAL SHOP ---
     window.initPayPal = function() {

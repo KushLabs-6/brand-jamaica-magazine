@@ -287,3 +287,51 @@
 .polaroid-event:nth-child(even) { transform: rotate(3deg); }
 .polaroid-text { font-family: 'Caveat', cursive; font-size: 1.5rem; color: #111; }
 .polaroid-event .tape { top: -12px; left: 50%; width: 90px; height: 35px; transform: translateX(-50%) rotate(-2deg); border:none; z-index:10; background-color: rgba(245, 230, 140, 0.85); box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+
+/* EVENT CARD HOVER VIDEO */
+.event-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.event-video-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  background: #000;
+  z-index: 5;
+}
+
+.event-card:hover .event-video-container {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.event-video-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  transform: scale(1.02); /* Slight scale to hide edge artifacts if any */
+}
+
+.insta-icon-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #111;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.insta-icon-link:hover {
+  color: var(--green);
+}
+

@@ -361,14 +361,20 @@
           </svg>
         </button>
         <button class="scrap-button scroll-btn" onclick="showScene('carousel-scene')">&lt; Back</button>
-        <section class="hub-section">
-          <h2 class="hub-title">Events & Places &#127796;</h2>
-          <div id="add-event-form" style="margin-bottom: 2rem;">
-            <input type="text" id="event-input" placeholder="Add an event (e.g. Reggae Sumfest - Montego Bay)" class="scrap-input">
-            <button class="scrap-button-primary" id="btn-add-event">Add Event</button>
-          </div>
-          <div id="events-list" class="events-polaroid-grid">
-            <!-- Loaded from events.txt -->
+        <div class="hub-header-premium">
+            <div class="modern-header-logo">
+               <span class="logo-brand">BRAND JAMAICA</span>
+               <span class="logo-mag">MAGAZINE</span>
+            </div>
+            <div class="feed-subtitle-wrapper">
+               <div class="feed-subtitle-line"></div>
+               <h2 class="hub-title-refined">Events & Places</h2>
+               <div class="feed-subtitle-line"></div>
+            </div>
+         </div>
+        <section class="hub-section insta-feed-wrapper">
+          <div id="events-grid" class="insta-grid">
+            <!-- Event Cards Loaded via JS -->
           </div>
         </section>
       </div>
