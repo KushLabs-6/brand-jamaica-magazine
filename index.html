@@ -29,8 +29,21 @@
         background-attachment: fixed !important;
         background-blend-mode: luminosity !important;
       }
-      .scene { display: none; position: absolute; inset: 0; align-items: center; justify-content: center; flex-direction: column; z-index: 10; }
-      .scene.active { display: flex; }
+      .scene { 
+        display: none; position: absolute; inset: 0; 
+        flex-direction: column; z-index: 10; 
+        overflow-y: auto; overflow-x: hidden;
+        padding: 2rem 1rem;
+      }
+      .scene.active { display: flex; align-items: center; }
+      /* Scenes that should be centered (Carousel & Intro) */
+      #intro-scene.active, #carousel-scene.active, #magazine-scene.active { 
+        justify-content: center; 
+      }
+      /* Scenes that should start from top (Hub, Events, Shop) */
+      #hub-scene.active, #events-scene.active, #shop-scene.active {
+        justify-content: flex-start;
+      }
       #intro-scene { z-index: 9999; perspective: 1000px; }
       .intro-container { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; }
       .click-e-bird-title { 
@@ -89,8 +102,8 @@
         100% { transform: translate(-80vw, -30vh) scale(0.5) rotateY(360deg); }
       }
     </style>
-    <script type="module" crossorigin src="/brand-jamaica-magazine/assets/index-yqBDefFj.js"></script>
-    <link rel="stylesheet" crossorigin href="/brand-jamaica-magazine/assets/index-CMzjqs6z.css">
+    <script type="module" crossorigin src="/brand-jamaica-magazine/assets/index-Dy3BzFGD.js"></script>
+    <link rel="stylesheet" crossorigin href="/brand-jamaica-magazine/assets/index-DG9rhr0e.css">
   </head>
   <body>
     <div id="app">
@@ -154,12 +167,39 @@
       
       <!-- Landing 3D Carousel Selection Scene -->
       <div id="carousel-scene" class="scene">
+        
+        <!-- Floating Hummingbird Home Button -->
+        <button onclick="goHome()" class="mag-close-btn" style="right: auto; left: 16px; top: 16px; padding:0; width: 50px; height: 50px; background: rgba(255,255,255,0.7); box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.1);" aria-label="Home" title="Back to Start">
+          <svg style="width:100%; height:100%; transform:scale(0.8);" viewBox="0 0 150 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="birdGradSmall" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#009b3a;stop-opacity:1" />
+                <stop offset="70%" style="stop-color:#007a2e;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#fed100;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <g transform="translate(10, 10)">
+              <path d="M60 40 L90 55 L65 75 L50 60 Z" fill="url(#birdGradSmall)"/>
+              <path d="M60 40 L70 30 L80 40 Z" fill="#009b3a"/>
+              <circle cx="70" cy="35" r="1.5" fill="#000"/>
+              <path d="M70 30 L130 20 L75 35 Z" fill="#000"/>
+              <path d="M60 70 L55 80 L65 80 Z" fill="#000" opacity="0.8"/>
+              <path d="M55 70 L50 78 L60 78 Z" fill="#111" opacity="0.7"/>
+              <path d="M55 70 L25 180 L45 170 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 70 L55 195 L70 185 Z" fill="#111" opacity="0.8"/>
+              <path d="M60 45 L15 5 L45 35 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 45 L5 25 L40 45 Z" fill="#222" opacity="0.7"/>
+              <path d="M60 45 L105 5 L75 35 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 45 L115 25 L80 45 Z" fill="#222" opacity="0.7"/>
+            </g>
+          </svg>
+        </button>
         <div class="header-elements">
-          <div id="logo-container" class="modern-header-logo">
+          <div id="logo-container" class="modern-header-logo" onclick="goHome()" style="cursor: pointer;" title="Back to Home">
              <span class="logo-brand">BRAND JAMAICA</span>
              <span class="logo-mag">MAGAZINE</span>
           </div>
-          <p class="issue-select-title">Select an Issue to Read</p>
+          <p class="issue-select-title">Select a Category to Read</p>
         </div>
         
         <div class="carousel-container">
@@ -168,21 +208,21 @@
               <div class="cover-wrapper polaroid">
                 <div class="tape"></div>
                 <img src="/brand-jamaica-magazine/cover-culture.png" alt="Culture Issue" />
-                <div class="volume-title">Vol 1: The Culture</div>
+                <div class="volume-title">The Culture</div>
               </div>
             </div>
             <div class="carousel-item" data-volume="2" onclick="openVolume(2)">
               <div class="cover-wrapper polaroid">
                 <div class="tape"></div>
                 <img src="/brand-jamaica-magazine/cover-cuisine.png" alt="Cuisine Issue" />
-                <div class="volume-title" style="transform: rotate(1deg);">Vol 2: The Flavor</div>
+                <div class="volume-title" style="transform: rotate(1deg);">The Flavor</div>
               </div>
             </div>
             <div class="carousel-item" data-volume="3" onclick="openVolume(3)">
               <div class="cover-wrapper polaroid">
                 <div class="tape"></div>
                 <img src="/brand-jamaica-magazine/cover-landscape.png" alt="Landscape Issue" />
-                <div class="volume-title" style="transform: rotate(-1deg);">Vol 3: The Landscape</div>
+                <div class="volume-title" style="transform: rotate(-1deg);">The Landscape</div>
               </div>
             </div>
           </div>
@@ -228,15 +268,66 @@
 
       <!-- Community Hub (The For You Page) -->
       <div id="hub-scene" class="scene">
+        <!-- Floating Hummingbird Home Button -->
+        <button onclick="goHome()" class="mag-close-btn" style="right: auto; left: 16px; top: 16px; padding:0; width: 50px; height: 50px; background: rgba(255,255,255,0.7); box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.1); z-index: 1000;" aria-label="Home" title="Back to Start">
+          <svg style="width:100%; height:100%; transform:scale(0.8);" viewBox="0 0 150 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="birdGradHub" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#009b3a;stop-opacity:1" />
+                <stop offset="70%" style="stop-color:#007a2e;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#fed100;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <g transform="translate(10, 10)">
+              <path d="M60 40 L90 55 L65 75 L50 60 Z" fill="url(#birdGradHub)"/>
+              <path d="M60 40 L70 30 L80 40 Z" fill="#009b3a"/>
+              <circle cx="70" cy="35" r="1.5" fill="#000"/>
+              <path d="M70 30 L130 20 L75 35 Z" fill="#000"/>
+              <path d="M60 70 L55 80 L65 80 Z" fill="#000" opacity="0.8"/>
+              <path d="M55 70 L50 78 L60 78 Z" fill="#111" opacity="0.7"/>
+              <path d="M55 70 L25 180 L45 170 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 70 L55 195 L70 185 Z" fill="#111" opacity="0.8"/>
+              <path d="M60 45 L15 5 L45 35 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 45 L5 25 L40 45 Z" fill="#222" opacity="0.7"/>
+              <path d="M60 45 L105 5 L75 35 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 45 L115 25 L80 45 Z" fill="#222" opacity="0.7"/>
+            </g>
+          </svg>
+        </button>
         <button class="scrap-button scroll-btn" onclick="showScene('carousel-scene')">&lt; Back</button>
-        <section class="hub-section">
-          <h2 class="hub-title">Community Feed &#128248;</h2>
-          <div id="upload-form">
-            <input type="text" id="upload-name" placeholder="Your Name" class="scrap-input">
-            <input type="file" id="upload-file" class="scrap-input" accept="image/*,video/*">
-            <button class="scrap-button-primary" id="btn-upload">Upload to local desktop folder</button>
+        <div class="hub-header-premium">
+           <div class="modern-header-logo">
+              <span class="logo-brand">BRAND JAMAICA</span>
+              <span class="logo-mag">MAGAZINE</span>
+           </div>
+           <div class="feed-subtitle-wrapper">
+              <div class="feed-subtitle-line"></div>
+              <h2 class="hub-title-refined">Community Feed</h2>
+              <div class="feed-subtitle-line"></div>
+           </div>
+        </div>
+        <section class="hub-section insta-feed-wrapper">
+          <div id="upload-form" class="premium-upload-bar">
+            <div class="upload-input-group">
+                <div class="insta-avatar">BJ</div>
+                <input type="text" id="upload-name" placeholder="Share your vibe..." class="minimal-input">
+            </div>
+            <label for="upload-file" class="upload-plus-btn" title="Add to Feed">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+                   <defs>
+                     <linearGradient id="plusGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#009b3a" />
+                        <stop offset="50%" style="stop-color:#fed100" />
+                        <stop offset="100%" style="stop-color:#000" />
+                     </linearGradient>
+                   </defs>
+                   <path d="M12 5v14M5 12h14" stroke="url(#plusGrad)"/>
+                </svg>
+            </label>
+            <input type="file" id="upload-file" style="display:none;" accept="image/*,video/*">
+            <button id="btn-upload" style="display:none;"></button>
           </div>
-          <div id="community-grid" class="grid-view">
+          <div id="community-grid" class="insta-grid">
             <!-- Uploads show here -->
           </div>
         </section>
@@ -244,21 +335,73 @@
 
       <!-- Events & Places to Visit -->
       <div id="events-scene" class="scene">
+        <!-- Floating Hummingbird Home Button -->
+        <button onclick="goHome()" class="mag-close-btn" style="right: auto; left: 16px; top: 16px; padding:0; width: 50px; height: 50px; background: rgba(255,255,255,0.7); box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.1); z-index: 1000;" aria-label="Home" title="Back to Start">
+          <svg style="width:100%; height:100%; transform:scale(0.8);" viewBox="0 0 150 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="birdGradEv" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#009b3a;stop-opacity:1" />
+                <stop offset="70%" style="stop-color:#007a2e;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#fed100;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <g transform="translate(10, 10)">
+              <path d="M60 40 L90 55 L65 75 L50 60 Z" fill="url(#birdGradEv)"/>
+              <path d="M60 40 L70 30 L80 40 Z" fill="#009b3a"/>
+              <circle cx="70" cy="35" r="1.5" fill="#000"/>
+              <path d="M70 30 L130 20 L75 35 Z" fill="#000"/>
+              <path d="M60 70 L55 80 L65 80 Z" fill="#000" opacity="0.8"/>
+              <path d="M55 70 L50 78 L60 78 Z" fill="#111" opacity="0.7"/>
+              <path d="M55 70 L25 180 L45 170 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 70 L55 195 L70 185 Z" fill="#111" opacity="0.8"/>
+              <path d="M60 45 L15 5 L45 35 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 45 L5 25 L40 45 Z" fill="#222" opacity="0.7"/>
+              <path d="M60 45 L105 5 L75 35 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 45 L115 25 L80 45 Z" fill="#222" opacity="0.7"/>
+            </g>
+          </svg>
+        </button>
         <button class="scrap-button scroll-btn" onclick="showScene('carousel-scene')">&lt; Back</button>
         <section class="hub-section">
           <h2 class="hub-title">Events & Places &#127796;</h2>
-          <div id="events-list">
-            <!-- Loaded from events.txt -->
-          </div>
-          <div id="add-event-form">
+          <div id="add-event-form" style="margin-bottom: 2rem;">
             <input type="text" id="event-input" placeholder="Add an event (e.g. Reggae Sumfest - Montego Bay)" class="scrap-input">
             <button class="scrap-button-primary" id="btn-add-event">Add Event</button>
+          </div>
+          <div id="events-list" class="events-polaroid-grid">
+            <!-- Loaded from events.txt -->
           </div>
         </section>
       </div>
 
       <!-- PayPal Shop -->
       <div id="shop-scene" class="scene">
+        <!-- Floating Hummingbird Home Button -->
+        <button onclick="goHome()" class="mag-close-btn" style="right: auto; left: 16px; top: 16px; padding:0; width: 50px; height: 50px; background: rgba(255,255,255,0.7); box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.1); z-index: 1000;" aria-label="Home" title="Back to Start">
+          <svg style="width:100%; height:100%; transform:scale(0.8);" viewBox="0 0 150 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="birdGradShop" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#009b3a;stop-opacity:1" />
+                <stop offset="70%" style="stop-color:#007a2e;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#fed100;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <g transform="translate(10, 10)">
+              <path d="M60 40 L90 55 L65 75 L50 60 Z" fill="url(#birdGradShop)"/>
+              <path d="M60 40 L70 30 L80 40 Z" fill="#009b3a"/>
+              <circle cx="70" cy="35" r="1.5" fill="#000"/>
+              <path d="M70 30 L130 20 L75 35 Z" fill="#000"/>
+              <path d="M60 70 L55 80 L65 80 Z" fill="#000" opacity="0.8"/>
+              <path d="M55 70 L50 78 L60 78 Z" fill="#111" opacity="0.7"/>
+              <path d="M55 70 L25 180 L45 170 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 70 L55 195 L70 185 Z" fill="#111" opacity="0.8"/>
+              <path d="M60 45 L15 5 L45 35 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 45 L5 25 L40 45 Z" fill="#222" opacity="0.7"/>
+              <path d="M60 45 L105 5 L75 35 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 45 L115 25 L80 45 Z" fill="#222" opacity="0.7"/>
+            </g>
+          </svg>
+        </button>
         <button class="scrap-button scroll-btn" onclick="showScene('carousel-scene')">&lt; Back</button>
         <section class="hub-section" style="text-align: center;">
           <h2 class="hub-title">Official Shop &#128722;</h2>
