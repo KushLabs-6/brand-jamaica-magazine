@@ -318,7 +318,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             location: 'Oranje Street, Kingston',
             caption: 'The heart of Kingston street culture. Vibes, music, and pure energy every Friday! 🎼🇯🇲',
             img: 'events/beat-street-fridays.jpg',
-            video: 'uyY5Uo1YhEA', // YouTube ID
+            video: 'uPJIYON50Tk', // YouTube ID
             insta: 'https://www.instagram.com/oranjestreetzmusick_mitchie/?hl=en'
         };
 
