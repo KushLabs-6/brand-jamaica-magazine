@@ -1,21 +1,26 @@
 {
-  "name": "Brand Jamaica Magazine",
-  "short_name": "Brand Jamaica",
-  "description": "The Real Cultural Scrapbook Experience",
-  "start_url": "/brand-jamaica-magazine/",
-  "scope": "/brand-jamaica-magazine/",
-  "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#fcebd0",
-  "theme_color": "#009b3a",
-  "categories": ["entertainment", "lifestyle"],
-  "icons": [
-    {
-      "src": "./icon-512.png",
-      "sizes": "1024x1024",
-      "type": "image/jpeg",
-      "purpose": "any maskable"
-    }
-  ],
-  "screenshots": []
+      "name": "Brand Jamaica Magazine",
+      "short_name": "Brand Jamaica",
+      "description": "The Real Cultural Scrapbook Experience",
+      "start_url": "/brand-jamaica-magazine/",
+      "scope": "/brand-jamaica-magazine/",
+      "display": "standalone",
+      "orientation": "portrait",
+      "background_color": "#fcebd0",
+      "theme_color": "#009b3a",
+      "categories": ["entertainment", "lifestyle"],
+      "icons": [
+                {
+                              "src": "icon-512.png",
+                              "sizes": "192x192",
+                              "type": "image/png",
+                              "purpose": "any"
+                },
+                {
+                              "src": "icon-512.png",
+                              "sizes": "512x512",
+                              "type": "image/png",
+                              "purpose": "any"
+                }
+      ]
 }
