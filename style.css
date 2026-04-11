@@ -12,8 +12,6 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* The intro styles are now INLINED in index.html for Safe Mode recovery */
-
 #app {
   width: 100vw !important;
   height: 100vh !important;
@@ -73,7 +71,7 @@
 .social-icon { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .social-icon:hover { transform: scale(1.2) translateY(-2px); }
 
-/* Reader - transparent so the body's fixed paper texture shows through */
+/* READER */
 #magazine-scene { 
   background: transparent;
   display: none; 
@@ -98,16 +96,16 @@
 
 /* Floating close button */
 .mag-close-btn {
-  position: absolute;
+  position: fixed;
   top: 16px;
   right: 16px;
-  z-index: 200;
+  z-index: 2000;
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgba(0,0,0,0.75);
+  background: rgba(255,255,255,0.7);
   color: #fff;
-  border: 2px solid rgba(255,255,255,0.3);
+  border: 2px solid rgba(0,0,0,0.1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -150,3 +148,142 @@
   .social-links { margin-top: 1rem; }
   .header-elements { margin-bottom: 1rem; }
 }
+
+/* =========================================
+   NEW: PREMIUM GLASS FEED & EVENTS GRID
+   ========================================= */
+
+/* PREMIUM HUB HEADER */
+.hub-header-premium {
+   padding: 1rem 0 2rem 0;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+}
+.feed-subtitle-wrapper {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 1.5rem;
+   margin-top: 0.5rem;
+   width: 100%;
+   max-width: 450px;
+}
+.feed-subtitle-line {
+   flex: 1;
+   height: 2px;
+   background: linear-gradient(90deg, transparent, var(--green), var(--gold), transparent);
+   opacity: 0.6;
+}
+.hub-title-refined {
+   font-family: 'Caveat', cursive;
+   font-size: 2.2rem;
+   color: #333;
+   white-space: nowrap;
+   transform: rotate(-1deg);
+   text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.insta-feed-wrapper { max-width: 500px; margin: 0 auto; padding-bottom: 3rem; position: relative; }
+
+/* REFINED TOP SECTION */
+.premium-upload-bar { 
+  margin-bottom: 2.5rem; 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between;
+  background: rgba(255,255,255,0.4); 
+  padding: 0.8rem 1.2rem; 
+  border-radius: 40px; 
+  border: 1px solid rgba(255,255,255,0.6); 
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+}
+.upload-input-group { display: flex; align-items: center; gap: 12px; flex: 1; }
+.minimal-input { 
+  background: transparent; border: none; outline: none; 
+  font-family: 'Inter', sans-serif; font-size: 1rem; color: #333; 
+  width: 100%;
+}
+.minimal-input::placeholder { color: #888; }
+.upload-plus-btn { 
+  cursor: pointer; display: flex; align-items: center; justify-content: center; 
+  transition: transform 0.2s, filter 0.2s; 
+}
+.upload-plus-btn:hover { transform: scale(1.15) rotate(90deg); filter: drop-shadow(0 0 8px rgba(0,155,58,0.4)); }
+
+.insta-grid { display: flex; flex-direction: column; gap: 3rem; }
+
+.insta-card {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.insta-card:hover { transform: translateY(-5px); box-shadow: 0 20px 45px rgba(0,0,0,0.12); }
+
+.card-tape { 
+  position: absolute; top: -10px; left: 20px; width: 80px; height: 30px; 
+  background: rgba(245, 230, 140, 0.7); transform: rotate(-3deg); 
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1); z-index: 10;
+}
+
+.insta-header { padding: 16px; display: flex; align-items: center; gap: 12px; }
+.insta-avatar { 
+  width: 44px; height: 44px; border-radius: 50%; 
+  background: linear-gradient(135deg, #009b3a, #fed100); 
+  color: white; font-weight: 900; font-size: 0.85rem; 
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  font-family: 'Inter', sans-serif;
+}
+.insta-user-info { display: flex; flex-direction: column; line-height: 1.2; }
+.insta-user { font-family: 'Inter', sans-serif; font-weight: 800; font-size: 0.95rem; color: #111; }
+.insta-name { font-family: 'Inter', sans-serif; font-size: 0.75rem; color: #666; font-weight: 500; }
+
+.insta-media-container { width: 100%; aspect-ratio: 1/1; overflow: hidden; background: #eee; }
+.insta-media { width: 100%; height: 100%; object-fit: cover; }
+
+.insta-actions { padding: 14px 16px 8px 16px; display: flex; gap: 16px; font-size: 1.4rem; }
+.action-btn { cursor: pointer; transition: transform 0.2s; }
+.action-btn:hover { transform: scale(1.2); }
+
+.insta-caption-wrapper { padding: 0 16px 20px 16px; }
+.insta-user-bold { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 0.9rem; margin-right: 6px; }
+.insta-caption-text { 
+  display: inline; font-family: 'Caveat', cursive; font-size: 1.5rem; 
+  color: #222; line-height: 1.2; 
+}
+
+/* Events Polaroid Grid */
+.events-polaroid-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  padding: 1rem 0;
+}
+.polaroid-event {
+  background: #fdfdfd; 
+  padding: 25px 15px 15px 15px; 
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15); 
+  border: 1px solid #ebebeb; 
+  position: relative;
+  width: 250px;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.polaroid-event:nth-child(odd) { transform: rotate(-2deg); }
+.polaroid-event:nth-child(even) { transform: rotate(3deg); }
+.polaroid-text { font-family: 'Caveat', cursive; font-size: 1.5rem; color: #111; }
+.polaroid-event .tape { top: -12px; left: 50%; width: 90px; height: 35px; transform: translateX(-50%) rotate(-2deg); border:none; z-index:10; background-color: rgba(245, 230, 140, 0.85); box-shadow: 0 1px 3px rgba(0,0,0,0.15); }

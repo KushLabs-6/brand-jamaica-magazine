@@ -9,48 +9,33 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Java (for keytool)
-        uses: actions/setup-java@v4
+      - name: Build Android App (PWA to APK)
+        id: pwa-to-apk
+        uses: flaycks/pwa-to-apk@v1.0.1
         with:
-          distribution: 'microsoft'
-          java-version: '17'
-
-      - name: Generate Keystore
-        run: |
-          keytool -genkey -v -keystore android.keystore -alias key0 -keyalg RSA -keysize 2048 -validity 10000 -storepass brandjamaica -keypass brandjamaica -dname "CN=Brand Jamaica, OU=Magazine, O=KushLabs, L=Kingston, S=Kingston, C=JM"
-
-      - name: Build Android App (Docker Sandbox)
-        run: |
-          chmod -R 777 ${{ github.workspace }}
-          docker run --rm \
-            --entrypoint /bin/sh \
-            -v ${{ github.workspace }}:/app \
-            -w /app \
-            -e BUBBLEWRAP_KEYSTORE_PASSWORD=brandjamaica \
-            -e BUBBLEWRAP_KEY_PASSWORD=brandjamaica \
-            ghcr.io/googlechromelabs/bubblewrap:latest -c "yes | bubblewrap build --universalApk" > debug_build_docker.log 2>&1 || true
+          # Basic App Info
+          package-id: 'com.brandjamaica.magazine'
+          app-name: 'Brand Jamaica Magazine'
+          url: 'https://kushlabs-6.github.io/brand-jamaica-magazine/'
           
-          ls -laR > debug_files_docker.log
+          # Colors
+          theme-color: '#009b3a'
+          background-color: '#fcebd0'
+          
+          # Signing (This action auto-generates keys if not provided)
+          # We'll use the default signing for this initial APK
 
-      - name: Hard Discovery & Rename
+      - name: Log SHA256 Fingerprint
         run: |
-          find . -name "*.apk" -exec mv {} ./Brand-Jamaica-Magazine.apk \; || true
-          find . -name "*.aab" -exec mv {} ./Brand-Jamaica-Magazine.aab \; || true
+          echo "SHA256 Fingerprint for assetlinks.json:"
+          echo "${{ steps.pwa-to-apk.outputs.sha256-fingerprint }}"
 
-      - name: Archive Direct to Repository
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git pull origin main || true
-          git add debug_build_docker.log || true
-          git add debug_files_docker.log || true
-          git add Brand-Jamaica-Magazine.apk || true
-          git add Brand-Jamaica-Magazine.aab || true
-          git commit -m "[skip ci] Direct Repository APK Archive" || true
-          git push || true
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Brand-Jamaica-Android-APK
+          path: ./*.apk

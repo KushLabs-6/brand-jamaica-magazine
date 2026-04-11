@@ -6,7 +6,17 @@ window.showScene = (sceneId) => {
     const target = document.getElementById(sceneId);
     if (target) target.classList.add('active');
     if (sceneId === 'events-scene') window.loadEvents?.();
+    if (sceneId === 'hub-scene') window.loadCommunityFeed?.();
     if (sceneId === 'shop-scene') window.initPayPal?.();
+};
+
+// Global home navigation
+window.goHome = () => {
+    document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+    const introScene = document.getElementById('intro-scene');
+    const btnStart = document.getElementById('btn-start');
+    if (introScene) introScene.classList.add('active');
+    if (btnStart) btnStart.classList.remove('fly-away');
 };
 
 // Global volume opener - called from inline onclick
@@ -34,6 +44,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         function proceedToCarousel(e) {
             e.preventDefault();
             e.stopPropagation();
+            
+            // Play Doctor Bird click sound
+            try {
+                const audioUrl = typeof BASE !== 'undefined' ? BASE + 'sound/bird.mp3' : './sound/bird.mp3';
+                const audio = new Audio(audioUrl);
+                audio.play().catch(err => console.warn('Audio play prevented', err));
+            } catch(e) {}
+
             btnStart.classList.add('fly-away');
             setTimeout(() => {
                introScene.classList.remove('active');
@@ -296,7 +314,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             const res = await fetch('./api/events');
             const data = await res.json();
             list.innerHTML = data.events.map(e =>
-                `<div class="event-item">🗓 ${e}</div>`
+                `<div class="polaroid-event">
+                  <div class="tape"></div>
+                  <div class="polaroid-text">🗓 ${e}</div>
+                 </div>`
             ).join('');
         } catch (e) {
             list.innerHTML = '<p>Add your first event below! (You can also edit events.txt in your Desktop folder)</p>';
@@ -339,43 +360,87 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     // --- 7. COMMUNITY UPLOAD ---
-    document.getElementById('btn-upload')?.addEventListener('click', async () => {
-        const fileInput = document.getElementById('upload-file');
+    document.getElementById('upload-file')?.addEventListener('change', async (e) => {
+        const fileInput = e.target;
         const nameInput = document.getElementById('upload-name');
-        const btn = document.getElementById('btn-upload');
-        if (!fileInput?.files[0]) { alert('Please choose a file first.'); return; }
+        
+        if (!fileInput?.files[0]) return;
+
+        // Visual feedback
+        const plusBtn = document.querySelector('.upload-plus-btn');
+        if (plusBtn) plusBtn.style.opacity = '0.5';
 
         const formData = new FormData();
         formData.append('file', fileInput.files[0]);
         formData.append('name', nameInput?.value || 'Anonymous');
-        btn.innerText = 'Uploading... ⏳';
-        btn.disabled = true;
-
         try {
             const res = await fetch('./api/upload', { method: 'POST', body: formData });
             const data = await res.json();
-            btn.innerText = '✅ Uploaded!';
             fileInput.value = '';
+            if (plusBtn) plusBtn.style.opacity = '1';
             loadCommunityFeed();
         } catch (e) {
-            btn.innerText = 'Upload to local desktop folder';
-            btn.disabled = false;
+            if (plusBtn) plusBtn.style.opacity = '1';
             alert('Upload requires the local server. Please launch via Launch Magazine.bat');
         }
     });
 
-    async function loadCommunityFeed() {
+    window.loadCommunityFeed = async function() {
         const grid = document.getElementById('community-grid');
         if (!grid) return;
         try {
-            const res = await fetch('./api/community');
+            const res = await fetch('./api/community?t=' + Date.now());
             const data = await res.json();
+            
+            // 5 Consistent Premium Profiles
+            const testUsers = [
+                { handle: "@KingstonKing", name: "Malik", caption: "Vibes at the festival! The energy is unmatched. 🇯🇲🔥", avatar: "MK" },
+                { handle: "@FlavorQueen", name: "Zaya", caption: "Authentic Jerk Chicken... my mouth is watering just thinking about it again! 🍗✨", avatar: "ZQ" },
+                { handle: "@NatureSoul", name: "Rohan", caption: "Found this hidden paradise waterfall on my hike today. Pure peace. 🌊🍃", avatar: "RS" },
+                { handle: "@NegrilGlow", name: "Maya", caption: "Nothing beats a Negril sunset. The colors are like a painting. 🌅🧡", avatar: "MG" },
+                { handle: "@StudioVibes", name: "Andre", caption: "Late night in the studio. Creating something special for the island. 🎨🎨", avatar: "AV" }
+            ];
+
             if (data.files?.length > 0) {
-                grid.innerHTML = data.files.map(f => {
-                    if (f.match(/\.(mp4|webm|mov)$/i)) {
-                        return `<div class="community-card"><video src="/community/${f}" controls style="width:100%; border-radius:4px;"></video></div>`;
-                    }
-                    return `<div class="community-card"><img src="/community/${f}" style="width:100%; border-radius:4px; object-fit:cover;"></div>`;
+                // Filter specifically for our curated AI images to ensure quality
+                const curatedFiles = data.files.filter(f => 
+                    f.includes('reggae_festival') || 
+                    f.includes('jerk_chicken') || 
+                    f.includes('jamaican_waterfall') ||
+                    f.includes('negril_sunset') ||
+                    f.includes('jamaican_artist')
+                );
+
+                grid.innerHTML = curatedFiles.map((f, index) => {
+                    const isVideo = f.match(/\.(mp4|webm|mov)$/i);
+                    const basePath = typeof BASE !== 'undefined' ? BASE : '/';
+                    const mediaTag = isVideo 
+                        ? `<video src="${basePath}community/${f}" controls class="insta-media"></video>`
+                        : `<img src="${basePath}community/${f}" class="insta-media">`;
+                    
+                    const user = testUsers[index % testUsers.length];
+
+                    return `
+                    <div class="insta-card">
+                        <div class="card-tape"></div>
+                        <div class="insta-header">
+                            <div class="insta-avatar">${user.avatar}</div>
+                            <div class="insta-user-info">
+                                <span class="insta-user">${user.handle}</span>
+                                <span class="insta-name">${user.name}</span>
+                            </div>
+                        </div>
+                        <div class="insta-media-container">${mediaTag}</div>
+                        <div class="insta-actions">
+                            <span class="action-btn">❤️</span>
+                            <span class="action-btn">💬</span>
+                            <span class="action-btn" style="margin-left:auto">🔖</span>
+                        </div>
+                        <div class="insta-caption-wrapper">
+                            <span class="insta-user-bold">${user.handle}</span>
+                            <p class="insta-caption-text">${user.caption}</p>
+                        </div>
+                    </div>`;
                 }).join('');
             } else {
                 grid.innerHTML = '<p>Be the first to share something! 🇯🇲</p>';
