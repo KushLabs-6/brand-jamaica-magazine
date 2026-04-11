@@ -388,65 +388,82 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.loadCommunityFeed = async function() {
         const grid = document.getElementById('community-grid');
         if (!grid) return;
+
+        // Consistent Premium Profiles for test data
+        const testUsers = [
+            { handle: "@KingstonKing", name: "Malik", caption: "Vibes at the festival! The energy is unmatched. 🇯🇲🔥", avatar: "MK" },
+            { handle: "@FlavorQueen", name: "Zaya", caption: "Authentic Jerk Chicken... my mouth is watering just thinking about it again! 🍗✨", avatar: "ZQ" },
+            { handle: "@NatureSoul", name: "Rohan", caption: "Found this hidden paradise waterfall on my hike today. Pure peace. 🌊🍃", avatar: "RS" },
+            { handle: "@NegrilGlow", name: "Maya", caption: "Nothing beats a Negril sunset. The colors are like a painting. 🌅🧡", avatar: "MG" },
+            { handle: "@StudioVibes", name: "Andre", caption: "Late night in the studio. Creating something special for the island. 🎨🎨", avatar: "AV" }
+        ];
+
+        let files = [];
         try {
+            // 1. Try Live API (Local Server)
             const res = await fetch('./api/community?t=' + Date.now());
             const data = await res.json();
-            
-            // 5 Consistent Premium Profiles
-            const testUsers = [
-                { handle: "@KingstonKing", name: "Malik", caption: "Vibes at the festival! The energy is unmatched. 🇯🇲🔥", avatar: "MK" },
-                { handle: "@FlavorQueen", name: "Zaya", caption: "Authentic Jerk Chicken... my mouth is watering just thinking about it again! 🍗✨", avatar: "ZQ" },
-                { handle: "@NatureSoul", name: "Rohan", caption: "Found this hidden paradise waterfall on my hike today. Pure peace. 🌊🍃", avatar: "RS" },
-                { handle: "@NegrilGlow", name: "Maya", caption: "Nothing beats a Negril sunset. The colors are like a painting. 🌅🧡", avatar: "MG" },
-                { handle: "@StudioVibes", name: "Andre", caption: "Late night in the studio. Creating something special for the island. 🎨🎨", avatar: "AV" }
-            ];
-
-            if (data.files?.length > 0) {
-                // Filter specifically for our curated AI images to ensure quality
-                const curatedFiles = data.files.filter(f => 
-                    f.includes('reggae_festival') || 
-                    f.includes('jerk_chicken') || 
-                    f.includes('jamaican_waterfall') ||
-                    f.includes('negril_sunset') ||
-                    f.includes('jamaican_artist')
-                );
-
-                grid.innerHTML = curatedFiles.map((f, index) => {
-                    const isVideo = f.match(/\.(mp4|webm|mov)$/i);
-                    const basePath = typeof BASE !== 'undefined' ? BASE : '/';
-                    const mediaTag = isVideo 
-                        ? `<video src="${basePath}community/${f}" controls class="insta-media"></video>`
-                        : `<img src="${basePath}community/${f}" class="insta-media">`;
-                    
-                    const user = testUsers[index % testUsers.length];
-
-                    return `
-                    <div class="insta-card">
-                        <div class="card-tape"></div>
-                        <div class="insta-header">
-                            <div class="insta-avatar">${user.avatar}</div>
-                            <div class="insta-user-info">
-                                <span class="insta-user">${user.handle}</span>
-                                <span class="insta-name">${user.name}</span>
-                            </div>
-                        </div>
-                        <div class="insta-media-container">${mediaTag}</div>
-                        <div class="insta-actions">
-                            <span class="action-btn">❤️</span>
-                            <span class="action-btn">💬</span>
-                            <span class="action-btn" style="margin-left:auto">🔖</span>
-                        </div>
-                        <div class="insta-caption-wrapper">
-                            <span class="insta-user-bold">${user.handle}</span>
-                            <p class="insta-caption-text">${user.caption}</p>
-                        </div>
-                    </div>`;
-                }).join('');
-            } else {
-                grid.innerHTML = '<p>Be the first to share something! 🇯🇲</p>';
-            }
+            files = data.files || [];
         } catch (e) {
-            grid.innerHTML = '<p>Community Feed loads when connected to the local server.</p>';
+            // 2. Fallback to Static Metadata (GitHub Pages / App)
+            try {
+                const res = await fetch('./metadata.json?t=' + Date.now());
+                const data = await res.json();
+                files = data.community || [];
+            } catch (err) {
+                grid.innerHTML = '<p>Community Feed is currently unavailable. Checkout our social links below! 🇯🇲</p>';
+                return;
+            }
+        }
+
+        if (files.length > 0) {
+            // Filter specifically for our curated premium content to ensure a high-end look
+            const curatedFiles = files.filter(f => 
+                f.includes('reggae_festival') || 
+                f.includes('jerk_chicken') || 
+                f.includes('jamaican_waterfall') ||
+                f.includes('negril_sunset') ||
+                f.includes('jamaican_artist')
+            );
+
+            // If curated filter returns nothing, show all (maybe user uploaded something locally)
+            const displayFiles = curatedFiles.length > 0 ? curatedFiles : files;
+
+            grid.innerHTML = displayFiles.map((f, index) => {
+                const isVideo = f.match(/\.(mp4|webm|mov)$/i);
+                const basePath = typeof BASE !== 'undefined' ? BASE : './';
+                // Adjust path for community images
+                const imgPath = f.startsWith('community/') ? `${basePath}${f}` : `${basePath}community/${f}`;
+                const mediaTag = isVideo 
+                    ? `<video src="${imgPath}" controls class="insta-media"></video>`
+                    : `<img src="${imgPath}" class="insta-media">`;
+                
+                const user = testUsers[index % testUsers.length];
+
+                return `
+                <div class="insta-card">
+                    <div class="card-tape"></div>
+                    <div class="insta-header">
+                        <div class="insta-avatar">${user.avatar}</div>
+                        <div class="insta-user-info">
+                            <span class="insta-user">${user.handle}</span>
+                            <span class="insta-name">${user.name}</span>
+                        </div>
+                    </div>
+                    <div class="insta-media-container">${mediaTag}</div>
+                    <div class="insta-actions">
+                        <span class="action-btn">❤️</span>
+                        <span class="action-btn">💬</span>
+                        <span class="action-btn" style="margin-left:auto">🔖</span>
+                    </div>
+                    <div class="insta-caption-wrapper">
+                        <span class="insta-user-bold">${user.handle}</span>
+                        <p class="insta-caption-text">${user.caption}</p>
+                    </div>
+                </div>`;
+            }).join('');
+        } else {
+            grid.innerHTML = '<p>Be the first to share something! 🇯🇲</p>';
         }
     }
 });

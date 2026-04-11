@@ -36,6 +36,14 @@ function generateMetadata() {
         }
     }
 
+    // 3. Scan Community
+    metadata.community = [];
+    const communityDir = path.join(publicDir, 'community');
+    if (fs.existsSync(communityDir)) {
+        const files = fs.readdirSync(communityDir);
+        metadata.community = files.filter(file => /\.(png|jpe?g|gif|svg|webp|mp4|webm|mov)$/i.test(file));
+    }
+
     fs.writeFileSync(metadataPath, JSON.stringify(metadata, null, 2));
     console.log('✅ Metadata generated at public/metadata.json');
 }
