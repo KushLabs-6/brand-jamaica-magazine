@@ -531,17 +531,17 @@
 
 .passport-icon { width: auto; height: auto; position: relative; }
 .passport-cover {
-    width: 65px; padding: 10px 5px; background: #111 url('/cream-paper-ai.png') center/cover; background-blend-mode: multiply;
-    border: 1px solid #333;
+    width: 65px; padding: 10px 5px; background: #d4c4a1 url('/cream-paper-ai.png') center/cover; background-blend-mode: multiply;
+    border: 1px solid #b8a682;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.4); transform: rotate(4deg);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3); transform: rotate(4deg);
 }
 .passport-cover::before {
     content: ''; position: absolute; top: -8px; left: 50%; transform: translateX(-50%) rotate(-4deg);
     width: 28px; height: 14px; background: rgba(245, 230, 140, 0.9); box-shadow: 0 1px 3px rgba(0,0,0,0.1); z-index: 10;
 }
 .passport-logo { font-size: 1.8rem; margin-bottom: 3px; z-index: 5; }
-.passport-label { font-family: 'Finger Paint', cursive; font-weight: 900; font-size: 0.45rem; color: #fff; letter-spacing: 0; text-align: center; line-height: 1.2; z-index: 5; }
+.passport-label { font-family: 'Finger Paint', cursive; font-weight: 900; font-size: 0.45rem; color: #111; letter-spacing: 0; text-align: center; line-height: 1.2; z-index: 5; }
 
 .passport-tooltip {
     position: absolute; bottom: -35px; right: 0; background: #000; color: #fff;
@@ -666,9 +666,9 @@
 
 /* --- TICKET & TAPE CAROUSEL NAVIGATION --- */
 .tape-arrow-btn {
-    font-family: 'Knewave', cursive; font-size: 1.5rem; color: #fed100;
-    background: #111 url('/cream-paper-ai.png') center/cover;
-    background-blend-mode: multiply; border: 1px solid #333; border-radius: 4px;
+    font-family: 'Knewave', cursive; font-size: 1.5rem; color: #111;
+    background: #d4c4a1 url('/cream-paper-ai.png') center/cover;
+    background-blend-mode: multiply; border: 1px solid #b8a682; border-radius: 4px;
     padding: 10px 25px; outline: none;
     cursor: pointer; transition: transform 0.2s, filter 0.2s;
     filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
