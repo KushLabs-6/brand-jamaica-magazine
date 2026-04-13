@@ -19,6 +19,12 @@ window.onYouTubeIframeAPIReady = () => {
 // --- AUTH & COMMUNITY LOGIC ---
 window._currentUser = JSON.parse(localStorage.getItem('bjm_user')) || null;
 
+// Hotfix: Force clear old persistent "Test User" cache so the app defaults back to "SIGN IN" for testing
+if (window._currentUser && window._currentUser.name && window._currentUser.name.toLowerCase().includes('test user')) {
+    window._currentUser = null;
+    localStorage.removeItem('bjm_user');
+}
+
 window.openAuthModal = () => {
     const modal = document.getElementById('auth-modal');
     if (modal) modal.classList.add('active');
