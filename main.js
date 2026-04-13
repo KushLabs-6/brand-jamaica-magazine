@@ -10,303 +10,219 @@ else document.head.appendChild(tag);
 
 window.onYouTubeIframeAPIReady = () => {
     ytPlayer = new YT.Player('bg-music-container', {
-        height: '0',
-        width: '0',
-        videoId: 'KMxV_gRESWM',
-        playerVars: {
-            'autoplay': 0,
-            'loop': 1,
-            'playlist': 'KMxV_gRESWM',
-            'controls': 0,
-            'showinfo': 0,
-            'modestbranding': 1
-        },
-        events: {
-            'onReady': (event) => {
-                event.target.setVolume(40);
-            }
-        }
+        height: '0', width: '0', videoId: 'KMxV_gRESWM',
+        playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'KMxV_gRESWM', 'controls': 0, 'showinfo': 0, 'modestbranding': 1 },
+        events: { 'onReady': (event) => { event.target.setVolume(40); } }
     });
 };
 
-// --- SCENE NAVIGATION (GLOBAL) ---
+// --- AUTH & MEMBERSHIP LOGIC ---
+window._currentUser = JSON.parse(localStorage.getItem('bjm_user')) || null;
+
+window.openAuthModal = () => {
+    const modal = document.getElementById('auth-modal');
+    if (modal) modal.classList.add('active');
+    window.toggleAuthMode('login');
+};
+
+window.closeAuthModal = () => {
+    const modal = document.getElementById('auth-modal');
+    if (modal) modal.classList.remove('active');
+};
+
+window.toggleAuthMode = (mode) => {
+    const loginForm = document.getElementById('login-form'), signupForm = document.getElementById('signup-form'), success = document.getElementById('auth-success');
+    if (mode === 'signup') { loginForm.classList.remove('active'); signupForm.classList.add('active'); } 
+    else { loginForm.classList.add('active'); signupForm.classList.remove('active'); }
+    success.classList.remove('auth-success-visible');
+};
+
+window.handleLogin = () => {
+    const email = document.getElementById('login-email').value;
+    if (email) {
+        const user = { email, name: email.split('@')[0], avatar: email[0].toUpperCase() };
+        window._currentUser = user; localStorage.setItem('bjm_user', JSON.stringify(user));
+        showAuthSuccess();
+    }
+};
+
+window.handleSignup = () => {
+    const name = document.getElementById('signup-name').value;
+    const email = document.getElementById('signup-email').value;
+    if (name && email) {
+        const user = { name, email, avatar: name[0].toUpperCase() };
+        window._currentUser = user; localStorage.setItem('bjm_user', JSON.stringify(user));
+        showAuthSuccess();
+    }
+};
+
+function showAuthSuccess() {
+    document.getElementById('login-form').classList.remove('active');
+    document.getElementById('signup-form').classList.remove('active');
+    document.getElementById('auth-success').classList.add('auth-success-visible');
+    updateUserUI();
+}
+
+function updateUserUI() {
+    const avatar = document.getElementById('user-avatar'), btn = document.getElementById('passport-btn-hub');
+    const hubFab = document.getElementById('hub-upload-btn'), eventFab = document.getElementById('event-upload-btn');
+    
+    if (window._currentUser) {
+        avatar.innerText = window._currentUser.avatar;
+        avatar.classList.remove('user-avatar-hidden'); avatar.classList.add('user-avatar-visible');
+        if (btn) btn.innerHTML = '<span class="passport-label-hub">VALID PASSPORT</span>';
+        if (hubFab) hubFab.style.display = 'flex';
+        if (eventFab) eventFab.style.display = 'flex';
+    }
+}
+
+// --- UPLOAD & AI ENGINE ---
+let currentUploadType = 'community';
+window.openUploadModal = (type) => {
+    currentUploadType = type;
+    const modal = document.getElementById('upload-modal'), title = document.getElementById('upload-modal-title'), eventFields = document.getElementById('event-only-fields');
+    if (modal) modal.classList.add('active');
+    if (type === 'event') { title.innerText = 'List Your Event'; eventFields.style.display = 'block'; }
+    else { title.innerText = 'Share Your Vibe'; eventFields.style.display = 'none'; }
+};
+
+window.closeUploadModal = () => {
+    const modal = document.getElementById('upload-modal');
+    if (modal) modal.classList.remove('active');
+};
+
+window.handleUpload = () => {
+    const caption = document.getElementById('upload-caption').value;
+    const parish = document.getElementById('upload-parish').value;
+    const fileInput = document.getElementById('real-file-input');
+    
+    if (!caption) { alert('Please enter a caption!'); return; }
+    
+    // Simulate File Upload & AI Generation
+    const newEntry = {
+        user: window._currentUser.name,
+        caption: caption,
+        parish: currentUploadType === 'event' ? parish : null,
+        img: 'https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=500&q=80', // Replace with real uploaded file URL later
+        type: currentUploadType
+    };
+
+    if (currentUploadType === 'event') {
+        if (!window._communityEvents) window._communityEvents = [];
+        window._communityEvents.unshift(newEntry);
+        window.loadEvents();
+    } else {
+        if (!window._communityPosts) window._communityPosts = [];
+        window._communityPosts.unshift(newEntry);
+        window.loadCommunityFeed();
+    }
+    
+    closeUploadModal();
+    alert('Your submission was processed by AI and successfully scrapbooked! 🇯🇲✨');
+};
+
+const ScrapbookEngine = {
+    generateCard: (data) => {
+        const rotation = (Math.random() * 6 - 3).toFixed(1), tapeRotation = (Math.random() * 20 - 10).toFixed(1), tapeX = (Math.random() * 40 + 30).toFixed(0);
+        return `
+        <div class="insta-card scrapbook-entry" style="transform: rotate(${rotation}deg);">
+            <div class="card-tape" style="left: ${tapeX}%; transform: translateX(-50%) rotate(${tapeRotation}deg);"></div>
+            <div class="insta-header"><div class="insta-avatar" style="background:#003366; color:#fed100;">${data.user[0]}</div><div class="insta-user-info"><span class="insta-user">@${data.user}</span></div></div>
+            <div class="insta-media-container polaroid-frame"><img src="${data.img}" class="insta-media ai-filtered"></div>
+            <div class="insta-caption-wrapper"><p class="insta-caption-text">${data.caption}</p>${data.parish ? `<div class="parish-stamp">APPROVED: ${data.parish}</div>` : ''}</div>
+        </div>`;
+    }
+};
+
+// --- SCENE NAVIGATION ---
 window.showScene = (sceneId) => {
     document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
     const target = document.getElementById(sceneId);
-    if (target) {
-        target.classList.add('active');
-        window.scrollTo(0, 0);
-    }
-
-    // Smart Audio Logic
-    if (sceneId === 'interviews-scene' || sceneId === 'documentaries-scene') {
-        ytPlayer?.pauseVideo?.();
-    } else {
-        if (window._musicStarted) ytPlayer?.playVideo?.();
-    }
-
+    if (target) { target.classList.add('active'); window.scrollTo(0, 0); }
+    if (sceneId === 'interviews-scene' || sceneId === 'documentaries-scene') ytPlayer?.pauseVideo?.();
+    else if (window._musicStarted) ytPlayer?.playVideo?.();
     if (sceneId === 'events-scene') window.loadEvents?.();
     if (sceneId === 'hub-scene') window.loadCommunityFeed?.();
-    if (sceneId === 'shop-scene') window.initPayPal?.();
     if (sceneId === 'interviews-scene') window.loadInterviews?.();
     if (sceneId === 'documentaries-scene') window.loadDocumentaries?.();
 };
 
-window.goHome = () => {
-    window.showScene('intro-scene');
-    const btnStart = document.getElementById('btn-start');
-    if (btnStart) btnStart.classList.remove('fly-away');
-};
+window.goHome = () => { window.showScene('intro-scene'); const btnStart = document.getElementById('btn-start'); if (btnStart) btnStart.classList.remove('fly-away'); };
 
 window.openVolume = async (volumeId) => {
-    const carouselScene = document.getElementById('carousel-scene');
-    const magazineScene = document.getElementById('magazine-scene');
+    const carouselScene = document.getElementById('carousel-scene'), magazineScene = document.getElementById('magazine-scene');
     if (!carouselScene || !magazineScene) return;
-    carouselScene.classList.remove('active');
-    magazineScene.classList.add('active');
-    await new Promise(r => setTimeout(r, 700));
-    if (window._loadMagazine) await window._loadMagazine(String(volumeId));
+    carouselScene.classList.remove('active'); magazineScene.classList.add('active');
+    await new Promise(r => setTimeout(r, 700)); if (window._loadMagazine) await window._loadMagazine(String(volumeId));
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const btnStart = document.getElementById('btn-start');
-    const introScene = document.getElementById('intro-scene');
-    const carouselScene = document.getElementById('carousel-scene');
-    const magazineScene = document.getElementById('magazine-scene');
-    
-    let BASE = import.meta.env.BASE_URL || '/brand-jamaica-magazine/';
-    if (!BASE.endsWith('/')) BASE += '/';
-
-    // PRELOAD AUTHENTIC BIRD SOUND
-    const birdAudio = new Audio();
-    birdAudio.src = `${BASE}Sound/bird.mp3`.replace(/\/\//g, '/');
-    birdAudio.load();
+    updateUserUI();
+    const btnStart = document.getElementById('btn-start'), introScene = document.getElementById('intro-scene'), carouselScene = document.getElementById('carousel-scene');
+    let BASE = import.meta.env.BASE_URL || '/brand-jamaica-magazine/'; if (!BASE.endsWith('/')) BASE += '/';
+    const birdAudio = new Audio(); birdAudio.src = `${BASE}Sound/bird.mp3`.replace(/\/\//g, '/'); birdAudio.load();
 
     if (btnStart && introScene) {
         function proceedToCarousel(e) {
-            if (e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-            
-            // 1. Play Real Bird Sound
-            try {
-                birdAudio.play().catch(err => console.warn('Bird audio play prevented', err));
-            } catch(e) {}
-
-            // 2. Start Background Music
-            if (!window._musicStarted) {
-                ytPlayer?.playVideo?.();
-                window._musicStarted = true;
-            }
-
-            // 3. Animation
+            if (e) { e.preventDefault(); e.stopPropagation(); }
+            try { birdAudio.play().catch(e => {}); } catch(e) {}
+            if (!window._musicStarted) { ytPlayer?.playVideo?.(); window._musicStarted = true; }
             btnStart.classList.add('fly-away');
-            setTimeout(() => {
-               introScene.classList.remove('active');
-               carouselScene.classList.add('active');
-               window.showScene('carousel-scene');
-            }, 1000);
+            setTimeout(() => { introScene.classList.remove('active'); carouselScene.classList.add('active'); window.showScene('carousel-scene'); }, 1000);
         }
-        
-        introScene.addEventListener('click', proceedToCarousel);
-        btnStart.addEventListener('click', proceedToCarousel);
+        introScene.addEventListener('click', proceedToCarousel); btnStart.addEventListener('click', proceedToCarousel);
         introScene.addEventListener('touchend', proceedToCarousel, { passive: false });
     }
 
-    let metadata = null;
-    let pageFlip = null;
-
-    const encodePath = (relativePath) => {
-        const clean = relativePath.replace(/^\//, '');
-        const parts = clean.split('/');
-        const encoded = parts.map(segment => encodeURIComponent(segment)).join('/');
-        return BASE + encoded;
-    };
-
-    try {
-        const metaRes = await fetch('./metadata.json');
-        if (metaRes.ok) metadata = await metaRes.json();
-    } catch (e) { console.warn('Metadata fallback'); }
-
-    // --- CAROUSEL (REFINED: SHOW 5 ITEMS) ---
-    const btnNext = document.getElementById('btn-next');
-    const btnPrev = document.getElementById('btn-prev');
+    // --- CAROUSEL ---
     const items = document.querySelectorAll('.carousel-item');
-    let currentIndex = 0;
-    const totalItems = items.length;
-
+    let currentIndex = 0; const totalItems = items.length;
     function updateCarousel() {
         items.forEach((item, index) => {
-            let dist = index - currentIndex;
-            if (dist > totalItems / 2) dist -= totalItems;
-            if (dist < -totalItems / 2) dist += totalItems;
-
+            let dist = index - currentIndex; if (dist > totalItems / 2) dist -= totalItems; if (dist < -totalItems / 2) dist += totalItems;
             const absDist = Math.abs(dist);
-
-            if (dist === 0) {
-                // CENTER
-                item.style.transform = `translateX(0) translateZ(0) rotateY(0deg) scale(1)`;
-                item.style.zIndex = 10;
-                item.style.opacity = 1;
-                item.style.filter = 'none';
-            } else if (absDist === 1 || (totalItems === 5 && (absDist === 4))) {
-                // 1 AWAY (LEFT/RIGHT)
-                const side = dist > 0 || (dist < -2) ? 1 : -1;
-                item.style.transform = `translateX(${side * 85}%) translateZ(-150px) rotateY(${side * -20}deg) scale(0.82)`;
-                item.style.zIndex = 5;
-                item.style.opacity = 0.85;
-                item.style.filter = 'brightness(0.8)';
-            } else if (absDist === 2 || (totalItems === 5 && (absDist === 3))) {
-                // 2 AWAY (FAR LEFT/RIGHT) - NOW VISIBLE!
-                const side = dist > 0 || (dist < -1 && dist > -4) ? 1 : -1;
-                item.style.transform = `translateX(${side * 145}%) translateZ(-300px) rotateY(${side * -40}deg) scale(0.65)`;
-                item.style.zIndex = 1;
-                item.style.opacity = 0.35;
-                item.style.filter = 'brightness(0.6) blur(1px)';
-            } else {
-                // REST
-                item.style.transform = `translateX(${Math.sign(dist) * 200}%) translateZ(-500px) scale(0.4)`;
-                item.style.zIndex = 0;
-                item.style.opacity = 0;
-            }
+            if (dist === 0) { item.style.transform = `translateX(0) translateZ(0) rotateY(0deg) scale(1)`; item.style.zIndex = 10; item.style.opacity = 1; } 
+            else if (absDist === 1) { const side = dist > 0 ? 1 : -1; item.style.transform = `translateX(${side * 85}%) translateZ(-150px) rotateY(${side * -20}deg) scale(0.82)`; item.style.zIndex = 5; item.style.opacity = 0.85; } 
+            else if (absDist === 2) { const side = dist > 0 ? 1 : -1; item.style.transform = `translateX(${side * 145}%) translateZ(-300px) rotateY(${side * -40}deg) scale(0.65)`; item.style.zIndex = 1; item.style.opacity = 0.35; } 
+            else { item.style.transform = `translateX(${Math.sign(dist) * 200}%) translateZ(-500px) scale(0.4)`; item.style.zIndex = 0; item.style.opacity = 0; }
         });
     }
-
-    btnNext?.addEventListener('click', () => { currentIndex = (currentIndex + 1) % totalItems; updateCarousel(); });
-    btnPrev?.addEventListener('click', () => { currentIndex = (currentIndex - 1 + totalItems) % totalItems; updateCarousel(); });
-    
-    let carouselTouchStartX = 0;
-    const carouselContainer = document.querySelector('.carousel-container');
-    carouselContainer?.addEventListener('touchstart', (e) => { carouselTouchStartX = e.touches[0].clientX; }, { passive: true });
-    carouselContainer?.addEventListener('touchend', (e) => {
-        const dx = e.changedTouches[0].clientX - carouselTouchStartX;
-        if (Math.abs(dx) > 50) {
-            if (dx < 0) currentIndex = (currentIndex + 1) % totalItems;
-            else currentIndex = (currentIndex - 1 + totalItems) % totalItems;
-            updateCarousel();
-        }
-    }, { passive: true });
-
+    document.getElementById('btn-next')?.addEventListener('click', () => { currentIndex = (currentIndex + 1) % totalItems; updateCarousel(); });
+    document.getElementById('btn-prev')?.addEventListener('click', () => { currentIndex = (currentIndex - 1 + totalItems) % totalItems; updateCarousel(); });
     updateCarousel();
 
-    const btnBack = document.getElementById('btn-back');
-    const bookEl = document.getElementById('book');
+    // --- MAGAZINE & SECTIONS ---
+    let metadata = null; try { const metaRes = await fetch('./metadata.json'); if (metaRes.ok) metadata = await metaRes.json(); } catch (e) { }
 
-    items.forEach(item => {
-        item.addEventListener('click', async (e) => {
-            const volumeId = item.getAttribute('data-volume');
-            if (volumeId && ['1', '2', '3'].includes(volumeId)) { 
-                history.pushState({ scene: 'magazine', volumeId }, '');
-                carouselScene.classList.remove('active');
-                magazineScene.classList.add('active');
-                await new Promise(r => setTimeout(r, 700));
-                await loadMagazine(volumeId);
-            }
-        });
-    });
-
-    function closeMagazine() {
-        magazineScene.classList.remove('active');
-        setTimeout(() => {
-            carouselScene.classList.add('active');
-            if (pageFlip) { pageFlip.destroy(); pageFlip = null; bookEl.innerHTML = ''; }
-        }, 400);
-    }
-    btnBack?.addEventListener('click', closeMagazine);
-
-    async function loadMagazine(volumeId) {
-        let pages = metadata?.issues?.[`volume_${volumeId}`] || [];
-        let pageHTML = pages.map((f, i) => {
-            const url = encodePath(`/issues/volume_${volumeId}/${f}`);
-            return `<div class="page"><div class="page-content"><img src="${url}" class="magazine-page-img"></div></div>`;
-        }).join('');
-
-        bookEl.innerHTML = pageHTML + `<div class="page hard"><div class="page-content" style="display:flex;align-items:center;justify-content:center;background:#009b3a;color:#fff;"><h2>Brand Jamaica 🇯🇲</h2></div></div>`;
-        const dims = responsiveDims();
-        pageFlip = new PageFlip(bookEl, {
-            width: dims.width, height: dims.height, size: 'stretch',
-            showCover: false, flippingTime: 800, usePortrait: dims.portrait
-        });
-        pageFlip.loadFromHTML(document.querySelectorAll('.page'));
-    }
-
-    function responsiveDims() {
-        const vw = window.innerWidth;
-        const vh = window.innerHeight;
-        const isMobile = vw < 768;
-        return isMobile ? { width: Math.round(vw * 0.85), height: Math.round(vh * 0.75), portrait: true } 
-                        : { width: 450, height: 600, portrait: false };
-    }
-
-    // --- SECTIONS ---
     window.loadEvents = async () => {
-        const grid = document.getElementById('events-grid');
-        if (!grid) return;
-        const featuredEvent = {
-            id: 'beat-street', title: 'Beat Street Fridays', location: 'Oranje Street, Kingston', 
-            caption: 'The heart of Kingston street culture. Vibes, music, and energy every Friday!', 
-            img: 'events/beat-street-fridays.jpg', video: 'uPJIYON50Tk', insta: 'https://www.instagram.com/oranjestreetzmusick_mitchie/'
-        };
-        const basePath = BASE;
-        grid.innerHTML = `
-        <div class="insta-card event-card">
-            <div class="card-tape"></div>
-            <div class="insta-header"><div class="insta-avatar">BS</div><div class="insta-user-info"><span class="insta-user">${featuredEvent.title}</span><span class="insta-name">${featuredEvent.location}</span></div></div>
-            <div class="insta-media-container" style="position:relative;">
-                <img src="${basePath}${featuredEvent.img}" class="insta-media" style="position:absolute; inset:0; z-index:1;">
-                <div class="event-video-container"><iframe src="https://www.youtube.com/embed/${featuredEvent.video}?autoplay=1&mute=1&loop=1&playlist=${featuredEvent.video}&modestbranding=1&controls=0" allowfullscreen></iframe></div>
-            </div>
-            <div class="insta-actions"><a href="${featuredEvent.insta}" target="_blank" class="insta-icon-link">View Instagram</a></div>
-            <div class="insta-caption-wrapper"><p class="insta-caption-text">${featuredEvent.caption}</p></div>
-        </div>`;
+        const grid = document.getElementById('events-grid'); if (!grid) return;
+        const mockEvents = [{ user: 'EventsTeam', caption: 'Beat Street Fridays - oranje streetvibes!', parish: 'KINGSTON', img: `${BASE}events/beat-street-fridays.jpg` }];
+        grid.innerHTML = (window._communityEvents || []).concat(mockEvents).map(e => ScrapbookEngine.generateCard(e)).join('');
     };
 
     window.loadCommunityFeed = async () => {
-        const grid = document.getElementById('community-grid');
-        if (!grid) return;
-        const testUsers = [{ handle: "@KingstonKing", caption: "Vibes at the festival! 🇯🇲🔥", avatar: "MK" }];
-        let files = [];
-        try {
-            const res = await fetch(`${BASE}api/community?t=` + Date.now());
-            const data = await res.json();
-            files = data.files || [];
-        } catch (e) {
-            try {
-                const res = await fetch(`${BASE}metadata.json?t=` + Date.now());
-                const data = await res.json();
-                files = data.community || [];
-            } catch (err) { }
-        }
-        if (files.length > 0) {
-            grid.innerHTML = files.map((f, index) => {
-                const isVideo = f.match(/\.(mp4|webm|mov)$/i);
-                const imgPath = f.startsWith('community/') ? `${BASE}${f}` : `${BASE}community/${f}`;
-                const mediaTag = isVideo ? `<video src="${imgPath}" controls class="insta-media"></video>` : `<img src="${imgPath}" class="insta-media">`;
-                const user = testUsers[index % testUsers.length];
-                return `<div class="insta-card"><div class="card-tape"></div><div class="insta-header"><div class="insta-avatar">${user.avatar}</div><div class="insta-user-info"><span class="insta-user">${user.handle}</span></div></div><div class="insta-media-container">${mediaTag}</div><div class="insta-caption-wrapper"><p class="insta-caption-text">${user.caption}</p></div></div>`;
-            }).join('');
-        }
+        const grid = document.getElementById('community-grid'); if (!grid) return;
+        let files = []; try { const res = await fetch(`${BASE}metadata.json`); const data = await res.json(); files = data.community || []; } catch (err) { }
+        const mockPosts = (window._communityPosts || []).map(p => ScrapbookEngine.generateCard(p)).join('');
+        const feedHTML = files.map(f => ScrapbookEngine.generateCard({ user: 'IslandVibes', caption: 'Sharing the energy! 🇯🇲', img: `${BASE}community/${f}` })).join('');
+        grid.innerHTML = mockPosts + feedHTML;
     };
 
-    window.initPayPal = () => { /* PayPal Logic */ };
-
     window.loadInterviews = () => {
-        const grid = document.getElementById('interviews-grid');
-        const videos = [
-            { id: 'ry5_XOMUQFI', title: 'Inside Small World Studio: A Conversation with Bravo', tagline: 'EXCLUSIVE FEATURE' },
-            { id: 'K0GFxs5JBd8', title: 'A conversation with Mitchie Williams from Rockers International Records', tagline: 'CULTURE SPOTLIGHT' },
-            { id: 'RVnqtapqZbY', title: 'Brand Jamaica Magazine Interview with Elina Holley and Super Flinda', tagline: 'LEGACY SERIES' }
-        ];
-        grid.innerHTML = videos.map(v => `
-            <div class="film-strip-card"><div class="video-container-premium"><iframe src="https://www.youtube.com/embed/${v.id}?modestbranding=1&rel=0" allowfullscreen></iframe></div><div class="video-info-scrap"><span class="video-tagline">${v.tagline}</span><h3 class="video-title-scrap">${v.title}</h3></div></div>`).join('');
+        const grid = document.getElementById('interviews-grid'); const videos = [{ id: 'ry5_XOMUQFI', title: 'Inside Small World Studio: A Conversation with Bravo', tagline: 'EXCLUSIVE FEATURE' }, { id: 'K0GFxs5JBd8', title: 'A conversation with Mitchie Williams from Rockers International Records', tagline: 'CULTURE SPOTLIGHT' }, { id: 'RVnqtapqZbY', title: 'Brand Jamaica Magazine Interview', tagline: 'LEGACY SERIES' }];
+        if (grid) grid.innerHTML = videos.map(v => `<div class="film-strip-card"><div class="video-container-premium"><iframe src="https://www.youtube.com/embed/${v.id}?modestbranding=1&rel=0" allowfullscreen></iframe></div><div class="video-info-scrap"><span class="video-tagline">${v.tagline}</span><h3 class="video-title-scrap">${v.title}</h3></div></div>`).join('');
     };
 
     window.loadDocumentaries = () => {
-        const grid = document.getElementById('documentaries-grid');
-        const doc = { id: '5D9-1n26qBQ', title: 'Sonny Roberts - Documentary [ Brand Jamaica Magazine Shorts ]', tagline: 'CULTURAL ANTHOLOGY' };
-        grid.innerHTML = `<div class="film-strip-card"><div class="video-container-premium"><iframe src="https://www.youtube.com/embed/${doc.id}?modestbranding=1&rel=0" allowfullscreen></iframe></div><div class="video-info-scrap"><span class="video-tagline">${doc.tagline}</span><h3 class="video-title-scrap">${doc.title}</h3></div></div>`;
+        const grid = document.getElementById('documentaries-grid'); const doc = { id: '5D9-1n26qBQ', title: 'Sonny Roberts - Documentary', tagline: 'CULTURAL ANTHOLOGY' };
+        if (grid) grid.innerHTML = `<div class="film-strip-card"><div class="video-container-premium"><iframe src="https://www.youtube.com/embed/${doc.id}?modestbranding=1&rel=0" allowfullscreen></iframe></div><div class="video-info-scrap"><span class="video-tagline">${doc.tagline}</span><h3 class="video-title-scrap">${doc.title}</h3></div></div>`;
     };
 
-    window._loadMagazine = loadMagazine;
+    window._loadMagazine = async (volumeId) => {
+        const bookEl = document.getElementById('book'); let pages = metadata?.issues?.[`volume_${volumeId}`] || [];
+        bookEl.innerHTML = pages.map(f => `<div class="page"><div class="page-content"><img src="${BASE}issues/volume_${volumeId}/${f}" class="magazine-page-img"></div></div>`).join('') + `<div class="page hard"><h2>Brand Jamaica 🇯🇲</h2></div>`;
+        const vw = window.innerWidth, isMobile = vw < 768;
+        const pageFlip = new PageFlip(bookEl, { width: isMobile ? vw*0.85 : 450, height: isMobile ? window.innerHeight*0.75 : 600, size: 'stretch', showCover: false, usePortrait: isMobile });
+        pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+    };
 });
