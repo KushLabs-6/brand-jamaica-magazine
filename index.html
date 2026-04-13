@@ -104,8 +104,8 @@
         100% { transform: translate(-80vw, -30vh) scale(0.5) rotateY(360deg); }
       }
     </style>
-    <script type="module" crossorigin src="/brand-jamaica-magazine/assets/index-BdgxNA2-.js"></script>
-    <link rel="stylesheet" crossorigin href="/brand-jamaica-magazine/assets/index-BgYyuuk-.css">
+    <script type="module" crossorigin src="/brand-jamaica-magazine/assets/index-dZyJk2Xg.js"></script>
+    <link rel="stylesheet" crossorigin href="/brand-jamaica-magazine/assets/index-C1gtlIvA.css">
   </head>
   <body>
     <div id="app">
@@ -202,6 +202,14 @@
              <span class="logo-mag">MAGAZINE</span>
           </div>
           <p class="issue-select-title">Select a Category to Read</p>
+
+          <!-- Passport Membership & User Profile -->
+          <div class="hub-user-container" onclick="openAuthModal()">
+              <div id="user-avatar" class="user-avatar-hidden">?</div>
+              <div id="passport-btn-hub" class="passport-btn-small">
+                  <span class="passport-label-hub">MEMBERSHIP</span>
+              </div>
+          </div>
         </div>
         
         <div class="carousel-container">
@@ -346,6 +354,12 @@
           <div id="community-grid" class="insta-grid">
             <!-- Uploads show here -->
           </div>
+          
+          <!-- Floating Upload Button -->
+          <div class="fab-upload-container" id="hub-upload-btn" onclick="openUploadModal('community')">
+              <span class="fab-label">SHARE VIBE</span>
+              <div class="fab-icon">+</div>
+          </div>
         </section>
       </div>
 
@@ -392,6 +406,12 @@
         <section class="hub-section insta-feed-wrapper">
           <div id="events-grid" class="insta-grid">
             <!-- Event Cards Loaded via JS -->
+          </div>
+
+          <!-- Floating Upload Button -->
+          <div class="fab-upload-container" id="event-upload-btn" onclick="openUploadModal('event')">
+              <span class="fab-label">LIST EVENT</span>
+              <div class="fab-icon">📍</div>
           </div>
         </section>
       </div>
@@ -536,6 +556,59 @@
       <div id="bg-music-container" style="display:none;"></div>
     </div>
     
+    <!-- AUTH MODAL -->
+    <div id="auth-modal" class="modal-overlay">
+        <div class="modal-content glass-card premium-auth">
+            <button class="modal-close" onclick="closeAuthModal()">✕</button>
+            <div class="auth-header">
+                <div class="auth-logo-gold">🇯🇲</div>
+                <h2 class="auth-title">The Membership Passport</h2>
+                <p class="auth-subtitle">Join the Brand Jamaica Community</p>
+            </div>
+            
+            <div id="auth-form-container">
+                <!-- Login Form -->
+                <div id="login-form" class="auth-form active">
+                    <div class="input-group-scrap">
+                        <label>Email Address</label>
+                        <input type="email" id="login-email" placeholder="reggae@jamaica.com">
+                    </div>
+                    <div class="input-group-scrap">
+                        <label>Password</label>
+                        <input type="password" id="login-password" placeholder="••••••••">
+                    </div>
+                    <button class="scrap-button auth-submit" onclick="handleLogin()">Sign In</button>
+                    <p class="auth-toggle">Don't have a passport? <a href="#" onclick="toggleAuthMode('signup')">Apply Now</a></p>
+                </div>
+
+                <!-- Signup Form -->
+                <div id="signup-form" class="auth-form">
+                    <div class="input-group-scrap">
+                        <label>Full Name</label>
+                        <input type="text" id="signup-name" placeholder="Bob Marley">
+                    </div>
+                    <div class="input-group-scrap">
+                        <label>Email Address</label>
+                        <input type="email" id="signup-email" placeholder="reggae@jamaica.com">
+                    </div>
+                    <div class="input-group-scrap">
+                        <label>Create Password</label>
+                        <input type="password" id="signup-password" placeholder="••••••••">
+                    </div>
+                    <button class="scrap-button auth-submit" onclick="handleSignup()">Create Passport</button>
+                    <p class="auth-toggle">Already a member? <a href="#" onclick="toggleAuthMode('login')">Sign In</a></p>
+                </div>
+            </div>
+            
+            <div id="auth-success" class="auth-success-hidden">
+                <div class="success-icon">✅</div>
+                <h3>Welcome to the Movement!</h3>
+                <p>Your Passport has been validated.</p>
+                <button class="scrap-button" onclick="closeAuthModal()">Enter the Hub</button>
+            </div>
+        </div>
+    </div>
+
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
