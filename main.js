@@ -5,7 +5,8 @@ let ytPlayer = null;
 const tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 const firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+if (firstScriptTag) firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+else document.head.appendChild(tag);
 
 window.onYouTubeIframeAPIReady = () => {
     ytPlayer = new YT.Player('bg-music-container', {
@@ -32,16 +33,20 @@ window.onYouTubeIframeAPIReady = () => {
 window.showScene = (sceneId) => {
     document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
     const target = document.getElementById(sceneId);
-    if (target) target.classList.add('active');
+    if (target) {
+        target.classList.add('active');
+        // Scroll to top of the new scene
+        window.scrollTo(0, 0);
+    }
 
     // Smart Audio Logic
     if (sceneId === 'interviews-scene' || sceneId === 'documentaries-scene') {
         ytPlayer?.pauseVideo?.();
     } else {
-        // If music was playing before entering video scenes, resume it
         if (window._musicStarted) ytPlayer?.playVideo?.();
     }
 
+    // Loader Triggers
     if (sceneId === 'events-scene') window.loadEvents?.();
     if (sceneId === 'hub-scene') window.loadCommunityFeed?.();
     if (sceneId === 'shop-scene') window.initPayPal?.();
@@ -49,14 +54,12 @@ window.showScene = (sceneId) => {
     if (sceneId === 'documentaries-scene') window.loadDocumentaries?.();
 };
 
-// Global home navigation
 window.goHome = () => {
     window.showScene('intro-scene');
     const btnStart = document.getElementById('btn-start');
     if (btnStart) btnStart.classList.remove('fly-away');
 };
 
-// Global volume opener
 window.openVolume = async (volumeId) => {
     const carouselScene = document.getElementById('carousel-scene');
     const magazineScene = document.getElementById('magazine-scene');
@@ -73,23 +76,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     const carouselScene = document.getElementById('carousel-scene');
     const magazineScene = document.getElementById('magazine-scene');
     
-    // Safely get base path
-    let BASE = import.meta.env.BASE_URL || '/';
+    let BASE = import.meta.env.BASE_URL || '/brand-jamaica-magazine/';
     if (!BASE.endsWith('/')) BASE += '/';
 
     // PRELOAD BIRD SOUND
     const birdAudio = new Audio();
     birdAudio.src = `${BASE}Sound/bird.mp3`.replace(/\/\//g, '/');
     birdAudio.load();
+    console.log('Bird sound path:', birdAudio.src);
 
     if (btnStart && introScene) {
         function proceedToCarousel(e) {
-            e.preventDefault();
-            e.stopPropagation();
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
             
             // 1. Play Bird Sound
             try {
-                birdAudio.play().catch(err => console.warn('Audio play prevented', err));
+                birdAudio.play().catch(err => console.warn('Bird audio play prevented', err));
             } catch(e) {}
 
             // 2. Start Background Music
@@ -103,12 +108,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             setTimeout(() => {
                introScene.classList.remove('active');
                carouselScene.classList.add('active');
+               window.showScene('carousel-scene'); // Ensure scene logic runs
             }, 1000);
         }
         
         introScene.addEventListener('click', proceedToCarousel);
         btnStart.addEventListener('click', proceedToCarousel);
-        introScene.addEventListener('touchend', proceedToCarousel, { passive: false });
+        introScene.addEventListener('touchend', (e) => {
+            proceedToCarousel(e);
+        }, { passive: false });
     }
 
     let metadata = null;
@@ -121,7 +129,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return BASE + encoded;
     };
 
-    // --- LOAD METADATA ---
     try {
         const metaRes = await fetch('./metadata.json');
         if (metaRes.ok) metadata = await metaRes.json();
@@ -163,7 +170,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     btnNext?.addEventListener('click', () => { currentIndex = (currentIndex + 1) % totalItems; updateCarousel(); });
     btnPrev?.addEventListener('click', () => { currentIndex = (currentIndex - 1 + totalItems) % totalItems; updateCarousel(); });
     
-    // Swipe logic
     let carouselTouchStartX = 0;
     const carouselContainer = document.querySelector('.carousel-container');
     carouselContainer?.addEventListener('touchstart', (e) => { carouselTouchStartX = e.touches[0].clientX; }, { passive: true });
@@ -178,7 +184,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     updateCarousel();
 
-    // --- MAGAZINE OPENER ---
     const btnBack = document.getElementById('btn-back');
     const bookEl = document.getElementById('book');
 
@@ -228,7 +233,85 @@ document.addEventListener('DOMContentLoaded', async () => {
                         : { width: 450, height: 600, portrait: false };
     }
 
-    // --- EXCLUSIVE SECTIONS ---
+    // --- RESTORED SECTIONS ---
+    window.loadEvents = async () => {
+        const grid = document.getElementById('events-grid');
+        if (!grid) return;
+        const featuredEvent = {
+            id: 'beat-street',
+            title: 'Beat Street Fridays',
+            location: 'Oranje Street, Kingston',
+            caption: 'The heart of Kingston street culture. Vibes, music, and pure energy every Friday! 🎼🇯🇲',
+            img: 'events/beat-street-fridays.jpg',
+            video: 'uPJIYON50Tk',
+            insta: 'https://www.instagram.com/oranjestreetzmusick_mitchie/?hl=en'
+        };
+        const basePath = BASE;
+        grid.innerHTML = `
+        <div class="insta-card event-card">
+            <div class="card-tape"></div>
+            <div class="insta-header">
+                <div class="insta-avatar">BS</div>
+                <div class="insta-user-info"><span class="insta-user">${featuredEvent.title}</span><span class="insta-name">${featuredEvent.location}</span></div>
+            </div>
+            <div class="insta-media-container" style="position:relative;">
+                <img src="${basePath}${featuredEvent.img}" class="insta-media" style="position:absolute; inset:0; z-index:1;">
+                <div class="event-video-container">
+                    <iframe src="https://www.youtube.com/embed/${featuredEvent.video}?autoplay=1&mute=1&loop=1&playlist=${featuredEvent.video}&modestbranding=1&controls=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="insta-actions"><a href="${featuredEvent.insta}" target="_blank" class="insta-icon-link">View Instagram</a></div>
+            <div class="insta-caption-wrapper"><span class="insta-user-bold">@BeatStreet</span><p class="insta-caption-text">${featuredEvent.caption}</p></div>
+        </div>`;
+    };
+
+    window.loadCommunityFeed = async () => {
+        const grid = document.getElementById('community-grid');
+        if (!grid) return;
+        const testUsers = [
+            { handle: "@KingstonKing", name: "Malik", caption: "Vibes at the festival! 🇯🇲🔥", avatar: "MK" },
+            { handle: "@FlavorQueen", name: "Zaya", caption: "Authentic Jerk Chicken... 🍗✨", avatar: "ZQ" }
+        ];
+        let files = [];
+        try {
+            const res = await fetch(`${BASE}api/community?t=` + Date.now());
+            const data = await res.json();
+            files = data.files || [];
+        } catch (e) {
+            try {
+                const res = await fetch(`${BASE}metadata.json?t=` + Date.now());
+                const data = await res.json();
+                files = data.community || [];
+            } catch (err) { grid.innerHTML = '<p>Feed unavailable.</p>'; return; }
+        }
+        if (files.length > 0) {
+            grid.innerHTML = files.map((f, index) => {
+                const isVideo = f.match(/\.(mp4|webm|mov)$/i);
+                const imgPath = f.startsWith('community/') ? `${BASE}${f}` : `${BASE}community/${f}`;
+                const mediaTag = isVideo ? `<video src="${imgPath}" controls class="insta-media"></video>` : `<img src="${imgPath}" class="insta-media">`;
+                const user = testUsers[index % testUsers.length];
+                return `
+                <div class="insta-card">
+                    <div class="card-tape"></div>
+                    <div class="insta-header"><div class="insta-avatar">${user.avatar}</div><div class="insta-user-info"><span class="insta-user">${user.handle}</span></div></div>
+                    <div class="insta-media-container">${mediaTag}</div>
+                    <div class="insta-caption-wrapper"><p class="insta-caption-text">${user.caption}</p></div>
+                </div>`;
+            }).join('');
+        }
+    };
+
+    window.initPayPal = () => {
+        const container = document.getElementById('paypal-button-container');
+        if (!container || container.childElementCount > 0) return;
+        if (window.paypal) {
+            window.paypal.Buttons({
+                createOrder: (data, actions) => actions.order.create({ purchase_units: [{ amount: { value: '25.00' } }] }),
+                onApprove: (data, actions) => actions.order.capture().then(d => { container.innerHTML = `<h3>✅ Thank you!</h3>`; }),
+            }).render('#paypal-button-container');
+        }
+    };
+
     window.loadInterviews = () => {
         const grid = document.getElementById('interviews-grid');
         const videos = [
@@ -254,20 +337,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         const doc = { id: '5D9-1n26qBQ', title: 'Brand Jamaica: The Documentary', tagline: 'CULTURAL ANTHOLOGY' };
         grid.innerHTML = `
             <div class="film-strip-card">
-                <div class="video-container-premium">
-                    <iframe src="https://www.youtube.com/embed/${doc.id}?modestbranding=1&rel=0" allowfullscreen></iframe>
-                </div>
-                <div class="video-info-scrap">
-                    <span class="video-tagline">${doc.tagline}</span>
-                    <h3 class="video-title-scrap">${doc.title}</h3>
-                </div>
-            </div>
-        `;
+                <div class="video-container-premium"><iframe src="https://www.youtube.com/embed/${doc.id}?modestbranding=1&rel=0" allowfullscreen></iframe></div>
+                <div class="video-info-scrap"><span class="video-tagline">${doc.tagline}</span><h3 class="video-title-scrap">${doc.title}</h3></div>
+            </div>`;
     };
-
-    window.loadEvents = async () => { /* ... existing logic ... */ };
-    window.loadCommunityFeed = async () => { /* ... existing logic ... */ };
-    window.initPayPal = () => { /* ... existing logic ... */ };
 
     window._loadMagazine = loadMagazine;
 });
