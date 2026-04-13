@@ -235,6 +235,8 @@
         <div class="feature-controls">
           <button class="scrap-button hub-nav-btn" onclick="showScene('hub-scene')">Community Feed</button>
           <button class="scrap-button hub-nav-btn" onclick="showScene('events-scene')">Events & Places</button>
+          <button class="scrap-button hub-nav-btn" onclick="showScene('interviews-scene')">Interviews</button>
+          <button class="scrap-button hub-nav-btn" onclick="showScene('documentaries-scene')">Documentaries</button>
           <button class="scrap-button hub-nav-btn" onclick="showScene('shop-scene')">Buy Magazine</button>
         </div>
 
@@ -415,6 +417,108 @@
           <p style="margin-top: 2rem; font-size: 0.9rem; color: #666;">Payments secured by PayPal (demolacunningham@gmail.com)</p>
         </section>
       </div>
+
+      <!-- Interviews Section -->
+      <div id="interviews-scene" class="scene">
+        <!-- Floating Hummingbird Home Button -->
+        <button onclick="goHome()" class="mag-close-btn" style="right: auto; left: 16px; top: 16px; padding:0; width: 50px; height: 50px; background: rgba(255,255,255,0.7); box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.1); z-index: 1000;" aria-label="Home" title="Back to Start">
+          <svg style="width:100%; height:100%; transform:scale(0.8);" viewBox="0 0 150 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="birdGradInt" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#009b3a;stop-opacity:1" />
+                <stop offset="70%" style="stop-color:#007a2e;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#fed100;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <g transform="translate(10, 10)">
+              <path d="M60 40 L90 55 L65 75 L50 60 Z" fill="url(#birdGradInt)"/>
+              <path d="M60 40 L70 30 L80 40 Z" fill="#009b3a"/>
+              <circle cx="70" cy="35" r="1.5" fill="#000"/>
+              <path d="M70 30 L130 20 L75 35 Z" fill="#000"/>
+              <path d="M60 70 L55 80 L65 80 Z" fill="#000" opacity="0.8"/>
+              <path d="M55 70 L50 78 L60 78 Z" fill="#111" opacity="0.7"/>
+              <path d="M55 70 L25 180 L45 170 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 70 L55 195 L70 185 Z" fill="#111" opacity="0.8"/>
+              <path d="M60 45 L15 5 L45 35 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 45 L5 25 L40 45 Z" fill="#222" opacity="0.7"/>
+              <path d="M60 45 L105 5 L75 35 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 45 L115 25 L80 45 Z" fill="#222" opacity="0.7"/>
+            </g>
+          </svg>
+        </button>
+        <button class="scrap-button scroll-btn" onclick="showScene('carousel-scene')">&lt; Back</button>
+        <div class="hub-header-premium">
+            <div class="modern-header-logo">
+               <span class="logo-brand">BRAND JAMAICA</span>
+               <span class="logo-mag">MAGAZINE</span>
+            </div>
+            <div class="feed-subtitle-wrapper">
+               <div class="feed-subtitle-line"></div>
+               <h2 class="hub-title-refined">Exclusive Interviews</h2>
+               <div class="feed-subtitle-line"></div>
+            </div>
+         </div>
+        <section class="hub-section interviews-wrapper">
+          <div id="interviews-grid" class="video-scrap-grid">
+            <!-- Loaded via JS -->
+          </div>
+        </section>
+      </div>
+
+      <!-- Documentaries Section -->
+      <div id="documentaries-scene" class="scene">
+        <!-- Floating Hummingbird Home Button -->
+        <button onclick="goHome()" class="mag-close-btn" style="right: auto; left: 16px; top: 16px; padding:0; width: 50px; height: 50px; background: rgba(255,255,255,0.7); box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.1); z-index: 1000;" aria-label="Home" title="Back to Start">
+          <svg style="width:100%; height:100%; transform:scale(0.8);" viewBox="0 0 150 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="birdGradDoc" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#009b3a;stop-opacity:1" />
+                <stop offset="70%" style="stop-color:#007a2e;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#fed100;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <g transform="translate(10, 10)">
+              <path d="M60 40 L90 55 L65 75 L50 60 Z" fill="url(#birdGradDoc)"/>
+              <path d="M60 40 L70 30 L80 40 Z" fill="#009b3a"/>
+              <circle cx="70" cy="35" r="1.5" fill="#000"/>
+              <path d="M70 30 L130 20 L75 35 Z" fill="#000"/>
+              <path d="M60 70 L55 80 L65 80 Z" fill="#000" opacity="0.8"/>
+              <path d="M55 70 L50 78 L60 78 Z" fill="#111" opacity="0.7"/>
+              <path d="M55 70 L25 180 L45 170 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 70 L55 195 L70 185 Z" fill="#111" opacity="0.8"/>
+              <path d="M60 45 L15 5 L45 35 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 45 L5 25 L40 45 Z" fill="#222" opacity="0.7"/>
+              <path d="M60 45 L105 5 L75 35 Z" fill="#000" opacity="0.9"/>
+              <path d="M60 45 L115 25 L80 45 Z" fill="#222" opacity="0.7"/>
+            </g>
+          </svg>
+        </button>
+        <button class="scrap-button scroll-btn" onclick="showScene('carousel-scene')">&lt; Back</button>
+        <div class="hub-header-premium">
+            <div class="modern-header-logo">
+               <span class="logo-brand">BRAND JAMAICA</span>
+               <span class="logo-mag">MAGAZINE</span>
+            </div>
+            <div class="feed-subtitle-wrapper">
+               <div class="feed-subtitle-line"></div>
+               <h2 class="hub-title-refined">Documentaries</h2>
+               <div class="feed-subtitle-line"></div>
+            </div>
+         </div>
+        <section class="hub-section documentaries-wrapper">
+          <div id="documentaries-grid" class="video-scrap-grid">
+            <!-- Loaded via JS -->
+          </div>
+        </section>
+      </div>
+
+      <!-- Global Footer -->
+      <footer id="global-footer">
+          <p>APP Powered by <a href="https://instagram.com/thekingfromkingston" target="_blank">@TheKingFromKingston</a></p>
+      </footer>
+
+      <!-- Background Music Container -->
+      <div id="bg-music-container" style="display:none;"></div>
     </div>
     
     <script type="module" src="./main.js?v=7"></script>

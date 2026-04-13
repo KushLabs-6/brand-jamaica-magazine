@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="enableNotification">false</bool>
+    <bool name="enableSiteSettingsShortcut">true</bool>
+    <color name="backgroundColor">#FCEBD0</color>
+    <color name="colorPrimary">#009B3A</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="navigationColor">#009B3A</color>
+    <color name="navigationColorDark">#000000</color>
+    <color name="navigationDividerColor">#000000</color>
+    <color name="navigationDividerColorDark">#000000</color>
+    <color name="shortcut_background">#F5F5F5</color>
+    <integer name="splashScreenFadeOutDuration">300</integer>
+    <string name="appName" translatable="false">Brand Jamaica Magazine</string>
+    <string name="assetStatements">
+    [{
+        \"relation\": [\"delegate_permission/common.handle_all_urls\"],
+        \"target\": {
+            \"namespace\": \"web\",
+            \"site\": \"https://kushlabs-6.github.io\"
+        }
+    }]
+    
+  </string>
+    <string name="fallbackType" translatable="false">customtabs</string>
+    <string name="generatorApp" translatable="false">bubblewrap-cli</string>
+    <string name="hostName" translatable="false">kushlabs-6.github.io</string>
+    <string name="launchUrl" translatable="false">https://kushlabs-6.github.io/brand-jamaica-magazine/</string>
+    <string name="launcherName" translatable="false">Brand Jamaica Magazine</string>
+    <string name="orientation" translatable="false">portrait</string>
+    <string name="providerAuthority" translatable="false">com.brandjamaica.magazine.fileprovider</string>
+    <string name="webManifestUrl" translatable="false">https://kushlabs-6.github.io/brand-jamaica-magazine/manifest.json</string>
+</resources>

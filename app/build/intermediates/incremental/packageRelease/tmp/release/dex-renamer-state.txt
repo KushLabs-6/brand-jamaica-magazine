@@ -1,0 +1,4 @@
+#Sat Apr 11 22:24:05 COT 2026
+base.0=C\:\\Users\\demol\\OneDrive\\Desktop\\Brand Jamaica Magazine\\app\\build\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
