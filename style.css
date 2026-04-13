@@ -658,10 +658,6 @@
     font-family: 'Knewave'; font-size: 1.4rem; transform: rotate(-8deg);
     position: relative; overflow: hidden;
 }
-.user-avatar-visible::before {
-    content: 'CHIEF'; position: absolute; bottom: 2px; left: 0; width: 100%;
-    font-size: 0.45rem; text-align: center; letter-spacing: 1px; font-family: 'Inter';
-}
 
 @media (max-width: 480px) {
     .modal-content.premium-auth { padding: 3rem 1.5rem; margin: 10px; }

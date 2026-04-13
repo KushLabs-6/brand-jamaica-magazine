@@ -82,7 +82,11 @@ function updateUserUI() {
             const logo = b.querySelector('.passport-logo');
             const label = b.querySelector('.passport-label');
             if(logo && label) {
-                logo.innerHTML = `<div class="user-avatar-visible" style="width:35px;height:35px;font-size:1rem;border-width:2px;box-shadow:none;transform:rotate(0);margin-bottom:5px;">${window._currentUser.avatar}</div>`;
+                let safeAvatar = window._currentUser.avatar;
+                if (!safeAvatar || safeAvatar.length > 2 || safeAvatar.includes('<')) {
+                    safeAvatar = window._currentUser.name ? window._currentUser.name.charAt(0).toUpperCase() : '👤';
+                }
+                logo.innerHTML = `<div class="user-avatar-visible" style="width:35px;height:35px;font-size:1rem;border-width:2px;box-shadow:none;transform:rotate(0);margin-bottom:5px;">${safeAvatar}</div>`;
                 label.innerText = window._currentUser.name.toUpperCase();
                 label.style.fontFamily = 'Inter';
                 label.style.fontSize = '0.65rem';
