@@ -74,15 +74,20 @@ function showAuthSuccess() {
 }
 
 function updateUserUI() {
-    const labels = document.querySelectorAll('.passport-label');
+    const badges = document.querySelectorAll('.passport-cover');
     const eventFab = document.getElementById('event-upload-btn');
     
     if (window._currentUser) {
-        labels.forEach(l => {
-            l.innerText = 'CHIEF';
-            l.style.fontFamily = 'Knewave';
-            l.style.fontSize = '0.9rem';
-            l.style.letterSpacing = '1px';
+        badges.forEach(b => {
+            const logo = b.querySelector('.passport-logo');
+            const label = b.querySelector('.passport-label');
+            if(logo && label) {
+                logo.innerHTML = `<div class="user-avatar-visible" style="width:35px;height:35px;font-size:1rem;border-width:2px;box-shadow:none;transform:rotate(0);margin-bottom:5px;">${window._currentUser.avatar}</div>`;
+                label.innerText = window._currentUser.name.toUpperCase();
+                label.style.fontFamily = 'Inter';
+                label.style.fontSize = '0.65rem';
+                label.style.letterSpacing = '0px';
+            }
         });
         if (eventFab) eventFab.style.display = 'flex';
     }
