@@ -704,6 +704,7 @@
 
 .ticket-green { background-color: var(--green); color: #fff; background-blend-mode: multiply; border-color: rgba(255,255,255,0.4); }
 .ticket-green::before, .ticket-green::after { border-color: rgba(255,255,255,0.4); }
-.ticket-gold { background-color: var(--gold); border-color: rgba(0,0,0,0.4); }
+.ticket-gold { background-color: #fed100; color: #111; background-blend-mode: multiply; border-color: rgba(0,0,0,0.4); }
+.ticket-gold::before, .ticket-gold::after { border-color: rgba(0,0,0,0.4); }
 .ticket-dark { background-color: #111; color: #fff; background-blend-mode: multiply; border-color: rgba(255,255,255,0.3); }
 .ticket-dark::before, .ticket-dark::after { border-color: rgba(255,255,255,0.3); }
