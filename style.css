@@ -663,3 +663,27 @@
     .modal-content.premium-auth { padding: 3rem 1.5rem; margin: 10px; }
     .modal-content.premium-auth::before, .modal-content.premium-auth::after { display: none; }
 }
+
+/* --- REDESIGNED CAROUSEL NAVIGATION --- */
+.nav-tape-btn {
+    font-family: 'Knewave', cursive; font-size: 1.2rem; padding: 10px 25px;
+    background-image: url('/cream-paper-ai.png'); background-size: cover; background-color: #fff;
+    color: #111; border: 1px solid #dcdcdc; border-radius: 2px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15); cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative; pointer-events: all;
+}
+.nav-tape-btn::before {
+    content: ''; position: absolute; top: -8px; left: 50%; transform: translateX(-50%) rotate(-3deg);
+    width: 35px; height: 16px; background: rgba(245, 230, 140, 0.85); box-shadow: 0 1px 3px rgba(0,0,0,0.1); z-index: 10;
+}
+.nav-tape-btn:hover { transform: scale(1.1) rotate(2deg); box-shadow: 0 8px 15px rgba(0,0,0,0.2); z-index: 50; }
+
+.scene-link-btn {
+    font-family: 'Inter', sans-serif; font-weight: 900; text-transform: uppercase;
+    font-size: 1.1rem; letter-spacing: 2px; width: 250px; padding: 14px 20px;
+    border: none; border-radius: 4px; cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    pointer-events: all;
+}
+.scene-link-btn:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); z-index: 50; }
