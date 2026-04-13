@@ -50,8 +50,8 @@
         justify-content: flex-start;
       }
     </style>
-    <script type="module" crossorigin src="/brand-jamaica-magazine/assets/index-C9e74woV.js"></script>
-    <link rel="stylesheet" crossorigin href="/brand-jamaica-magazine/assets/index-CZM-Y5Hl.css">
+    <script type="module" crossorigin src="/brand-jamaica-magazine/assets/index-CUuOGIjA.js"></script>
+    <link rel="stylesheet" crossorigin href="/brand-jamaica-magazine/assets/index-DWar2XB6.css">
   </head>
   <body>
     <div id="app">
@@ -277,14 +277,26 @@
             </div>
          </div>
         <section class="hub-section insta-feed-wrapper">
+          <div id="upload-form" class="premium-upload-bar" onclick="openUploadModal('community')">
+            <div class="upload-input-group">
+                <div class="insta-avatar">BJ</div>
+                <input type="text" id="upload-name" placeholder="Share your vibe..." class="minimal-input" readonly style="cursor: pointer;">
+            </div>
+            <label class="upload-plus-btn" title="Add to Feed" style="cursor: pointer;">
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+                   <defs>
+                     <linearGradient id="plusGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#009b3a" />
+                        <stop offset="50%" style="stop-color:#fed100" />
+                        <stop offset="100%" style="stop-color:#000" />
+                     </linearGradient>
+                   </defs>
+                   <path d="M12 5v14M5 12h14" stroke="url(#plusGrad)"/>
+                </svg>
+            </label>
+          </div>
           <div id="community-grid" class="insta-grid">
             <!-- Uploads show here -->
-          </div>
-          
-          <!-- Floating Upload Button -->
-          <div class="fab-upload-container" id="hub-upload-btn" onclick="openUploadModal('community')">
-              <span class="fab-label">SHARE VIBE</span>
-              <div class="fab-icon">+</div>
           </div>
         </section>
       </div>
