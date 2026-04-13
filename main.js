@@ -16,7 +16,7 @@ window.onYouTubeIframeAPIReady = () => {
     });
 };
 
-// --- AUTH & MEMBERSHIP LOGIC ---
+// --- AUTH & COMMUNITY LOGIC ---
 window._currentUser = JSON.parse(localStorage.getItem('bjm_user')) || null;
 
 window.openAuthModal = () => {
@@ -37,10 +37,17 @@ window.toggleAuthMode = (mode) => {
     success.classList.remove('auth-success-visible');
 };
 
+window.handleGoogleLogin = () => {
+    // Placeholder for Google SSO Integration
+    const user = { name: 'Google User', email: 'user@gmail.com', avatar: 'G', provider: 'google' };
+    window._currentUser = user; localStorage.setItem('bjm_user', JSON.stringify(user));
+    showAuthSuccess();
+};
+
 window.handleLogin = () => {
     const email = document.getElementById('login-email').value;
     if (email) {
-        const user = { email, name: email.split('@')[0], avatar: email[0].toUpperCase() };
+        const user = { email, name: email.split('@')[0], avatar: email[0].toUpperCase(), provider: 'email' };
         window._currentUser = user; localStorage.setItem('bjm_user', JSON.stringify(user));
         showAuthSuccess();
     }
@@ -49,16 +56,19 @@ window.handleLogin = () => {
 window.handleSignup = () => {
     const name = document.getElementById('signup-name').value;
     const email = document.getElementById('signup-email').value;
+    const notify = document.getElementById('signup-notify')?.checked;
+    
     if (name && email) {
-        const user = { name, email, avatar: name[0].toUpperCase() };
+        const user = { name, email, avatar: name[0].toUpperCase(), provider: 'email', notify };
         window._currentUser = user; localStorage.setItem('bjm_user', JSON.stringify(user));
+        console.log('User registered with notification consent:', notify);
         showAuthSuccess();
     }
 };
 
 function showAuthSuccess() {
-    document.getElementById('login-form').classList.remove('active');
-    document.getElementById('signup-form').classList.remove('active');
+    const modal = document.getElementById('auth-modal');
+    document.getElementById('auth-form-container').style.display = 'none';
     document.getElementById('auth-success').classList.add('auth-success-visible');
     updateUserUI();
 }
@@ -68,9 +78,11 @@ function updateUserUI() {
     const hubFab = document.getElementById('hub-upload-btn'), eventFab = document.getElementById('event-upload-btn');
     
     if (window._currentUser) {
-        avatar.innerText = window._currentUser.avatar;
-        avatar.classList.remove('user-avatar-hidden'); avatar.classList.add('user-avatar-visible');
-        if (btn) btn.innerHTML = '<span class="passport-label-hub">VALID PASSPORT</span>';
+        if (avatar) {
+            avatar.innerText = window._currentUser.avatar;
+            avatar.classList.remove('user-avatar-hidden'); avatar.classList.add('user-avatar-visible');
+        }
+        if (btn) btn.innerHTML = '<span class="passport-label-hub">MEMBER ACTIVE</span>';
         if (hubFab) hubFab.style.display = 'flex';
         if (eventFab) eventFab.style.display = 'flex';
     }
@@ -92,33 +104,23 @@ window.closeUploadModal = () => {
 };
 
 window.handleUpload = () => {
-    const caption = document.getElementById('upload-caption').value;
-    const parish = document.getElementById('upload-parish').value;
-    const fileInput = document.getElementById('real-file-input');
-    
+    const caption = document.getElementById('upload-caption').value, parish = document.getElementById('upload-parish').value;
     if (!caption) { alert('Please enter a caption!'); return; }
     
-    // Simulate File Upload & AI Generation
     const newEntry = {
-        user: window._currentUser.name,
-        caption: caption,
-        parish: currentUploadType === 'event' ? parish : null,
-        img: 'https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=500&q=80', // Replace with real uploaded file URL later
-        type: currentUploadType
+        user: window._currentUser.name, caption, parish: currentUploadType === 'event' ? parish : null,
+        img: 'https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=500&q=80', type: currentUploadType
     };
 
     if (currentUploadType === 'event') {
         if (!window._communityEvents) window._communityEvents = [];
-        window._communityEvents.unshift(newEntry);
-        window.loadEvents();
+        window._communityEvents.unshift(newEntry); window.loadEvents();
     } else {
         if (!window._communityPosts) window._communityPosts = [];
-        window._communityPosts.unshift(newEntry);
-        window.loadCommunityFeed();
+        window._communityPosts.unshift(newEntry); window.loadCommunityFeed();
     }
-    
     closeUploadModal();
-    alert('Your submission was processed by AI and successfully scrapbooked! 🇯🇲✨');
+    alert('Processed by AI & scrapbooked! 🇯🇲✨');
 };
 
 const ScrapbookEngine = {
@@ -127,7 +129,7 @@ const ScrapbookEngine = {
         return `
         <div class="insta-card scrapbook-entry" style="transform: rotate(${rotation}deg);">
             <div class="card-tape" style="left: ${tapeX}%; transform: translateX(-50%) rotate(${tapeRotation}deg);"></div>
-            <div class="insta-header"><div class="insta-avatar" style="background:#003366; color:#fed100;">${data.user[0]}</div><div class="insta-user-info"><span class="insta-user">@${data.user}</span></div></div>
+            <div class="insta-header"><div class="user-avatar-visible" style="width:30px; height:30px; font-size:0.8rem; transform:rotate(0deg);">${data.user[0]}</div><div class="insta-user-info"><span class="insta-user">@${data.user}</span></div></div>
             <div class="insta-media-container polaroid-frame"><img src="${data.img}" class="insta-media ai-filtered"></div>
             <div class="insta-caption-wrapper"><p class="insta-caption-text">${data.caption}</p>${data.parish ? `<div class="parish-stamp">APPROVED: ${data.parish}</div>` : ''}</div>
         </div>`;
@@ -209,12 +211,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     window.loadInterviews = () => {
-        const grid = document.getElementById('interviews-grid'); const videos = [{ id: 'ry5_XOMUQFI', title: 'Inside Small World Studio: A Conversation with Bravo', tagline: 'EXCLUSIVE FEATURE' }, { id: 'K0GFxs5JBd8', title: 'A conversation with Mitchie Williams from Rockers International Records', tagline: 'CULTURE SPOTLIGHT' }, { id: 'RVnqtapqZbY', title: 'Brand Jamaica Magazine Interview', tagline: 'LEGACY SERIES' }];
+        const grid = document.getElementById('interviews-grid'); 
+        const videos = [
+            { id: 'ry5_XOMUQFI', title: 'Inside Small World Studio: A Conversation with Bravo', tagline: 'EXCLUSIVE FEATURE' }, 
+            { id: 'K0GFxs5JBd8', title: 'A conversation with Mitchie Williams from Rockers International Records', tagline: 'CULTURE SPOTLIGHT' }, 
+            { id: 'RVnqtapqZbY', title: 'Brand Jamaica Magazine Interview with Elina Holley and Super Flinda', tagline: 'LEGACY SERIES' }
+        ];
         if (grid) grid.innerHTML = videos.map(v => `<div class="film-strip-card"><div class="video-container-premium"><iframe src="https://www.youtube.com/embed/${v.id}?modestbranding=1&rel=0" allowfullscreen></iframe></div><div class="video-info-scrap"><span class="video-tagline">${v.tagline}</span><h3 class="video-title-scrap">${v.title}</h3></div></div>`).join('');
     };
 
     window.loadDocumentaries = () => {
-        const grid = document.getElementById('documentaries-grid'); const doc = { id: '5D9-1n26qBQ', title: 'Sonny Roberts - Documentary', tagline: 'CULTURAL ANTHOLOGY' };
+        const grid = document.getElementById('documentaries-grid'); 
+        const doc = { id: '5D9-1n26qBQ', title: 'Sonny Roberts - Documentary [ Brand Jamaica Magazine Shorts ]', tagline: 'CULTURAL ANTHOLOGY' };
         if (grid) grid.innerHTML = `<div class="film-strip-card"><div class="video-container-premium"><iframe src="https://www.youtube.com/embed/${doc.id}?modestbranding=1&rel=0" allowfullscreen></iframe></div><div class="video-info-scrap"><span class="video-tagline">${doc.tagline}</span><h3 class="video-title-scrap">${doc.title}</h3></div></div>`;
     };
 

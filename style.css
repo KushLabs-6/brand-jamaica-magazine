@@ -560,53 +560,82 @@
     border: 2px solid #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-/* --- MODAL SYSTEM --- */
+/* --- MODAL SYSTEM (REFINED TAPED-BOX) --- */
 .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+    position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(12px);
     z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px;
 }
 .modal-overlay.active { display: flex; }
 
 .modal-content.premium-auth {
-    max-width: 450px; width: 100%; position: relative; padding: 3rem 2rem;
-    background: rgba(255, 255, 255, 0.95); animation: modalIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    max-width: 480px; width: 100%; position: relative; padding: 3.5rem 2.5rem;
+    background-color: #fdfaf3; background-image: url('/cream-paper-ai.png'); background-size: cover;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4); transform: rotate(-1deg);
+    border: 1px solid rgba(0,0,0,0.1);
+    animation: modalInScratch 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-@keyframes modalIn {
-    from { opacity: 0; transform: scale(0.9) translateY(20px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
+
+@keyframes modalInScratch {
+    from { opacity: 0; transform: scale(0.9) rotate(2deg) translateY(30px); }
+    to { opacity: 1; transform: scale(1) rotate(-1deg) translateY(0); }
 }
+
+/* Tape Ribbons for Modal Corners */
+.modal-content.premium-auth::before, .modal-content.premium-auth::after {
+    content: ''; position: absolute; width: 100px; height: 35px;
+    background: rgba(245, 230, 140, 0.85); box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 10;
+}
+.modal-content.premium-auth::before { top: -15px; left: -25px; transform: rotate(-35deg); }
+.modal-content.premium-auth::after { bottom: -10px; right: -25px; transform: rotate(-30deg); }
 
 .modal-close {
-    position: absolute; top: 20px; right: 20px; background: none; border: none;
-    font-size: 1.5rem; cursor: pointer; color: #999; transition: color 0.2s;
+    position: absolute; top: 15px; right: 15px; background: #000; color: #fff;
+    border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
+    font-size: 1rem; z-index: 20; display: flex; align-items: center; justify-content: center;
 }
-.modal-close:hover { color: #000; }
 
-.auth-header { text-align: center; margin-bottom: 2.5rem; }
-.auth-logo-gold { font-size: 3rem; margin-bottom: 1rem; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1)); }
-.auth-title { font-family: 'Knewave'; color: #003366; font-size: 2rem; margin-bottom: 0.5rem; }
-.auth-subtitle { font-family: 'Inter'; font-weight: 600; color: #666; font-size: 0.9rem; }
+.auth-header { text-align: center; margin-bottom: 2rem; position: relative; }
+.auth-title { font-family: 'Knewave'; color: #111; font-size: 2.2rem; margin-bottom: 0.5rem; line-height: 1.1; }
+.auth-subtitle { font-family: 'Caveat'; font-size: 1.4rem; color: #555; font-weight: 700; }
 
-.auth-form { display: none; flex-direction: column; gap: 1.5rem; }
+/* Google Login UI */
+.google-btn-scrap {
+    width: 100%; display: flex; align-items: center; justify-content: center; gap: 12px;
+    padding: 12px; background: #fff; border: 2px solid #ddd; border-radius: 4px;
+    font-family: 'Inter'; font-weight: 700; cursor: pointer; transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 1.5rem;
+}
+.google-btn-scrap:hover { background: #f9f9f9; border-color: #bbb; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+.google-btn-scrap img { width: 20px; }
+
+.auth-divider {
+    display: flex; align-items: center; text-align: center; margin: 1.5rem 0;
+    font-family: 'Inter'; font-size: 0.7rem; font-weight: 900; color: #999; letter-spacing: 2px;
+}
+.auth-divider::before, .auth-divider::after { content: ''; flex: 1; border-bottom: 1px solid #ddd; }
+.auth-divider span { padding: 0 15px; }
+
+.auth-form { display: none; flex-direction: column; gap: 1.2rem; }
 .auth-form.active { display: flex; }
 
-.input-group-scrap { display: flex; flex-direction: column; gap: 8px; }
-.input-group-scrap label { font-family: 'Inter'; font-weight: 900; font-size: 0.75rem; text-transform: uppercase; color: #444; }
-.input-group-scrap input {
-    padding: 12px 16px; border: 2px solid #ddd; border-radius: 8px; font-family: 'Inter';
-    font-size: 1rem; transition: border-color 0.2s;
+.checkbox-group { flex-direction: row; align-items: center; gap: 10px; margin-top: 0.5rem; }
+.checkbox-group input { width: 20px; height: 20px; cursor: pointer; accent-color: var(--green); }
+.checkbox-group label { text-transform: none; font-weight: 600; font-size: 0.85rem; color: #555; cursor: pointer; }
+
+/* Theme-Friendly Avatar (Parish Stamp Look) */
+.user-avatar-visible {
+    width: 45px; height: 45px; background: #fff; color: #cc0000; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center; font-weight: 900;
+    border: 3px solid #cc0000; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    font-family: 'Inter'; font-size: 1.2rem; transform: rotate(-8deg);
+    position: relative; overflow: hidden;
 }
-.input-group-scrap input:focus { border-color: var(--green); outline: none; }
+.user-avatar-visible::before {
+    content: 'OFFICIAL'; position: absolute; bottom: 2px; left: 0; width: 100%;
+    font-size: 0.4rem; text-align: center; letter-spacing: 1px;
+}
 
-.auth-submit { width: 100%; margin-top: 1rem; background: #003366; border-color: #002244; }
-.auth-toggle { text-align: center; font-size: 0.9rem; color: #666; margin-top: 1.5rem; }
-.auth-toggle a { color: #003366; font-weight: bold; text-decoration: none; border-bottom: 2px dotted #003366; }
-
-.auth-success-hidden { display: none; }
-.auth-success-visible { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
-.success-icon { font-size: 4rem; margin-bottom: 1rem; }
-/* Mobile Mobile */
 @media (max-width: 480px) {
-    .modal-content.premium-auth { padding: 2rem 1.5rem; }
-    .auth-title { font-size: 1.5rem; }
+    .modal-content.premium-auth { padding: 2.5rem 1.5rem; margin: 15px; }
+    .modal-content.premium-auth::before, .modal-content.premium-auth::after { display: none; }
 }
