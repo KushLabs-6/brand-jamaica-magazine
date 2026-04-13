@@ -529,14 +529,19 @@
 .passport-btn-container:hover { transform: scale(1.1) rotate(5deg); }
 .passport-btn-container:hover .passport-tooltip { opacity: 1; transform: translateY(0); }
 
-.passport-icon { width: 60px; height: 80px; perspective: 600px; }
+.passport-icon { width: auto; height: auto; position: relative; }
 .passport-cover {
-    width: 100%; height: 100%; background: #003366; border-radius: 4px; border-left: 3px solid #002244;
+    width: 65px; padding: 10px 5px; background: #fff; background-image: url('/cream-paper-ai.png');
+    background-size: cover; border: 1px solid #dcdcdc;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    box-shadow: 4px 8px 15px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25); transform: rotate(4deg);
 }
-.passport-logo { font-size: 1.5rem; margin-bottom: 5px; }
-.passport-label { font-family: 'Inter'; font-weight: 900; font-size: 0.6rem; color: #fed100; letter-spacing: 1px; }
+.passport-cover::before {
+    content: ''; position: absolute; top: -8px; left: 50%; transform: translateX(-50%) rotate(-4deg);
+    width: 28px; height: 14px; background: rgba(245, 230, 140, 0.9); box-shadow: 0 1px 3px rgba(0,0,0,0.1); z-index: 10;
+}
+.passport-logo { font-size: 1.8rem; margin-bottom: 3px; z-index: 5; }
+.passport-label { font-family: 'Finger Paint', cursive; font-weight: 900; font-size: 0.45rem; color: #111; letter-spacing: 0; text-align: center; line-height: 1.2; z-index: 5; }
 
 .passport-tooltip {
     position: absolute; bottom: -35px; right: 0; background: #000; color: #fff;
