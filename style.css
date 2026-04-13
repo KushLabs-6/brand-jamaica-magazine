@@ -618,24 +618,46 @@
 .auth-form { display: none; flex-direction: column; gap: 1.2rem; }
 .auth-form.active { display: flex; }
 
+.input-group-scrap { display: flex; flex-direction: column; gap: 8px; }
+.input-group-scrap label { font-family: 'Caveat'; font-size: 1.2rem; font-weight: 900; color: #111; letter-spacing: 0.5px; }
+.input-group-scrap input {
+    padding: 12px 16px; border: 2px solid #ddd; border-radius: 4px; font-family: 'Inter';
+    font-size: 1rem; background: rgba(255,255,255,0.8);
+}
+.input-group-scrap input:focus { border-color: var(--green); outline: none; box-shadow: 0 0 10px rgba(0,155,58,0.1); }
+
 .checkbox-group { flex-direction: row; align-items: center; gap: 10px; margin-top: 0.5rem; }
-.checkbox-group input { width: 20px; height: 20px; cursor: pointer; accent-color: var(--green); }
-.checkbox-group label { text-transform: none; font-weight: 600; font-size: 0.85rem; color: #555; cursor: pointer; }
+.checkbox-group input { width: 22px; height: 22px; cursor: pointer; accent-color: var(--green); }
+.checkbox-group label { font-family: 'Inter'; font-weight: 700; font-size: 0.85rem; color: #444; letter-spacing: 0; }
+
+.auth-submit { 
+    width: 100%; margin-top: 1.5rem; background: #000; color: #fff; 
+    font-family: 'Knewave'; font-size: 1.3rem; padding: 15px; border-radius: 4px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
+}
+.auth-toggle { text-align: center; font-family: 'Finger Paint'; font-size: 0.8rem; color: #777; margin-top: 1.5rem; }
+.auth-toggle a { color: #003366; font-weight: bold; text-decoration: none; border-bottom: 2px dotted #003366; }
+
+.auth-success-hidden { display: none; }
+.auth-success-visible { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
+.success-icon { font-size: 5rem; margin-bottom: 1rem; }
+.auth-success-visible h3 { font-family: 'Knewave'; font-size: 2rem; color: var(--green); }
+.auth-success-visible p { font-family: 'Caveat'; font-size: 1.6rem; font-weight: 700; }
 
 /* Theme-Friendly Avatar (Parish Stamp Look) */
 .user-avatar-visible {
-    width: 45px; height: 45px; background: #fff; color: #cc0000; border-radius: 4px;
+    width: 50px; height: 50px; background: #fff; color: #cc0000; border-radius: 4px;
     display: flex; align-items: center; justify-content: center; font-weight: 900;
-    border: 3px solid #cc0000; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    font-family: 'Inter'; font-size: 1.2rem; transform: rotate(-8deg);
+    border: 3px solid #cc0000; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    font-family: 'Knewave'; font-size: 1.4rem; transform: rotate(-8deg);
     position: relative; overflow: hidden;
 }
 .user-avatar-visible::before {
-    content: 'OFFICIAL'; position: absolute; bottom: 2px; left: 0; width: 100%;
-    font-size: 0.4rem; text-align: center; letter-spacing: 1px;
+    content: 'CHIEF'; position: absolute; bottom: 2px; left: 0; width: 100%;
+    font-size: 0.45rem; text-align: center; letter-spacing: 1px; font-family: 'Inter';
 }
 
 @media (max-width: 480px) {
-    .modal-content.premium-auth { padding: 2.5rem 1.5rem; margin: 15px; }
+    .modal-content.premium-auth { padding: 3rem 1.5rem; margin: 10px; }
     .modal-content.premium-auth::before, .modal-content.premium-auth::after { display: none; }
 }
