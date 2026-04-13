@@ -248,8 +248,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     window._loadMagazine = async (volumeId) => {
         const bookEl = document.getElementById('book'); let pages = metadata?.issues?.[`volume_${volumeId}`] || [];
         bookEl.innerHTML = pages.map(f => `<div class="page"><div class="page-content"><img src="${BASE}issues/volume_${volumeId}/${f}" class="magazine-page-img"></div></div>`).join('') + `<div class="page hard"><h2>Brand Jamaica 🇯🇲</h2></div>`;
-        const vw = window.innerWidth, isMobile = vw < 768;
-        const pageFlip = new PageFlip(bookEl, { width: isMobile ? vw*0.85 : 450, height: isMobile ? window.innerHeight*0.75 : 600, size: 'stretch', showCover: false, usePortrait: isMobile });
+        const vw = window.innerWidth, vh = window.innerHeight, isMobile = vw < 768;
+        const pageFlip = new PageFlip(bookEl, { 
+            width: isMobile ? vw * 0.92 : 500, 
+            height: isMobile ? vh * 0.82 : 700, 
+            size: 'stretch', 
+            showCover: false, 
+            usePortrait: isMobile 
+        });
         pageFlip.loadFromHTML(document.querySelectorAll('.page'));
     };
 });
