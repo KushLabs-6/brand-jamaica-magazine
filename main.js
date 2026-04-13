@@ -72,7 +72,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const introScene = document.getElementById('intro-scene');
     const carouselScene = document.getElementById('carousel-scene');
     const magazineScene = document.getElementById('magazine-scene');
+    const BASE = import.meta.env.BASE_URL; // e.g. /brand-jamaica-magazine/
     
+    // PRELOAD BIRD SOUND
+    const birdAudio = new Audio();
+    birdAudio.src = `${BASE}Sound/bird.mp3`.replace('//', '/');
+    birdAudio.load();
+
     if (btnStart && introScene) {
         function proceedToCarousel(e) {
             e.preventDefault();
@@ -80,9 +86,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             // 1. Play Bird Sound
             try {
-                const audioUrl = './Sound/bird.mp3';
-                const audio = new Audio(audioUrl);
-                audio.play().catch(err => console.warn('Audio play prevented', err));
+                birdAudio.play().catch(err => console.warn('Audio play prevented', err));
             } catch(e) {}
 
             // 2. Start Background Music
@@ -106,7 +110,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let metadata = null;
     let pageFlip = null;
-    const BASE = import.meta.env.BASE_URL;
 
     const encodePath = (relativePath) => {
         const clean = relativePath.replace(/^\//, '');
@@ -179,11 +182,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     items.forEach(item => {
         item.addEventListener('click', async (e) => {
             const volumeId = item.getAttribute('data-volume');
-            history.pushState({ scene: 'magazine', volumeId }, '');
-            carouselScene.classList.remove('active');
-            magazineScene.classList.add('active');
-            await new Promise(r => setTimeout(r, 700));
-            await loadMagazine(volumeId);
+            if (volumeId === '1') { // Only Volume 1 is a magazine currently in the carousel
+                history.pushState({ scene: 'magazine', volumeId }, '');
+                carouselScene.classList.remove('active');
+                magazineScene.classList.add('active');
+                await new Promise(r => setTimeout(r, 700));
+                await loadMagazine(volumeId);
+            }
         });
     });
 
@@ -257,7 +262,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         `;
     };
 
-    // Other section loaders...
     window.loadEvents = async () => {
         const grid = document.getElementById('events-grid');
         if (!grid) return;
