@@ -50,6 +50,28 @@
         justify-content: flex-start;
       }
       
+      /* --- MISSING TOUCH E BIRD TAPE EFFECTS --- */
+      .intro-container { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; }
+      .click-e-bird-title { 
+        position: relative; z-index: 100; font-family: 'Finger Paint', 'Knewave', cursive; 
+        font-size: clamp(4rem, 16vw, 7rem); letter-spacing: 2px; padding: 3rem 6rem; 
+        text-transform: uppercase; transform: rotate(-2deg); 
+        font-weight: 900;
+      }
+      .click-e-bird-title::before { display: none; }
+      .tape-masking-bg {
+        position: absolute; inset: 0; background: url('/brand-jamaica-magazine/new-tape.png') no-repeat center center;
+        background-size: 100% 100%; 
+        filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)) !important; 
+        z-index: 90; transform: rotate(-2deg); pointer-events: none;
+      }
+      .click-e-bird-title span { 
+        background: linear-gradient(180deg, #18b552 0%, #009b3a 100%) !important;
+        -webkit-background-clip: text !important; background-clip: text !important; -webkit-text-fill-color: transparent !important;
+        -webkit-text-stroke: 2px #0a9d41;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)) !important; position: relative; z-index: 101;
+      }
+      
       /* SVG Interior Animations (RESTORED) */
       .bird-wing-l { transform-origin: 65px 55px; animation: flapL 0.05s infinite alternate ease-in-out; }
       .bird-wing-r { transform-origin: 65px 55px; animation: flapR 0.05s infinite alternate ease-in-out; }
@@ -76,7 +98,7 @@
         100% { transform: translate(-80vw, -30vh) scale(0.5) rotateY(360deg); }
       }
     </style>
-    <script type="module" crossorigin src="/brand-jamaica-magazine/assets/index-B0_wCxyU.js"></script>
+    <script type="module" crossorigin src="/brand-jamaica-magazine/assets/index-BGP8TvnR.js"></script>
     <link rel="stylesheet" crossorigin href="/brand-jamaica-magazine/assets/index-DecY7Qyl.css">
   </head>
   <body>
@@ -142,7 +164,7 @@
               <div class="passport-icon">
                   <div class="passport-cover">
                       <div class="passport-logo">🇯🇲</div>
-                      <span class="passport-label">BRAND JAMAICA<br>MAGAZINE<br>ACCOUNT</span>
+                      <span class="passport-label">SIGN IN</span>
                   </div>
               </div>
               <span class="passport-tooltip">JOIN THE HUB</span>
@@ -190,7 +212,7 @@
               <div class="passport-icon">
                   <div class="passport-cover">
                       <div class="passport-logo">🇯🇲</div>
-                      <span class="passport-label">BRAND JAMAICA<br>MAGAZINE<br>ACCOUNT</span>
+                      <span class="passport-label">SIGN IN</span>
                   </div>
               </div>
               <span class="passport-tooltip">JOIN THE HUB</span>
@@ -239,11 +261,11 @@
 
         <div class="carousel-controls">
           <button class="scrap-button" id="btn-prev">PREV</button>
-          <button class="scrap-button hub-nav-btn" onclick="showScene('hub-scene')">Community Feed</button>
           <button class="scrap-button" id="btn-next">NEXT</button>
         </div>
         
         <div class="feature-controls">
+          <button class="scrap-button hub-nav-btn" style="background:#009b3a; color:#fff;" onclick="showScene('hub-scene')">Community Feed</button>
           <button class="scrap-button hub-nav-btn" style="background:#fed100; color:#000;" onclick="showScene('events-scene')">Events & Places</button>
           <button class="scrap-button hub-nav-btn" style="background:#000; color:#fff;" onclick="showScene('shop-scene')">Physical Shop</button>
         </div>
