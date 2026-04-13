@@ -210,14 +210,28 @@
                 <div class="volume-title">The Culture</div>
               </div>
             </div>
-            <div class="carousel-item" data-volume="2" onclick="showScene('interviews-scene')">
+            <div class="carousel-item" data-volume="2" onclick="openVolume(2)">
+              <div class="cover-wrapper polaroid">
+                <div class="tape"></div>
+                <img src="/cover-cuisine.png" alt="Cuisine Issue" />
+                <div class="volume-title" style="transform: rotate(1deg);">The Flavor</div>
+              </div>
+            </div>
+            <div class="carousel-item" data-volume="3" onclick="openVolume(3)">
+              <div class="cover-wrapper polaroid">
+                <div class="tape"></div>
+                <img src="/cover-landscape.png" alt="Landscape Issue" />
+                <div class="volume-title" style="transform: rotate(-1deg);">The Landscape</div>
+              </div>
+            </div>
+            <div class="carousel-item" onclick="showScene('interviews-scene')">
               <div class="cover-wrapper polaroid">
                 <div class="tape"></div>
                 <img src="/interviews-cover.png" alt="Interviews" />
                 <div class="volume-title" style="transform: rotate(1deg);">Interviews</div>
               </div>
             </div>
-            <div class="carousel-item" data-volume="3" onclick="showScene('documentaries-scene')">
+            <div class="carousel-item" onclick="showScene('documentaries-scene')">
               <div class="cover-wrapper polaroid">
                 <div class="tape"></div>
                 <img src="/docs-cover.png" alt="Documentaries" />
