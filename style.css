@@ -619,7 +619,7 @@
 .auth-form.active { display: flex; }
 
 .input-group-scrap { display: flex; flex-direction: column; gap: 8px; }
-.input-group-scrap label { font-family: 'Caveat'; font-size: 1.2rem; font-weight: 900; color: #111; letter-spacing: 0.5px; }
+.input-group-scrap label { font-family: 'Inter'; font-size: 0.8rem; font-weight: 800; color: #444; text-transform: uppercase; letter-spacing: 1px; }
 .input-group-scrap input {
     padding: 12px 16px; border: 2px solid #ddd; border-radius: 4px; font-family: 'Inter';
     font-size: 1rem; background: rgba(255,255,255,0.8);
@@ -635,8 +635,9 @@
     font-family: 'Knewave'; font-size: 1.3rem; padding: 15px; border-radius: 4px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
 }
-.auth-toggle { text-align: center; font-family: 'Finger Paint'; font-size: 0.8rem; color: #777; margin-top: 1.5rem; }
-.auth-toggle a { color: #003366; font-weight: bold; text-decoration: none; border-bottom: 2px dotted #003366; }
+.auth-toggle { text-align: center; font-family: 'Inter'; font-size: 0.9rem; color: #777; margin-top: 1.5rem; }
+.auth-toggle a { color: var(--green); font-weight: 800; text-decoration: none; border-bottom: 2px solid transparent; transition: border-color 0.2s; }
+.auth-toggle a:hover { border-bottom-color: var(--green); }
 
 .auth-success-hidden { display: none; }
 .auth-success-visible { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1rem; }

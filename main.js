@@ -74,16 +74,16 @@ function showAuthSuccess() {
 }
 
 function updateUserUI() {
-    const avatar = document.getElementById('user-avatar'), btn = document.getElementById('passport-btn-hub');
-    const hubFab = document.getElementById('hub-upload-btn'), eventFab = document.getElementById('event-upload-btn');
+    const labels = document.querySelectorAll('.passport-label');
+    const eventFab = document.getElementById('event-upload-btn');
     
     if (window._currentUser) {
-        if (avatar) {
-            avatar.innerText = window._currentUser.avatar;
-            avatar.classList.remove('user-avatar-hidden'); avatar.classList.add('user-avatar-visible');
-        }
-        if (btn) btn.innerHTML = '<span class="passport-label-hub">MEMBER ACTIVE</span>';
-        if (hubFab) hubFab.style.display = 'flex';
+        labels.forEach(l => {
+            l.innerText = 'CHIEF';
+            l.style.fontFamily = 'Knewave';
+            l.style.fontSize = '0.9rem';
+            l.style.letterSpacing = '1px';
+        });
         if (eventFab) eventFab.style.display = 'flex';
     }
 }
@@ -91,6 +91,10 @@ function updateUserUI() {
 // --- UPLOAD & AI ENGINE ---
 let currentUploadType = 'community';
 window.openUploadModal = (type) => {
+    if (!window._currentUser) {
+        window.openAuthModal();
+        return;
+    }
     currentUploadType = type;
     const modal = document.getElementById('upload-modal'), title = document.getElementById('upload-modal-title'), eventFields = document.getElementById('event-only-fields');
     if (modal) modal.classList.add('active');
