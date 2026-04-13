@@ -30,12 +30,15 @@
         background-position: center !important;
         background-attachment: fixed !important;
         background-blend-mode: luminosity !important;
+        /* PREVENT SCROLL BOUNCE */
+        touch-action: none;
       }
       .scene { 
         display: none; position: absolute; inset: 0; 
         flex-direction: column; z-index: 10; 
         overflow-y: auto; overflow-x: hidden;
         padding: 2rem 1rem;
+        touch-action: pan-y;
       }
       .scene.active { display: flex; align-items: center; }
       /* Scenes that should be centered (Carousel & Intro) */
@@ -46,106 +49,48 @@
       #hub-scene.active, #events-scene.active, #shop-scene.active {
         justify-content: flex-start;
       }
-      #intro-scene { z-index: 9999; perspective: 1000px; }
-      .intro-container { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; }
-      .click-e-bird-title { 
-        position: relative; z-index: 100; font-family: 'Finger Paint', 'Knewave', cursive; 
-        font-size: clamp(4rem, 16vw, 7rem); letter-spacing: 2px; padding: 3rem 6rem; 
-        text-transform: uppercase; transform: rotate(-2deg); 
-        font-weight: 900; /* Force synthetic bolding if supported */
-      }
-      .click-e-bird-title::before { 
-        display: none; /* Disabling pseudo to use the isolated div for better color control */
-      }
-      .tape-masking-bg {
-        position: absolute; inset: 0; background: url('/brand-jamaica-magazine/new-tape.png') no-repeat center center;
-        background-size: 100% 100%; 
-        /* PURE TAPE FROM ASSET */
-        filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)) !important; 
-        z-index: 90; transform: rotate(-2deg); pointer-events: none;
-      }
-      .click-e-bird-title span { 
-        /* ULTRA-SOFT FADED GREEN GRADIENT */
-        background: linear-gradient(180deg, #18b552 0%, #009b3a 100%) !important;
-        -webkit-background-clip: text !important; background-clip: text !important; -webkit-text-fill-color: transparent !important;
-        /* THICKEN THE STROKE TO SATISFY "MAKE IT THICK" */
-        -webkit-text-stroke: 2px #0a9d41;
-        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)) !important; position: relative; z-index: 101;
-      }
-      .bird-flight-container {
-        position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto; 
-        width: clamp(350px, 45vw, 480px); height: 260px;
-        z-index: 50; animation: flyDynamic 15s cubic-bezier(0.4, 0, 0.2, 1) infinite; transform-style: preserve-3d;
-        cursor: pointer; touch-action: manipulation;
-      }
-      .doctor-bird.origami { 
-        width: 100%; height: auto; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6));
-        cursor: pointer; touch-action: manipulation; pointer-events: all;
-        -webkit-tap-highlight-color: transparent;
-      }
-
-      /* SVG Interior Animations (RESTORED) */
-      .bird-wing-l { transform-origin: 65px 55px; animation: flapL 0.05s infinite alternate ease-in-out; }
-      .bird-wing-r { transform-origin: 65px 55px; animation: flapR 0.05s infinite alternate ease-in-out; }
-      .bird-tail-streamers { transform-origin: 60px 80px; animation: swayTail 2s infinite alternate ease-in-out; }
-      .bird-leg { transform-origin: 60px 75px; animation: tuckLegs 3s infinite ease-in-out; }
-
-      @keyframes flapL { from { transform: rotateY(0deg) rotateZ(0deg); } to { transform: rotateY(-80deg) rotateZ(20deg); } }
-      @keyframes flapR { from { transform: rotateY(0deg) rotateZ(0deg); } to { transform: rotateY(80deg) rotateZ(-20deg); } }
-      @keyframes swayTail { from { transform: rotate(-5deg); } to { transform: rotate(5deg); } }
-      @keyframes tuckLegs { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-5deg) translateY(-2px); } }
-
-      /* DYNAMIC FLIGHT PATH - FULL CANVAS EXPERIMENT */
-      @keyframes flyDynamic {
-        0%   { transform: translate(-80vw, -30vh) scale(0.5) rotateY(0deg); }
-        25%  { transform: translate(10vw, 10vh) scale(1.2) rotateY(20deg); }
-        50%  { transform: translate(80vw, -40vh) scale(0.6) rotateY(180deg); }
-        75%  { transform: translate(-30vw, 40vh) scale(1) rotateY(200deg); }
-        100% { transform: translate(-80vw, -30vh) scale(0.5) rotateY(360deg); }
-      }
     </style>
-    <script type="module" crossorigin src="/brand-jamaica-magazine/assets/index-dZyJk2Xg.js"></script>
-    <link rel="stylesheet" crossorigin href="/brand-jamaica-magazine/assets/index-C1gtlIvA.css">
+    <script type="module" crossorigin src="/brand-jamaica-magazine/assets/index-fC1bnZjO.js"></script>
+    <link rel="stylesheet" crossorigin href="/brand-jamaica-magazine/assets/index-BwmpZarq.css">
   </head>
   <body>
     <div id="app">
-      <!-- Scrapbook Background -->
-      <div id="texture-bg"></div>
-
-      <!-- Doctor Bird Intro Screen -->
+      <!-- Intro Scene -->
       <div id="intro-scene" class="scene active">
         <div class="intro-container">
-            <!-- Isolated Masking Tape Layer -->
-            <div class="tape-masking-bg"></div>
-            <!-- Isolated Green Ribbon Text Layer -->
-            <div class="click-e-bird-title" style="pointer-events: none;"><span>TOUCH E BIRD</span></div>
+          <div class="tape-masking-bg"></div>
+          <h1 class="click-e-bird-title"><span>Touch e bird</span></h1>
         </div>
-        <div class="bird-flight-container">
-          <svg id="btn-start" class="doctor-bird origami" viewBox="0 0 150 200" xmlns="http://www.w3.org/2000/svg">
+        
+        <div class="bird-flight-container" id="btn-start">
+        <svg class="doctor-bird origami" viewBox="0 0 150 200" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="birdGrad" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" style="stop-color:#009b3a;stop-opacity:1" />
               <stop offset="70%" style="stop-color:#007a2e;stop-opacity:1" />
               <stop offset="100%" style="stop-color:#fed100;stop-opacity:1" />
             </linearGradient>
+            <filter id="shadow">
+              <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+            </filter>
           </defs>
+          
           <g transform="translate(10, 10)">
-            <!-- Body -->
-            <path d="M60 40 L90 55 L65 75 L50 60 Z" fill="url(#birdGrad)"/>
-            <!-- Head -->
-            <path d="M60 40 L70 30 L80 40 Z" fill="#009b3a"/>
-            <!-- Eye -->
-            <circle cx="70" cy="35" r="1.5" fill="#000"/>
-            <!-- Iconic Needle Beak -->
-            <path d="M70 30 L130 20 L75 35 Z" fill="#000"/>
+            <!-- Main Body (Origami Style) -->
+            <path d="M60 40 L90 55 L65 75 L50 60 Z" fill="url(#birdGrad)" filter="url(#shadow)"/>
             
-            <!-- Legs (Tucked) -->
+            <!-- Head & Sharp Beak -->
+            <path d="M60 40 L70 30 L80 40 Z" fill="#009b3a"/>
+            <circle cx="70" cy="35" r="1.5" fill="#000"/>
+            <path d="M70 30 L130 20 L75 35 Z" fill="#000" /> <!-- Iconic Streamertail Streamer-Beak mix -->
+            
+            <!-- Legs -->
             <g class="bird-leg">
               <path d="M60 70 L55 80 L65 80 Z" fill="#000" opacity="0.8"/>
               <path d="M55 70 L50 78 L60 78 Z" fill="#111" opacity="0.7"/>
             </g>
-
-            <!-- Long Swallowtail Streamers -->
+            
+            <!-- Tail (The iconic Streamers) -->
             <g class="bird-tail-streamers">
               <path d="M55 70 L25 180 L45 170 Z" fill="#000" opacity="0.9"/>
               <path d="M60 70 L55 195 L70 185 Z" fill="#111" opacity="0.8"/>
@@ -165,6 +110,17 @@
           </g>
         </svg>
         </div>
+      
+          <!-- Passport Membership Button (Intro) -->
+          <div class="passport-btn-container" onclick="openAuthModal()">
+              <div class="passport-icon">
+                  <div class="passport-cover">
+                      <div class="passport-logo">🇯🇲</div>
+                      <span class="passport-label">ACCOUNT</span>
+                  </div>
+              </div>
+              <span class="passport-tooltip">JOIN THE HUB</span>
+          </div>
       </div>
       
       <!-- Landing 3D Carousel Selection Scene -->
@@ -204,11 +160,14 @@
           <p class="issue-select-title">Select a Category to Read</p>
 
           <!-- Passport Membership & User Profile -->
-          <div class="hub-user-container" onclick="openAuthModal()">
-              <div id="user-avatar" class="user-avatar-hidden">?</div>
-              <div id="passport-btn-hub" class="passport-btn-small">
-                  <span class="passport-label-hub">MEMBERSHIP</span>
+          <div class="passport-btn-container" onclick="openAuthModal()">
+              <div class="passport-icon">
+                  <div class="passport-cover">
+                      <div class="passport-logo">🇯🇲</div>
+                      <span class="passport-label">ACCOUNT</span>
+                  </div>
               </div>
+              <span class="passport-tooltip">JOIN THE HUB</span>
           </div>
         </div>
         
@@ -251,46 +210,33 @@
             </div>
           </div>
         </div>
-        
+
         <div class="carousel-controls">
-          <button id="btn-prev" class="scrap-button">&lt; Prev</button>
-          <button id="btn-next" class="scrap-button">Next &gt;</button>
+          <button class="scrap-button" id="btn-prev">PREV</button>
+          <button class="scrap-button hub-nav-btn" onclick="showScene('hub-scene')">Community Feed</button>
+          <button class="scrap-button" id="btn-next">NEXT</button>
         </div>
         
         <div class="feature-controls">
-          <button class="scrap-button hub-nav-btn" onclick="showScene('hub-scene')">Community Feed</button>
-          <button class="scrap-button hub-nav-btn" onclick="showScene('events-scene')">Events & Places</button>
-          <button class="scrap-button hub-nav-btn" onclick="showScene('shop-scene')">Buy Magazine</button>
+          <button class="scrap-button hub-nav-btn" style="background:#fed100; color:#000;" onclick="showScene('events-scene')">Events & Places</button>
+          <button class="scrap-button hub-nav-btn" style="background:#000; color:#fff;" onclick="showScene('shop-scene')">Physical Shop</button>
         </div>
 
-        <!-- Social Media Links -->
         <div class="social-links">
-          <a href="https://www.instagram.com/brandjamaicamagazine/" target="_blank" class="social-icon">
-             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-          </a>
-          <a href="https://www.youtube.com/@BRANDJAMAICAMAGAZINE" target="_blank" class="social-icon">
-             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fed100" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
-          </a>
-          <a href="https://www.tiktok.com/@brandjamaicamagazine" target="_blank" class="social-icon">
-             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#009b3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path><path d="M15 8v8a4 4 0 0 1-4 4"></path><path d="M15 4v4a4 4 0 0 0 4 4"></path></svg>
-          </a>
+           <a href="https://instagram.com/thekingfromkingston" target="_blank" class="social-icon">📸</a>
+           <a href="https://youtube.com/@thekingfromkingston" target="_blank" class="social-icon">🎥</a>
         </div>
       </div>
 
-      <!-- Magazine Reading Interface -->
+      <!-- Magazine View (Fullscreen Flipbook) -->
       <div id="magazine-scene" class="scene">
-        <!-- Floating close button -->
-        <button id="btn-back" class="mag-close-btn" aria-label="Close magazine">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-        <div class="book-container">
-          <div id="book">
-            <!-- Pages added via JS -->
+          <button class="scrap-button scroll-btn" onclick="showScene('carousel-scene')" style="position: absolute; top: 20px; left: 20px; z-index: 100;">&lt; Back</button>
+          <div class="book-container">
+            <div id="book"></div>
           </div>
-        </div>
       </div>
 
-      <!-- Community Hub (The For You Page) -->
+      <!-- Community Feed Hub -->
       <div id="hub-scene" class="scene">
         <!-- Floating Hummingbird Home Button -->
         <button onclick="goHome()" class="mag-close-btn" style="right: auto; left: 16px; top: 16px; padding:0; width: 50px; height: 50px; background: rgba(255,255,255,0.7); box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.1); z-index: 1000;" aria-label="Home" title="Back to Start">
@@ -320,37 +266,17 @@
         </button>
         <button class="scrap-button scroll-btn" onclick="showScene('carousel-scene')">&lt; Back</button>
         <div class="hub-header-premium">
-           <div class="modern-header-logo">
-              <span class="logo-brand">BRAND JAMAICA</span>
-              <span class="logo-mag">MAGAZINE</span>
-           </div>
-           <div class="feed-subtitle-wrapper">
-              <div class="feed-subtitle-line"></div>
-              <h2 class="hub-title-refined">Community Feed</h2>
-              <div class="feed-subtitle-line"></div>
-           </div>
-        </div>
-        <section class="hub-section insta-feed-wrapper">
-          <div id="upload-form" class="premium-upload-bar">
-            <div class="upload-input-group">
-                <div class="insta-avatar">BJ</div>
-                <input type="text" id="upload-name" placeholder="Share your vibe..." class="minimal-input">
+            <div class="modern-header-logo">
+               <span class="logo-brand">BRAND JAMAICA</span>
+               <span class="logo-mag">MAGAZINE</span>
             </div>
-            <label for="upload-file" class="upload-plus-btn" title="Add to Feed">
-                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
-                   <defs>
-                     <linearGradient id="plusGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#009b3a" />
-                        <stop offset="50%" style="stop-color:#fed100" />
-                        <stop offset="100%" style="stop-color:#000" />
-                     </linearGradient>
-                   </defs>
-                   <path d="M12 5v14M5 12h14" stroke="url(#plusGrad)"/>
-                </svg>
-            </label>
-            <input type="file" id="upload-file" style="display:none;" accept="image/*,video/*">
-            <button id="btn-upload" style="display:none;"></button>
-          </div>
+            <div class="feed-subtitle-wrapper">
+               <div class="feed-subtitle-line"></div>
+               <h2 class="hub-title-refined">Community Feed</h2>
+               <div class="feed-subtitle-line"></div>
+            </div>
+         </div>
+        <section class="hub-section insta-feed-wrapper">
           <div id="community-grid" class="insta-grid">
             <!-- Uploads show here -->
           </div>
@@ -418,7 +344,6 @@
 
       <!-- PayPal Shop -->
       <div id="shop-scene" class="scene">
-        <!-- Floating Hummingbird Home Button -->
         <button onclick="goHome()" class="mag-close-btn" style="right: auto; left: 16px; top: 16px; padding:0; width: 50px; height: 50px; background: rgba(255,255,255,0.7); box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.1); z-index: 1000;" aria-label="Home" title="Back to Start">
           <svg style="width:100%; height:100%; transform:scale(0.8);" viewBox="0 0 150 200" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -449,102 +374,25 @@
           <h2 class="hub-title">Official Shop &#128722;</h2>
           <p style="margin-bottom: 2rem;">Get your high-quality physical copy of Brand Jamaica Magazine delivered.</p>
           <div id="paypal-button-container"></div>
-          <p style="margin-top: 2rem; font-size: 0.9rem; color: #666;">Payments secured by PayPal (demolacunningham@gmail.com)</p>
+          <p style="margin-top: 2rem; font-size: 0.9rem; color: #666;">Payments secured by PayPal</p>
         </section>
       </div>
 
-      <!-- Interviews Section -->
+      <!-- Multimedia Sections Deleted... (Managed by JS) -->
       <div id="interviews-scene" class="scene">
-        <!-- Floating Hummingbird Home Button -->
-        <button onclick="goHome()" class="mag-close-btn" style="right: auto; left: 16px; top: 16px; padding:0; width: 50px; height: 50px; background: rgba(255,255,255,0.7); box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.1); z-index: 1000;" aria-label="Home" title="Back to Start">
-          <svg style="width:100%; height:100%; transform:scale(0.8);" viewBox="0 0 150 200" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="birdGradInt" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#009b3a;stop-opacity:1" />
-                <stop offset="70%" style="stop-color:#007a2e;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#fed100;stop-opacity:1" />
-              </linearGradient>
-            </defs>
-            <g transform="translate(10, 10)">
-              <path d="M60 40 L90 55 L65 75 L50 60 Z" fill="url(#birdGradInt)"/>
-              <path d="M60 40 L70 30 L80 40 Z" fill="#009b3a"/>
-              <circle cx="70" cy="35" r="1.5" fill="#000"/>
-              <path d="M70 30 L130 20 L75 35 Z" fill="#000"/>
-              <path d="M60 70 L55 80 L65 80 Z" fill="#000" opacity="0.8"/>
-              <path d="M55 70 L50 78 L60 78 Z" fill="#111" opacity="0.7"/>
-              <path d="M55 70 L25 180 L45 170 Z" fill="#000" opacity="0.9"/>
-              <path d="M60 70 L55 195 L70 185 Z" fill="#111" opacity="0.8"/>
-              <path d="M60 45 L15 5 L45 35 Z" fill="#000" opacity="0.9"/>
-              <path d="M60 45 L5 25 L40 45 Z" fill="#222" opacity="0.7"/>
-              <path d="M60 45 L105 5 L75 35 Z" fill="#000" opacity="0.9"/>
-              <path d="M60 45 L115 25 L80 45 Z" fill="#222" opacity="0.7"/>
-            </g>
-          </svg>
-        </button>
-        <button class="scrap-button scroll-btn" onclick="showScene('carousel-scene')">&lt; Back</button>
-        <div class="hub-header-premium">
-            <div class="modern-header-logo">
-               <span class="logo-brand">BRAND JAMAICA</span>
-               <span class="logo-mag">MAGAZINE</span>
-            </div>
-            <div class="feed-subtitle-wrapper">
-               <div class="feed-subtitle-line"></div>
-               <h2 class="hub-title-refined">Exclusive Interviews</h2>
-               <div class="feed-subtitle-line"></div>
-            </div>
-         </div>
-        <section class="hub-section interviews-wrapper">
-          <div id="interviews-grid" class="video-scrap-grid">
-            <!-- Loaded via JS -->
+          <button class="scrap-button scroll-btn" onclick="showScene('carousel-scene')">&lt; Back</button>
+          <div class="hub-header-premium">
+              <h2 class="hub-title-refined">Interviews</h2>
           </div>
-        </section>
+          <div id="interviews-grid" class="video-scrap-grid"></div>
       </div>
 
-      <!-- Documentaries Section -->
       <div id="documentaries-scene" class="scene">
-        <!-- Floating Hummingbird Home Button -->
-        <button onclick="goHome()" class="mag-close-btn" style="right: auto; left: 16px; top: 16px; padding:0; width: 50px; height: 50px; background: rgba(255,255,255,0.7); box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-color: rgba(0,0,0,0.1); z-index: 1000;" aria-label="Home" title="Back to Start">
-          <svg style="width:100%; height:100%; transform:scale(0.8);" viewBox="0 0 150 200" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="birdGradDoc" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#009b3a;stop-opacity:1" />
-                <stop offset="70%" style="stop-color:#007a2e;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#fed100;stop-opacity:1" />
-              </linearGradient>
-            </defs>
-            <g transform="translate(10, 10)">
-              <path d="M60 40 L90 55 L65 75 L50 60 Z" fill="url(#birdGradDoc)"/>
-              <path d="M60 40 L70 30 L80 40 Z" fill="#009b3a"/>
-              <circle cx="70" cy="35" r="1.5" fill="#000"/>
-              <path d="M70 30 L130 20 L75 35 Z" fill="#000"/>
-              <path d="M60 70 L55 80 L65 80 Z" fill="#000" opacity="0.8"/>
-              <path d="M55 70 L50 78 L60 78 Z" fill="#111" opacity="0.7"/>
-              <path d="M55 70 L25 180 L45 170 Z" fill="#000" opacity="0.9"/>
-              <path d="M60 70 L55 195 L70 185 Z" fill="#111" opacity="0.8"/>
-              <path d="M60 45 L15 5 L45 35 Z" fill="#000" opacity="0.9"/>
-              <path d="M60 45 L5 25 L40 45 Z" fill="#222" opacity="0.7"/>
-              <path d="M60 45 L105 5 L75 35 Z" fill="#000" opacity="0.9"/>
-              <path d="M60 45 L115 25 L80 45 Z" fill="#222" opacity="0.7"/>
-            </g>
-          </svg>
-        </button>
-        <button class="scrap-button scroll-btn" onclick="showScene('carousel-scene')">&lt; Back</button>
-        <div class="hub-header-premium">
-            <div class="modern-header-logo">
-               <span class="logo-brand">BRAND JAMAICA</span>
-               <span class="logo-mag">MAGAZINE</span>
-            </div>
-            <div class="feed-subtitle-wrapper">
-               <div class="feed-subtitle-line"></div>
-               <h2 class="hub-title-refined">Documentaries</h2>
-               <div class="feed-subtitle-line"></div>
-            </div>
-         </div>
-        <section class="hub-section documentaries-wrapper">
-          <div id="documentaries-grid" class="video-scrap-grid">
-            <!-- Loaded via JS -->
+          <button class="scrap-button scroll-btn" onclick="showScene('carousel-scene')">&lt; Back</button>
+          <div class="hub-header-premium">
+              <h2 class="hub-title-refined">Documentaries</h2>
           </div>
-        </section>
+          <div id="documentaries-grid" class="video-scrap-grid"></div>
       </div>
 
       <!-- Global Footer -->
@@ -561,12 +409,20 @@
         <div class="modal-content glass-card premium-auth">
             <button class="modal-close" onclick="closeAuthModal()">✕</button>
             <div class="auth-header">
-                <div class="auth-logo-gold">🇯🇲</div>
-                <h2 class="auth-title">The Membership Passport</h2>
-                <p class="auth-subtitle">Join the Brand Jamaica Community</p>
+                <div class="auth-logo-gold">🤝</div>
+                <h2 class="auth-title">Join the Movement</h2>
+                <p class="auth-subtitle">Connect with the Brand Jamaica Community</p>
             </div>
             
             <div id="auth-form-container">
+                <!-- Google Quick Login -->
+                <button class="google-btn-scrap" onclick="handleGoogleLogin()">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G">
+                    <span>Continue with Google</span>
+                </button>
+                
+                <div class="auth-divider"><span>OR USE EMAIL</span></div>
+
                 <!-- Login Form -->
                 <div id="login-form" class="auth-form active">
                     <div class="input-group-scrap">
@@ -577,8 +433,8 @@
                         <label>Password</label>
                         <input type="password" id="login-password" placeholder="••••••••">
                     </div>
-                    <button class="scrap-button auth-submit" onclick="handleLogin()">Sign In</button>
-                    <p class="auth-toggle">Don't have a passport? <a href="#" onclick="toggleAuthMode('signup')">Apply Now</a></p>
+                    <button class="scrap-button auth-submit" onclick="handleLogin()">Log Into Hub</button>
+                    <p class="auth-toggle">New here? <a href="#" onclick="toggleAuthMode('signup')">Register Account</a></p>
                 </div>
 
                 <!-- Signup Form -->
@@ -595,16 +451,66 @@
                         <label>Create Password</label>
                         <input type="password" id="signup-password" placeholder="••••••••">
                     </div>
-                    <button class="scrap-button auth-submit" onclick="handleSignup()">Create Passport</button>
-                    <p class="auth-toggle">Already a member? <a href="#" onclick="toggleAuthMode('login')">Sign In</a></p>
+                    <div class="input-group-scrap checkbox-group">
+                        <input type="checkbox" id="signup-notify" checked>
+                        <label for="signup-notify">Send me email updates & phone notifications</label>
+                    </div>
+                    <button class="scrap-button auth-submit" onclick="handleSignup()">Register Account</button>
+                    <p class="auth-toggle">Already a member? <a href="#" onclick="toggleAuthMode('login')">Log In</a></p>
                 </div>
             </div>
             
             <div id="auth-success" class="auth-success-hidden">
                 <div class="success-icon">✅</div>
                 <h3>Welcome to the Movement!</h3>
-                <p>Your Passport has been validated.</p>
+                <p>Your Account has been validated.</p>
                 <button class="scrap-button" onclick="closeAuthModal()">Enter the Hub</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- UPLOAD MODAL -->
+    <div id="upload-modal" class="modal-overlay">
+        <div class="modal-content glass-card premium-auth">
+            <button class="modal-close" onclick="closeUploadModal()">✕</button>
+            <div class="auth-header">
+                <div class="auth-logo-gold">📤</div>
+                <h2 id="upload-modal-title" class="auth-title">Share Your Vibe</h2>
+                <p class="auth-subtitle">Contribute to the Brand Jamaica Movement</p>
+            </div>
+            
+            <div class="upload-form-container">
+                <div class="input-group-scrap">
+                    <label id="upload-label-main">Caption</label>
+                    <input type="text" id="upload-caption" placeholder="What's the energy like?">
+                </div>
+                <div id="event-only-fields" style="display:none;">
+                    <div class="input-group-scrap">
+                        <label>Parish / Location</label>
+                        <select id="upload-parish">
+                            <option value="KINGSTON">Kingston</option>
+                            <option value="ST_ANDREW">St. Andrew</option>
+                            <option value="ST_JAMES">St. James (MoBay)</option>
+                            <option value="ST_ANN">St. Ann (Ochi)</option>
+                            <option value="WESTMORELAND">Westmoreland (Negril)</option>
+                            <option value="PORTLAND">Portland</option>
+                            <option value="OTHER">Other / Island-wide</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="input-group-scrap">
+                    <label>Instagram Handle (Optional)</label>
+                    <input type="text" id="upload-insta" placeholder="@yourhandle">
+                </div>
+                
+                <div class="input-group-scrap">
+                    <label>Media (Photo/Video)</label>
+                    <div class="file-drop-zone" onclick="document.getElementById('real-file-input').click()">
+                        <span id="file-status">Click to select photo</span>
+                        <input type="file" id="real-file-input" style="display:none;" accept="image/*,video/*">
+                    </div>
+                </div>
+                <button class="scrap-button auth-submit" onclick="handleUpload()">Publish to Hub</button>
             </div>
         </div>
     </div>
