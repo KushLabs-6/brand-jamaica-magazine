@@ -294,9 +294,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.loadInterviews = () => {
         const grid = document.getElementById('interviews-grid');
         const videos = [
-            { id: 'ry5_XOMUQFI', title: 'The King From Kingston Interview (Part 1)', tagline: 'EXCLUSIVE FEATURE' },
-            { id: 'K0GFxs5JBd8', title: 'The King From Kingston - Behind the Scenes', tagline: 'CULTURE SPOTLIGHT' },
-            { id: 'RVnqtapqZbY', title: 'Jamaican Heritage & Vision', tagline: 'LEGACY SERIES' }
+            { id: 'ry5_XOMUQFI', title: 'Inside Small World Studio: A Conversation with Bravo', tagline: 'EXCLUSIVE FEATURE' },
+            { id: 'K0GFxs5JBd8', title: 'A conversation with Mitchie Williams from Rockers International Records', tagline: 'CULTURE SPOTLIGHT' },
+            { id: 'RVnqtapqZbY', title: 'Interview with Elina Holley and Super Flinda', tagline: 'LEGACY SERIES' }
         ];
         grid.innerHTML = videos.map(v => `
             <div class="film-strip-card"><div class="video-container-premium"><iframe src="https://www.youtube.com/embed/${v.id}?modestbranding=1&rel=0" allowfullscreen></iframe></div><div class="video-info-scrap"><span class="video-tagline">${v.tagline}</span><h3 class="video-title-scrap">${v.title}</h3></div></div>`).join('');
@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     window.loadDocumentaries = () => {
         const grid = document.getElementById('documentaries-grid');
-        const doc = { id: '5D9-1n26qBQ', title: 'Brand Jamaica: The Documentary', tagline: 'CULTURAL ANTHOLOGY' };
+        const doc = { id: '5D9-1n26qBQ', title: 'Sonny Roberts - Documentary [ Brand Jamaica Magazine ]', tagline: 'CULTURAL ANTHOLOGY' };
         grid.innerHTML = `<div class="film-strip-card"><div class="video-container-premium"><iframe src="https://www.youtube.com/embed/${doc.id}?modestbranding=1&rel=0" allowfullscreen></iframe></div><div class="video-info-scrap"><span class="video-tagline">${doc.tagline}</span><h3 class="video-title-scrap">${doc.title}</h3></div></div>`;
     };
 
